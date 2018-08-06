@@ -5,15 +5,19 @@
   
 
   
-  <title>Hexo</title>
+  <title>Git的使用之多人合作一 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。 SSH keys首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git的使用之多人合作一">
+<meta property="og:url" content="http://yoursite.com/2018/08/06/learnGit/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。 SSH keys首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-06T13:49:59.913Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Git的使用之多人合作一">
+<meta name="twitter:description" content="很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。 SSH keys首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,49 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-learnGit2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/learnGit2/" class="article-date">
-  <time datetime="2018-08-06T12:34:29.343Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit2/">Git的使用之多人合作二</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后ajinisi对项目进行了改动。所以我该同步他的更新。。。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi https://github.com/ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>在同步之后，推送我的到我的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;https://github.com/ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
-<p>试了很多方法都不行，等待进一步解决</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit2/" data-id="cjkibrcrw00039cuzhm57embj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/06/learnGit/" class="article-date">
   <time datetime="2018-08-06T02:20:06.118Z" itemprop="datePublished">2018-08-06</time>
@@ -115,8 +77,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
+    <h1 class="article-title" itemprop="name">
+      Git的使用之多人合作一
     </h1>
   
 
@@ -156,136 +118,28 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/hexo/" class="article-date">
-  <time datetime="2018-08-05T13:54:42.523Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2018/08/06/learnGit2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/hexo/">hexo中踩的坑</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hexo的介绍"><a href="#hexo的介绍" class="headerlink" title="hexo的介绍"></a>hexo的介绍</h2><p>。。。</p>
-<h2 id="hexo的部署"><a href="#hexo的部署" class="headerlink" title="hexo的部署"></a>hexo的部署</h2><p>使用命令 $ hexo g 就可以把md文件转化为博客的HTML文件，它们会出现在文件夹 public/ 下。为了避免手动地向github仓库提交，我们可以使用命令 $ hexo d -g 自动提交更新到代码库。<br>首先将 myblog/_config.yml 里 deploy 段做下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:  git</span><br><span class="line">repo:  git@github.com:ajinisi/ajinisi.github.io.git</span><br><span class="line">branch:  master</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第一个坑</strong> 出现了，这里type、repo等字段的冒号后面必须要有两个空格，否则命令 $ hexo d -g 只会产生文件而不会执行部署。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 123 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: 2018/08/05/hello-world/index.html</span><br><span class="line">INFO  Generated: archives/2018/08/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/08/05/learnGO/index.html</span><br><span class="line">INFO  6 files generated in 248 ms</span><br></pre></td></tr></table></figure>
-<p>同时字段名不要输错，如果把“repo”误入为“rep”，则出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploying: git</span><br><span class="line">You have to configure the deployment settings in _config.yml first!</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line">  deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;repository url&gt;</span><br><span class="line">    branch: [branch]</span><br><span class="line">    message: [message]</span><br><span class="line"></span><br><span class="line">    extend_dirs: [extend directory]</span><br><span class="line"></span><br><span class="line">For more help, you can check the docs: http://hexo.io/docs/deployment.html</span><br><span class="line">INFO  Deploy done: git、</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第二个坑</strong>，如果出现下面的消息，说明你的key没有设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure></p>
-<p>最终，搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">...</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/hexo/" data-id="cjkibrcrv00029cuzbjjmjrwt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          Git的使用之多人合作二
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnGO/">RESTful风格的实现</a>
-    </h1>
   
+    <a href="/2018/08/05/hexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo中踩的坑</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。<br>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjkibrcrj00009cuzvwwmxfnt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/hello-world/" class="article-date">
-  <time datetime="2018-08-05T12:50:07.506Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/hello-world/" data-id="cjkibrcry00049cuzug85sfc2" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
