@@ -5,19 +5,19 @@
   
 
   
-  <title>RESTful风格的实现 | Hexo</title>
+  <title>数据库的学习之存储引擎 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+  <meta name="description" content="目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html) ，好吧全英文，接下来是重点内容的翻译 InnoDBInnoDB是一种">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RESTful风格的实现">
-<meta property="og:url" content="http://yoursite.com/2018/08/05/learnGO/index.html">
+<meta property="og:title" content="数据库的学习之存储引擎">
+<meta property="og:url" content="http://yoursite.com/2018/08/08/learnDB/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+<meta property="og:description" content="目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html) ，好吧全英文，接下来是重点内容的翻译 InnoDBInnoDB是一种">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-07T06:53:40.820Z">
+<meta property="og:updated_time" content="2018-08-08T03:43:00.268Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RESTful风格的实现">
-<meta name="twitter:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+<meta name="twitter:title" content="数据库的学习之存储引擎">
+<meta name="twitter:description" content="目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html) ，好吧全英文，接下来是重点内容的翻译 InnoDBInnoDB是一种">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-learnDB" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
+    <a href="/2018/08/08/learnDB/" class="article-date">
+  <time datetime="2018-08-08T01:55:14.011Z" itemprop="datePublished">2018-08-08</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      RESTful风格的实现
+      数据库的学习之存储引擎
     </h1>
   
 
@@ -86,26 +86,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
-<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
-<ul>
-<li>GET /session # 获取会话信息</li>
-<li>POST /session # 创建新的会话（登入）</li>
-<li>PUT /session # 更新会话信息</li>
-<li><p>DELETE /session # 销毁当前会话（登出）</p>
-</li>
-<li><p>GET /user/:id # 获取id用户的信息</p>
-</li>
-<li>POST /user # 创建新的用户（注册）</li>
-<li>PUT /user/:id # 更新id用户的信息</li>
-<li>DELETE /user/:id # 删除id用户（注销）</li>
-</ul>
-<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
+        <p>目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。<br>打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</a>) ，好吧全英文，接下来是重点内容的翻译</p>
+<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB是一种同时兼顾高可靠性和高性能的通用存储引擎。在MySQL 8.0中，InnoDB是默认的MySQL存储引擎。其DML操作遵循 ACID 模型， 具有提交，回滚和崩溃恢复功能的事务，以保护用户数据。</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjkibrcrj00009cuzvwwmxfnt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/08/learnDB/" data-id="cjkmn4rbw000168uztp1b3mik" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +102,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/05/hexo/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/08/learnDB2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          hexo中踩的坑
+          数据库的学习之MySQL操作
         
       </div>
     </a>
   
   
-    <a href="/2018/08/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/06/learnGit2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">Git的使用之多人合作二</div>
     </a>
   
 </nav>

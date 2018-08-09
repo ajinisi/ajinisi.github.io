@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数据库的学习之MySQL操作 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySQL的安装MySQL安装包主要有三种  | 适用的系统:-: | :-:RPM软件包 | CentOS ，Red Hat Enterprise Linux，SUSE Linux Enterprise Server，Fedora二进制包 |源码包 | Ubuntu | 需要用户自己进行编译 大部分安装包都包含了服务器程序和客户端程序(在Linux下使用RPM包时会有单独的服务器RPM包和客户端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库的学习之MySQL操作">
+<meta property="og:url" content="http://yoursite.com/2018/08/08/learnDB2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="MySQL的安装MySQL安装包主要有三种  | 适用的系统:-: | :-:RPM软件包 | CentOS ，Red Hat Enterprise Linux，SUSE Linux Enterprise Server，Fedora二进制包 |源码包 | Ubuntu | 需要用户自己进行编译 大部分安装包都包含了服务器程序和客户端程序(在Linux下使用RPM包时会有单独的服务器RPM包和客户端">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-09T14:27:53.220Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库的学习之MySQL操作">
+<meta name="twitter:description" content="MySQL的安装MySQL安装包主要有三种  | 适用的系统:-: | :-:RPM软件包 | CentOS ，Red Hat Enterprise Linux，SUSE Linux Enterprise Server，Fedora二进制包 |源码包 | Ubuntu | 需要用户自己进行编译 大部分安装包都包含了服务器程序和客户端程序(在Linux下使用RPM包时会有单独的服务器RPM包和客户端">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-learnDB2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/08/learnDB2/" class="article-date">
+  <time datetime="2018-08-08T04:04:43.714Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库的学习之MySQL操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL的安装"><a href="#MySQL的安装" class="headerlink" title="MySQL的安装"></a>MySQL的安装</h1><p>MySQL安装包主要有三种</p>
+<p> | 适用的系统<br>:-: | :-:<br>RPM软件包 | CentOS ，Red Hat Enterprise Linux，SUSE Linux Enterprise Server，Fedora<br>二进制包 |<br>源码包 | Ubuntu | 需要用户自己进行编译</p>
+<p>大部分安装包都包含了服务器程序和客户端程序(在Linux下使用RPM包时会有单独的服务器RPM包和客户端RPM包，需要分别安装)</p>
+<h1 id="命令操作之windows"><a href="#命令操作之windows" class="headerlink" title="命令操作之windows"></a>命令操作之windows</h1><p>由于本人是在windows下使用MySQL，所有接下来的部分都是以windows为基础。在安装完成之后，我们首先看一下安装目录下有哪些东西。</p>
+<p>.<br>└── 1<br>    ├── 1<br>    │   ├── 1<br>    │   └── 111<br>    └── 111</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">├── mysql</span><br><span class="line">├── mysql.server -&gt; ../support-files/mysql.server</span><br><span class="line">├── mysqladmin</span><br><span class="line">├── mysqlbinlog</span><br><span class="line">├── mysqlcheck</span><br><span class="line">├── mysqld</span><br><span class="line">├── mysqld_multi</span><br><span class="line">├── mysqld_safe</span><br><span class="line">├── mysqldump</span><br><span class="line">├── mysqlimport</span><br><span class="line">├── mysqlpump</span><br></pre></td></tr></table></figure>
+<p>├── bin<br>├── boot<br>│   └── grub<br>├── dev<br>├── etc<br>│   ├── rc.d<br>│   │   └── init.d<br>│   └── sysconfig<br>│   └── network-scripts<br>├── lib<br>│   └── modules<br>├── lib64<br>├── proc<br>├── sbin<br>├── sys<br>├── tmp<br>├── usr<br>│   └── local<br>│   ├── bin<br>│   └── sbin<br>└── var<br>├── lock<br>├── log<br>└── run</p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><h1 id="图形化客户端操作之workbench"><a href="#图形化客户端操作之workbench" class="headerlink" title="图形化客户端操作之workbench"></a>图形化客户端操作之workbench</h1><p>MySQL官方提供了workbench工具，。。。，现在MySQL版本已经到了8.0，连接的时候会出现</p>
+<p>mysql8 ：workbench连接caching-sha2-password问题（新的认证插件）的解决方法<br>使用ALTER语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;password&apos; PASSWORD EXPIRE NEVER; #修改加密规则 </span><br><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;password&apos;; #更新一下用户的密码 </span><br><span class="line">FLUSH PRIVILEGES; #刷新权限</span><br><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; identified by &apos;123456&apos;; #再重置下密码</span><br></pre></td></tr></table></figure></p>
+<p>或者直接改为老版本的身份验证插件方式，修改my.ini 配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld] </span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br></pre></td></tr></table></figure></p>
+<h1 id="使用workbench增删查改"><a href="#使用workbench增删查改" class="headerlink" title="使用workbench增删查改"></a>使用workbench增删查改</h1><p>在连接之后，我们就可以在看到数据库中的表，右键。。。，导入导出数据</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/08/learnDB2/" data-id="cjkmn4rbp000068uzt9wtfjve" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/09/process/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          操作系统基本概念之进程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/08/learnDB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库的学习之存储引擎</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/09/singleton/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/concurrent/">操作系统基本概念之并发</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/process/">操作系统基本概念之进程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/08/learnDB2/">数据库的学习之MySQL操作</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/08/learnDB/">数据库的学习之存储引擎</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

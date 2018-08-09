@@ -7,17 +7,17 @@
   
   <title>Git的使用之多人合作二 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后ajinisi对项目进行了改动。所以我该同步他的更新。。。 1234567891011121314$ git remote add ajinisi https://github.com/ajinisi/teachinghelper.git$ git fetch ajinisiFrom https:/">
+  <meta name="description" content="首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。 我ajinina从ajinisi那里c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git的使用之多人合作二">
 <meta property="og:url" content="http://yoursite.com/2018/08/06/learnGit2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后ajinisi对项目进行了改动。所以我该同步他的更新。。。 1234567891011121314$ git remote add ajinisi https://github.com/ajinisi/teachinghelper.git$ git fetch ajinisiFrom https:/">
+<meta property="og:description" content="首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。 我ajinina从ajinisi那里c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-06T13:49:59.913Z">
+<meta property="og:updated_time" content="2018-08-07T03:13:26.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git的使用之多人合作二">
-<meta name="twitter:description" content="我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后ajinisi对项目进行了改动。所以我该同步他的更新。。。 1234567891011121314$ git remote add ajinisi https://github.com/ajinisi/teachinghelper.git$ git fetch ajinisiFrom https:/">
+<meta name="twitter:description" content="首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。 我ajinina从ajinisi那里c">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,10 +86,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后ajinisi对项目进行了改动。所以我该同步他的更新。。。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi https://github.com/ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>在同步之后，推送我的到我的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;https://github.com/ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
-<p>试了很多方法都不行，等待进一步解决</p>
+        <p>首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。</p>
+<p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后如果ajinisi对项目进行了改动。那么我首先应该同步他的更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi git@github.com:ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>在同步之后，推送到我自己的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line">To github.com:ajininana/teachinghelper.git</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;git@github.com:ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
+<p>试了很多方法都不行，等待进一步解决<br>已解决，见前篇博客。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">To ajinina.github.com:ajininana/teachinghelper.git</span><br><span class="line">   d3a2b6b..0264198  master -&gt; master</span><br><span class="line">Branch &apos;master&apos; set up to track remote branch &apos;master&apos; from &apos;origin&apos;.</span><br></pre></td></tr></table></figure>
+<p>后面就是简单的 pull request，等待ajinisi确认是否合并，不再赘述。</p>
 
       
     </div>
@@ -102,6 +105,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/08/08/learnDB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数据库的学习之存储引擎
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/06/learnGit/" id="article-nav-older" class="article-nav-link-wrap">
@@ -143,23 +155,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/06/learnGit2/">Git的使用之多人合作二</a>
+            <a href="/2018/08/09/singleton/">设计模式</a>
           </li>
         
           <li>
-            <a href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
+            <a href="/2018/08/09/concurrent/">操作系统基本概念之并发</a>
           </li>
         
           <li>
-            <a href="/2018/08/05/hexo/">hexo中踩的坑</a>
+            <a href="/2018/08/09/process/">操作系统基本概念之进程</a>
           </li>
         
           <li>
-            <a href="/2018/08/05/learnGO/">RESTful风格的实现</a>
+            <a href="/2018/08/08/learnDB2/">数据库的学习之MySQL操作</a>
           </li>
         
           <li>
-            <a href="/2018/08/05/hello-world/">Hello World</a>
+            <a href="/2018/08/08/learnDB/">数据库的学习之存储引擎</a>
           </li>
         
       </ul>
