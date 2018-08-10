@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>gcc的学习 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gcc的学习">
+<meta property="og:url" content="http://yoursite.com/2018/08/10/gcc/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-10T14:38:00.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gcc的学习">
+<meta name="twitter:description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-gcc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/10/gcc/" class="article-date">
+  <time datetime="2018-08-10T14:36:08.871Z" itemprop="datePublished">2018-08-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gcc的学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gcc编译链接过程"><a href="#gcc编译链接过程" class="headerlink" title="gcc编译链接过程"></a>gcc编译链接过程</h1><p>当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：</p>
+<ol>
+<li>gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件；</li>
+<li>gcc –S命令：帮助我们调用编译器gcc，使得c文件变为汇编文件hello.s，完成编译工作，即完成了高级语言向低级语言的转化（主要包括词法分析、语义分析、语法分析产生语法树、源代码的优化、目标代码的生成和优化工作），编译工作也是整个编译链接过程中最复杂，最耗时的一步；</li>
+<li>gcc –c命令：帮助我们调用汇编器as，将汇编文件hello.s转换为二进制文件hello.o；</li>
+<li>gcc命令：帮助我们调用链接器ld，将动态库或者静态库的相应代码组合入目标文件，从而生成计算机可执行的hello.out文件，随后我们执行这个.out文件，就可以得到hello.c源文件中的执行结果。</li>
+</ol>
+<p>以上4步通过gcc hello.c(源文件名) –o(指示生成的文件名的参数) hello.out(生成多个可执行文件名)命令一步即可完成。</p>
+<h1 id="gcc中常用的操作"><a href="#gcc中常用的操作" class="headerlink" title="gcc中常用的操作"></a>gcc中常用的操作</h1><ol>
+<li>指定头文件的路径<br>在当前编译过程中，如果头文件.h文件与源文件.c文件不在同一个目录下，编译会报<br>无法进行，这时我们可以通过指定头文件的目录进行处理，如下：<br>gcc    hello.c    -I ./include    –o    hello.out<br>其中的./include就是我们指定的有文件目录名；I（大写的i）是参数；</li>
+<li>编译时指定宏名：<br>在这里指定的宏就不用在每个.c文件中一条条定义了，简化了代码的编写，命令如下：<br>gcc    hello.c    -o    hello.out     -D  DEBUG(宏名)</li>
+<li>选择编译时的优化处理级别：<br>gcc    hello.c    -o    hello.out     -O2<br>-O0，-O1，-O2，-O3；四种级别可选0是不优化，3是最高级优化;</li>
+<li>输出告警信息或者增加调试信息（以供gdb调试时使用）：<br>添加参数-Wall可以在编译时输出告警信息，参数-g会为生成的可执行文件增加调试信息，同时生成的这个.out文件体积会变大。</li>
+</ol>
+<h1 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h1><p>首先，makefile文件是项目的源代码管理工具，将代码需要编译的命令以一定格式写入makefile，在用make命令执行makefile文件时，就实现了相应的编译。<br>命名：makefile文件只有两种名字-&gt;makefile或者是Makefile；<br>规则：makefile文件中的语句都有一定的规则，如下<br>目标：依赖条件<br>（TAB缩进）命令<br>目标就是生成的可执行文件的名字；依赖就是生成这个可执行文件所需要的原材料的文件名；命令就是我们通过以来条件生成目标具体要使用的命令。<br>例如：<br>app:main.c    add.c    sub.c    mul.c<br>    gcc    main.c    add.c    sub.c    mul.c    -o    app<br>执行了这样的makefile文件后，就会生成终极可执行目标文件app。这样的编写方式，每次make都会编译所有的.c文件，如果对其中的一个.c文件修改要重新编译，也会编译所有，十分耗时，开销大。</p>
+<p>还有一种方式，分模块编译，每次make编译器会对比.c文件最新修改的时间，只编译最新改动的.c文件，示例如下：</p>
+<p>app:main.o    add.o    sub.o    mul.o<br>    gcc    main.o    add.o    sub.o    mul.o    -o    app<br>//最上方的这条规则是用来生成终极目标的，会最后被执行完成，它开始执行的时候发现原材料.o文件不存在，会自动查验下面的子规则，发现自规则生成好了.o文件，才取上来使用，直至凑齐所有的.o文件，生产个终极目标app可执行文件</p>
+<p>//子规则<br>main:main.c<br>    gcc    -c    main.c<br>add:add.c<br>    gcc    -c    add.c<br>sub:sub.c<br>    gcc    -c    sub.c<br>mul:mul.c<br>    gcc    -c    mul.c<br>因为每个模块的子规则模式都相似，为了减少冗余，可以使用自动匹配的公式一样的模式规则来适配子规则，以上的子规则语句可以统一用一句模式规则替代，如下：<br>%.c:%.c<br>    gcc    -c    $&lt;    -o    $@<br>%类似于通配符；$&lt;是规则中的依赖条件；$@是规则中的目标（$符号是取值的含义）。</p>
+<p>同样的，makefile中也有一些可以使用的函数，也可以定义变量（但是这里的变量不需要指定任何类型）例如：<br>变量的使用：<br>obj= main.o    add.o    sub.o    mul.o<br>在下面使用到main.o    add.o    sub.o    mul.o的时候就可以用$(obj)来代替。<br>两个函数：</p>
+<ol>
+<li>wildcard函数的使用<br>src=$(wildcard ./*.c)返回指定目录下的所有.c文件给变量src（我这里用的是./也就是当前目录的）；</li>
+<li>partsubst函数的使用<br>obj=$(partsubst ./*.c,./%.o,$(src))将指定目录下所有的.c文件匹配替换成.o文件，并把替换好的.o文件给变量obj（$(src)从这个变量里取出.c文件，并且我这里使用的目录都是当前目录./）</li>
+</ol>
+<p>.o文件使用完之后的删除操作：<br>在makefile的最后生成clean目标，具体操作如下：<br>clean：<br>    -rm  $(obj)    app<br>在执行make clean命令时可以删除obj内包括的所有.o文件和终极目标可执行文件app。<br>静态库与动态库<br>工程中我们常常将代码打包成库发给第三方，打包成库可以控制我们想让第三方见到的部分，和不希望让人看到的我们自己核心技术代码的部分。<br>    静态库<br>制作步骤：</p>
+<ol>
+<li>用gcc生成对应的.o文件；<br>gcc    *.c    -c</li>
+<li>用ar工具将所有.o文件打包成静态库；<br>ar    rcs    libmytest.a    *.o<br>libmytest.a是生成的静态库名字，一定要有lib前缀和.a类型。</li>
+<li>发布给第三方测试。<br>使用：<br>把自己的测试文件main.c编译进静态库测试功能：<br>gcc    main.c    -L     lib    -l    myCale    -o    app<br>-L参数后指定静态库所在目录；<br>-l参数后指定静态库的库名（去掉lib前缀和.a文件类型后剩下的部分）。<br>可执行文件中只是打包了main.c测试文件中使用到的.o文件，并不盲目打包整个静态库，如果测试部分不用某个.o文件对应的功能，就不打包这个.o文件（.o文件是最小的打包单位）。</li>
+</ol>
+<p>查看：<br>    nm命令可以查看静态库的内容或者查看编译后的可执行文件：<br>    nm    libmyCale.a<br>    nm    app</p>
+<ul>
+<li><p>静态库的优缺点：<br>优点：在向外发布应用程序时，不用提供这个静态库（因为要使用的.o文件已经被打包进了可执行程序内）；库的加载速度快。<br>缺点：可执行的应用程序在使用很多静态库时候，或者实际使用到了静态库的所有.o文件的功能，就会使得可执行程序体积非常大；在静态库功能调整代码有变时，整个程序要重新编译，把新的静态库编译进来，非常耗时。</p>
+</li>
+<li><p>动态库（共享库）<br>制作步骤：</p>
+</li>
+</ul>
+<ol>
+<li>生成与位置无关的.o文件；<br>gcc    -FpIC    -c    *.c<br>FpIC参数使得代码被放置在程序执行时分配的虚拟内存中一块叫做共享库的代码区域（动态库在共享库内的地址在程序每次执行都是不同的，是动态的，相对的，而静态库每次都是把代码放置在虚拟内存的.test段，地址是固定地，所以我们称静态库生成的.o文件都是与位置有关的，而动态库的.o文件是与地址无关的）。</li>
+<li>将.o文件打包成共享库；<br>gcc    -shared    -o    libmyCale.so    *.o<br>shared参数指定该库是共享库；<br>libmyCale.so是新生成的动态库的名称（与静态库命名相似）。</li>
+<li><p>发布给第三方测试。</p>
+<p>使用：<br>  gcc    main.c    -Iinclude        -L    ./lib    -l    myCale    -o    app<br>  其中Iinclude的第一个字母是I参数，后面跟着动态库的头文件所在目录；<br>  其他参数解释与静态库一样。<br>在使用一个新的动态库时候，常常会出现无法动态连接的情况，因为动态连接器调不起来我们新创建的这个动态库，动态连接器的本质也是一个动态库，它是通过环境变量进行查找连接的，他有自己默认的环境变量值。可以通过修改动态连接器的配置文件（通常在/etc目录下，一个叫做ld.so.conf的文件）把我们要使用的动态库的绝对路径加入到它的环境变量中。</p>
+</li>
+</ol>
+<ul>
+<li>动态库的优缺点：<br>优点：由于动态库在实际使用时，没有实际把.o文件打包进可执行文件app中，只是在可执行文件中做了一些标记。在程序真正执行起来前，动态库都不会被加载，只有执行时调用到相应功能时候，才会加载对应模块。所以执行程序的体积小；并且在动态库做更新的时候，不需要重新编译整个程序。<br>缺点：加载的速度相对较慢；并且向外发布应用程序时要把动态库一并发布，因为应用程序执行时才把动态库加载进来。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/10/gcc/" data-id="cjko3tad400005suzk8uiheoo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/10/gdb/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          gdb调试的学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/09/singleton/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">设计模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/10/gdb/">gdb调试的学习</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/10/gcc/">gcc的学习</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/singleton/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/concurrent/">操作系统基本概念之并发</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/process/">操作系统基本概念之进程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
