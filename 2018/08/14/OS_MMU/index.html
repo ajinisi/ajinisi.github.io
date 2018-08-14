@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&amp;gt;内存-&amp;gt;硬盘-&amp;gt;网络（可视为无限容量）。在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：  由于.out文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/08/14/OS_MMU/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&amp;gt;内存-&amp;gt;硬盘-&amp;gt;网络（可视为无限容量）。在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：  由于.out文件">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-14T02:56:45.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&amp;gt;内存-&amp;gt;硬盘-&amp;gt;网络（可视为无限容量）。在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：  由于.out文件">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-OS_MMU" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/14/OS_MMU/" class="article-date">
+  <time datetime="2018-08-14T02:56:20.871Z" itemprop="datePublished">2018-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&gt;内存-&gt;硬盘-&gt;网络（可视为无限容量）。<br>在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：</p>
+<ol>
+<li>由于.out文件保存在磁盘内，由磁盘写入内存，再由内存进入cache区，CPU中的预取器，执行预取指令的工作，把这条二进制形式的指令取进CPU；</li>
+<li>预取器把取到的指令交给译码器，译码器对指令进行分析，获知指令要做的工作，以及完成指令需要使用什么寄存器（如果该指令是完成加法操作，就事先取出eax和ebx寄存器，把加数和被加数放在里面备好）；</li>
+<li>译码器了解具体的运算类型并且准备好寄存器后，有ALU算术逻辑单元完成具体的运算（算逻单元只会+和&lt;&lt;运算，所有运算都可以通过这两个基本运算完成）；</li>
+<li>ALU把计算好的结果回写到相应的寄存器，随后再由cache把哪个记录计算结果的寄存器中的内容取走。</li>
+</ol>
+<p>CPU中还有一块十分重要的单元——MMU内存管理单元。<br>MMU的作用：</p>
+<ol>
+<li>虚拟内存与物理内存的映射；</li>
+<li>设置和修改内存访问级别。<br>无论我们通过执行一个文件或者系统调用fork()函数产生一个进程，都会产生一片虚拟内存，在32位的系统上，虚拟内存是4G大小（其中0到3G是用户空间可使用的地址，3G到4G是内核空间可以使用的地址）。但是这片内存是虚拟的，并非实际存在的，切实存在的是我们的物理内存，只是我们通过这4G的虚拟内存能够更方便地管理内存空间。由于这块内存是虚拟的，看起来我们的程序相关内容都是存放在这片空间（程序中我们用户所有可以操控的内存地址都是虚拟内存的地址），但是实际还是存放在物理内存上，所以我们就要使用一个方法去把虚拟内存和物理内存之间相互映射，MMU就帮我们完成了这样的映射。在MMU把虚拟内存映射为物理内存的过程中，映射的最小单位是4K 大小（一个Page）,即便虚拟内存有一段区域只有1K大小，在把这块区域映射进物理内存，在物理内存上为它划分空间是时，也会毫不犹豫地划分出4K大小的区域。<br>MMU在完成映射的同时，还为CPU设置了对物理内存的访问级别。简单地说，访问级别最高是Ring0，是内核空间Kernel Space；最低是Ring3，是用户空间User Space。<br>例如：在程序执行一条命令printf()打印输出一些内容到屏幕上，调用printf()阶段，CPU运行在用户空间，但是printf()还需要向下作系统调用write()，此时CPU进入内核空间，对内存的访问级别发生了改变（由Ring3-&gt;Ring0）,这种级别的调整，就是MMU帮助CPU完成的。<br>MMU的工作在程序运行起来的时候就开始了，因为从cache上面取来的指令中使用的变量，数值等对应的存储位置就是虚拟内存，MMU需要把它映射到物理内存上，才能真正取出变量中的值。同样的CPU计算完把结果返回给cache也需要MMU协助把物理内存映射回虚拟内存。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/14/OS_MMU/" data-id="cjkt4em8d0001tsuzlqs5du9k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/12/developer/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">开发者的战争</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/14/OS_MMU/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/12/developer/">开发者的战争</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/10/OS_gdb/">gdb调试的学习</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/10/OS_gcc/">gcc的学习</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/09/singleton/">设计模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

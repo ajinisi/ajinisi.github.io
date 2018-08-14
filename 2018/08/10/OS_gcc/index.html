@@ -7,17 +7,17 @@
   
   <title>gcc的学习 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+  <meta name="description" content="太依赖IDE可能不会使得我们对程序的运行有太深刻的认识，学习gcc可以让我们更好地理解操作系统和C语言。 gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gcc的学习">
-<meta property="og:url" content="http://yoursite.com/2018/08/10/gcc/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/10/OS_gcc/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+<meta property="og:description" content="太依赖IDE可能不会使得我们对程序的运行有太深刻的认识，学习gcc可以让我们更好地理解操作系统和C语言。 gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-10T14:38:00.109Z">
+<meta property="og:updated_time" content="2018-08-14T03:01:03.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gcc的学习">
-<meta name="twitter:description" content="gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件； gcc –S命令：帮助我们调用编译器gc">
+<meta name="twitter:description" content="太依赖IDE可能不会使得我们对程序的运行有太深刻的认识，学习gcc可以让我们更好地理解操作系统和C语言。 gcc编译链接过程当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：  gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,9 +64,9 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-gcc" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-OS_gcc" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/10/gcc/" class="article-date">
+    <a href="/2018/08/10/OS_gcc/" class="article-date">
   <time datetime="2018-08-10T14:36:08.871Z" itemprop="datePublished">2018-08-10</time>
 </a>
     
@@ -86,7 +86,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="gcc编译链接过程"><a href="#gcc编译链接过程" class="headerlink" title="gcc编译链接过程"></a>gcc编译链接过程</h1><p>当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：</p>
+        <p>太依赖IDE可能不会使得我们对程序的运行有太深刻的认识，学习gcc可以让我们更好地理解操作系统和C语言。</p>
+<h1 id="gcc编译链接过程"><a href="#gcc编译链接过程" class="headerlink" title="gcc编译链接过程"></a>gcc编译链接过程</h1><p>当我们拿到一个程序源文件hello.c文件，怎么才能将它转化为Linux操作系统可以执行的文件呢？具体的编译链接过程有以下几步：</p>
 <ol>
 <li>gcc –E命令：帮我们调用预处理器cpp，预处理器对.c文件做一些简单的预处理工作，例如头文件的展开，程序中宏的替换，删去注释等，预处理器执行完，hello.c文件由原来的源文件编程hello.i的c文件；</li>
 <li>gcc –S命令：帮助我们调用编译器gcc，使得c文件变为汇编文件hello.s，完成编译工作，即完成了高级语言向低级语言的转化（主要包括词法分析、语义分析、语法分析产生语法树、源代码的优化、目标代码的生成和优化工作），编译工作也是整个编译链接过程中最复杂，最耗时的一步；</li>
@@ -109,12 +110,15 @@
 <li>wildcard函数的使用<br>src=$(wildcard ./*.c)返回指定目录下的所有.c文件给变量src（我这里用的是./也就是当前目录的）；</li>
 <li>partsubst函数的使用<br>obj=$(partsubst ./*.c,./%.o,$(src))将指定目录下所有的.c文件匹配替换成.o文件，并把替换好的.o文件给变量obj（$(src)从这个变量里取出.c文件，并且我这里使用的目录都是当前目录./）</li>
 </ol>
-<p>.o文件使用完之后的删除操作：<br>在makefile的最后生成clean目标，具体操作如下：<br>clean：<br>    -rm  $(obj)    app<br>在执行make clean命令时可以删除obj内包括的所有.o文件和终极目标可执行文件app。<br>静态库与动态库<br>工程中我们常常将代码打包成库发给第三方，打包成库可以控制我们想让第三方见到的部分，和不希望让人看到的我们自己核心技术代码的部分。<br>    静态库<br>制作步骤：</p>
+<p>.o文件使用完之后的删除操作：<br>在makefile的最后生成clean目标，具体操作如下：<br>clean：<br>    -rm  $(obj)    app<br>在执行make clean命令时可以删除obj内包括的所有.o文件和终极目标可执行文件app。</p>
+<h1 id="静态库与动态库"><a href="#静态库与动态库" class="headerlink" title="静态库与动态库"></a>静态库与动态库</h1><p>工程中我们常常将代码打包成库发给第三方，打包成库可以控制我们想让第三方见到的部分，和不希望让人看到的我们自己核心技术代码的部分。<br>    静态库<br>制作步骤：</p>
 <ol>
 <li>用gcc生成对应的.o文件；<br>gcc    *.c    -c</li>
 <li>用ar工具将所有.o文件打包成静态库；<br>ar    rcs    libmytest.a    *.o<br>libmytest.a是生成的静态库名字，一定要有lib前缀和.a类型。</li>
-<li>发布给第三方测试。<br>使用：<br>把自己的测试文件main.c编译进静态库测试功能：<br>gcc    main.c    -L     lib    -l    myCale    -o    app<br>-L参数后指定静态库所在目录；<br>-l参数后指定静态库的库名（去掉lib前缀和.a文件类型后剩下的部分）。<br>可执行文件中只是打包了main.c测试文件中使用到的.o文件，并不盲目打包整个静态库，如果测试部分不用某个.o文件对应的功能，就不打包这个.o文件（.o文件是最小的打包单位）。</li>
+<li>发布给第三方测试。<br>使用：<br>把自己的测试文件main.c编译进静态库测试功能：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc	main.c	-L 	lib	-l	myCale	-o	app</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
+<p>-L参数后指定静态库所在目录；<br>-l参数后指定静态库的库名（去掉lib前缀和.a文件类型后剩下的部分）。<br>可执行文件中只是打包了main.c测试文件中使用到的.o文件，并不盲目打包整个静态库，如果测试部分不用某个.o文件对应的功能，就不打包这个.o文件（.o文件是最小的打包单位）。</p>
 <p>查看：<br>    nm命令可以查看静态库的内容或者查看编译后的可执行文件：<br>    nm    libmyCale.a<br>    nm    app</p>
 <ul>
 <li><p>静态库的优缺点：<br>优点：在向外发布应用程序时，不用提供这个静态库（因为要使用的.o文件已经被打包进了可执行程序内）；库的加载速度快。<br>缺点：可执行的应用程序在使用很多静态库时候，或者实际使用到了静态库的所有.o文件的功能，就会使得可执行程序体积非常大；在静态库功能调整代码有变时，整个程序要重新编译，把新的静态库编译进来，非常耗时。</p>
@@ -136,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/10/gcc/" data-id="cjko3tad400005suzk8uiheoo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/10/OS_gcc/" data-id="cjkt4em9d0003tsuzkir6weh6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +149,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/10/gdb/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/10/OS_gdb/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -194,23 +198,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/10/gdb/">gdb调试的学习</a>
+            <a href="/2018/08/14/OS_MMU/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/08/10/gcc/">gcc的学习</a>
+            <a href="/2018/08/12/developer/">开发者的战争</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/10/OS_gdb/">gdb调试的学习</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/10/OS_gcc/">gcc的学习</a>
           </li>
         
           <li>
             <a href="/2018/08/09/singleton/">设计模式</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/09/concurrent/">操作系统基本概念之并发</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/09/process/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
