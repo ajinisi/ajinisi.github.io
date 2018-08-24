@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-learnDB3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/06/learnGit/" class="article-date">
-  <time datetime="2018-08-06T02:20:06.118Z" itemprop="datePublished">2018-08-06</time>
+    <a href="/2018/08/18/learnDB3/" class="article-date">
+  <time datetime="2018-08-18T08:08:02.275Z" itemprop="datePublished">2018-08-18</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
+      <a class="article-title" href="/2018/08/18/learnDB3/">数据库的学习之非关系数据库</a>
     </h1>
   
 
@@ -84,35 +84,64 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。</p>
-<h2 id="SSH-keys"><a href="#SSH-keys" class="headerlink" title="SSH keys"></a>SSH keys</h2><p>首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH keys来验证你是否为合法用户。</p>
-<h3 id="怎么使用SSH-keys"><a href="#怎么使用SSH-keys" class="headerlink" title="怎么使用SSH keys"></a>怎么使用SSH keys</h3><p>在你的电脑生成了一个唯一的ssh公钥和私钥，公钥放到github上面，当你推送的时候，git就会匹配你的私钥是否跟github上面的公钥是配对的，正确就认为你是合法的，允许推送。现在来确认下你是否已经拥有SSH keys。 默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。 Windows10系统下，用户的 SSH 密钥存储在其 C:\Users\yourusername.ssh 目录下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br><span class="line">id_rsa  id_rsa.pub  known_hosts</span><br></pre></td></tr></table></figure></p>
-<p>id_rsa就是我们的私钥，id_rsa.pub就是我们的公钥。</p>
-<ul>
-<li><p>如果你没有keys（或者根本没有 .ssh 目录），又或者你不想使用已有的keys，则你可以创建一个新的SSH keys。在一台电脑上使用两个不同的账号，就是采取的此方法建立两个不同的keys。详情见下。</p>
-</li>
-<li><p>如果你有keys并且想用它连接到Github，则在ssh-agent和Github账户中添加它<br>用文本编辑器打开id_rsa.pub并复制里面的全部内容，或者执行下面命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your clipboard</span><br></pre></td></tr></table></figure>
-</li>
+        <h1 id="关系型数据库：MySQL，SQL-Server，Oracle"><a href="#关系型数据库：MySQL，SQL-Server，Oracle" class="headerlink" title="关系型数据库：MySQL，SQL Server，Oracle"></a>关系型数据库：MySQL，SQL Server，Oracle</h1><h1 id="非关系数据库"><a href="#非关系数据库" class="headerlink" title="非关系数据库"></a>非关系数据库</h1><ul>
+<li>文档型数据库：MongoDB、CouchDB、CouchBase、MarkLogic、Clusterpoint</li>
+<li>键值存储数据库：Dynamo、FoundationDB、MemcacheDB、Redis、Riak、Aerospike</li>
+<li>图数据库：Neo4j、OrientDB、ArangoDB、MapGraph，适合社会关系，公共交通网络，地图及网络拓谱</li>
+<li>列式数据库：Cassandra、HBase、Accumulo、Druid、Vertica</li>
+<li>内存数据库：Redis、Membase，适合于数据变化快且数据库大小可遇见(适合内存容量)的应用程序</li>
 </ul>
-<p>点击你的Github头像，再依次点击 <strong>Settings</strong>-&gt;<strong>SSH and GPG keys</strong>-&gt; <strong>New SSH key</strong> 。在“Title”字段输入你想要的助记名字并在“Key”字段粘贴key即可。<br>测试设置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>OK，skr~</p>
-<h3 id="新建SSH-keys"><a href="#新建SSH-keys" class="headerlink" title="新建SSH keys"></a>新建SSH keys</h3><ol>
-<li>使用你的邮箱作为标签，创建一个新的SSH key</li>
-<li>输入文件名，用于保存刚刚生成的 SSH key 代码。不输入将使用 /c/Users/you/.ssh/id_rsa 作为默认文件（如果你是在 ~/.ssh/ 路径下操作的话）。</li>
-<li>输入密码，这个密码会在你提交项目时使用，如果为空的话推送项目时则不用输入。这个设置是防止同一台电脑上的别人私自往你的项目里推送内容。</li>
-<li>因为默认只读取id_rsa，为了让SSH识别新产生的私钥，需将其添加的ssh-agent中，这里要确保你的ssh-agent正在运行</li>
-<li>创建并配置 config 文件，还没有结束，如果现在使用 $ ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> 只会“欢迎”一个用户。我们还需要添加一个配置文件。<br><strong>！！！配置文件每行前不要以空格开头</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> # 配置ajinina(ajininana@163.com)</span><br><span class="line"></span><br><span class="line">Host ajinina.github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_liu</span><br><span class="line">    User ajinina</span><br><span class="line"></span><br><span class="line"># 配置ajinisi(ajinisi@163.com)</span><br><span class="line"></span><br><span class="line"># 每个Host要取一个别名</span><br><span class="line">Host ajinisi.github.com</span><br><span class="line"># 真实的域名地址，Github为github.com，oschina为git.oschina.net</span><br><span class="line">    HostName github.com</span><br><span class="line"># 配置登录时用什么权限认证–可设为publickey,password publickey,keyboard-interactive等 </span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line"># id_rsa的地址</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br><span class="line"># 用户名</span><br><span class="line">    User ajinisi</span><br></pre></td></tr></table></figure>
-</li>
+<h1 id="关系型和非关系型的区别"><a href="#关系型和非关系型的区别" class="headerlink" title="关系型和非关系型的区别"></a>关系型和非关系型的区别</h1><h2 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h2><p>关系型数据库是表格式的，因此存储在表的行和列中，</p>
+<h2 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/18/learnDB3/" data-id="cjl074dkr000gd8uzdgutd48p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blockchain2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/18/blockchain2/" class="article-date">
+  <time datetime="2018-08-18T05:04:12.385Z" itemprop="datePublished">2018-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/18/blockchain2/">自己动手区块链之持久化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在上一篇文章，我们实现了一个有POW的单节点区块链。由于没有用到数据库，而是在每次运行程序时，简单地将区块链存储在内存中。那么一旦程序退出，所有的内容就都消失了。我们没有办法再次使用这条链，也没有办法与其他人共享，所以我们需要一个数据库把它存储到磁盘上。</p>
+<p>不必使用MySQL这样的数据库，。。。</p>
+<p>为了简单考虑，我们会将整个区块链存储为单个文件。我们将使用两种键值对：</p>
+<ol>
+<li>32 字节的 block-hash -&gt; block 结构</li>
+<li>l -&gt; 链中最后一个块的 hash</li>
 </ol>
-<p>再按照上面的说明分别添加公钥到不同的GitHub账户中，测试时注意git@后面的写法，用的是config里面的Host别名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@ajinisi.github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">$ ssh -T git@ajinina.github.com</span><br><span class="line">Enter passphrase for key &apos;/c/Users/ajini/.ssh/id_rsa_liu&apos;:</span><br><span class="line">Hi ajininana! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>在以后的使用中，取消全局用户名和邮箱的设置，为不同的仓库设置局部的用户名和邮箱，同时谨记 <strong>重建origin</strong>。因为这个地方的疏忽，导致我始终 push 被拒绝。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm origin</span><br><span class="line">$ git remote add origin git@ajinisi.github.com:ajinisi/teachinghelper.git</span><br></pre></td></tr></table></figure></p>
-<p>附上建key详细的命令过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C &quot;ajininana@163.com&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/c/Users/ajini/.ssh/id_rsa): id_rsa_liu</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved in id_rsa_liu.</span><br><span class="line">Your public key has been saved in id_rsa_liu.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:t601h0H/IklcnuLXVIqEYEPPNZtG5PqBcFkdr0Y6CL0 ajininana@163.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 4096]----+</span><br><span class="line">|       .=  .*... |</span><br><span class="line">|       . * B +.. |</span><br><span class="line">|        o B B o o|</span><br><span class="line">|         + X B +.|</span><br><span class="line">|        S E X B .|</span><br><span class="line">|         . * O + |</span><br><span class="line">|          . X + o|</span><br><span class="line">|           o = . |</span><br><span class="line">|          .      |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ # 如果是msysgit</span><br><span class="line"># start the ssh-agent in the background</span><br><span class="line">eval $(ssh-agent -s)</span><br><span class="line">Agent pid 59566</span><br><span class="line"></span><br><span class="line"># 如果是git bash</span><br><span class="line">$ ssh-agent -s</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa (/c/Users/ajini/.ssh/id_rsa)</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa_liu</span><br><span class="line">Enter passphrase for /c/Users/ajini/.ssh/id_rsa_liu:</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa_liu (/c/Users/ajini/.ssh/id_rsa_liu)</span><br></pre></td></tr></table></figure>
+<p>redis里的数据就像这样<br><img src="images/blockchain2.bmp" alt="redis数据格式"></p>
+<p>这样，我们在运行我们的区块链时，首先去数据库里检查存储了一个区块链，如果没有区块链</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit/" data-id="cjkibrcrs00019cuz4q84hk4a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/18/blockchain2/" data-id="cjl074dk70007d8uzecs6d0a9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -122,10 +151,10 @@
 
 
   
-    <article id="post-learnHexo" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blockchain" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/05/learnHexo/" class="article-date">
-  <time datetime="2018-08-05T13:54:42.523Z" itemprop="datePublished">2018-08-05</time>
+    <a href="/2018/08/18/blockchain/" class="article-date">
+  <time datetime="2018-08-18T04:58:38.476Z" itemprop="datePublished">2018-08-18</time>
 </a>
     
   </div>
@@ -136,7 +165,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnHexo/">hexo中踩的坑</a>
+      <a class="article-title" href="/2018/08/18/blockchain/">自己动手区块链</a>
     </h1>
   
 
@@ -144,69 +173,43 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="hexo的介绍"><a href="#hexo的介绍" class="headerlink" title="hexo的介绍"></a>hexo的介绍</h2><p>。。。</p>
-<h2 id="hexo的部署"><a href="#hexo的部署" class="headerlink" title="hexo的部署"></a>hexo的部署</h2><p>使用命令 $ hexo g 就可以把md文件转化为博客的HTML文件，它们会出现在文件夹 public/ 下。为了避免手动地向github仓库提交，我们可以使用命令 $ hexo d -g 自动提交更新到代码库。<br>首先将 myblog/_config.yml 里 deploy 段做下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:  git</span><br><span class="line">repo:  git@github.com:ajinisi/ajinisi.github.io.git</span><br><span class="line">branch:  master</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第一个坑</strong> 出现了，这里type、repo等字段的冒号后面必须要有两个空格，否则命令 $ hexo d -g 只会产生文件而不会执行部署。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 123 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: 2018/08/05/hello-world/index.html</span><br><span class="line">INFO  Generated: archives/2018/08/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/08/05/learnGO/index.html</span><br><span class="line">INFO  6 files generated in 248 ms</span><br></pre></td></tr></table></figure>
-<p>同时字段名不要输错，如果把“repo”误入为“rep”，则出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploying: git</span><br><span class="line">You have to configure the deployment settings in _config.yml first!</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line">  deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;repository url&gt;</span><br><span class="line">    branch: [branch]</span><br><span class="line">    message: [message]</span><br><span class="line"></span><br><span class="line">    extend_dirs: [extend directory]</span><br><span class="line"></span><br><span class="line">For more help, you can check the docs: http://hexo.io/docs/deployment.html</span><br><span class="line">INFO  Deploy done: git、</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第二个坑</strong>，如果出现下面的消息，说明你的key没有设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure></p>
-<p>最终，搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">...</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnHexo/" data-id="cjkt4em9l0006tsuz4bwpq5n1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnGO/">RESTful风格的实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
-<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
+        <p>接触区块链已经有一段时间了，已经学习了比特币、区块链和以太坊这些概念，也用了solidity和truffle这些智能合约工具，自己也思考过区块链的影响与落地。但是区块链的底层技术，只是有基本的认识，没有完全的掌握。希望随着项目的不断进行，可以把区块链的相关技术好好地了解一番。</p>
+<p>本人的区块链代码放在Github上，欢迎大家指点</p>
+<h3 id="区块"><a href="#区块" class="headerlink" title="区块"></a>区块</h3><p>区块链由一个个区块（block）组成。区块很像数据库的记录，每次写入数据，就是创建一个区块。区块由区块头和区块主体组成，很像TCP/IP协议里那些报文结构。借用网上的一张图<br><img src="images/blockchain3.bmp" alt="区块"><br>区块头</p>
 <ul>
-<li>GET /session # 获取会话信息</li>
-<li>POST /session # 创建新的会话（登入）</li>
-<li>PUT /session # 更新会话信息</li>
-<li><p>DELETE /session # 销毁当前会话（登出）</p>
+<li><p>版本号（version）：用来标识交易版本和所参照的规则。</p>
 </li>
-<li><p>GET /user/:id # 获取id用户的信息</p>
+<li><p>时间戳（Time）：记录生成这个区块的时间，精确到秒。每诞生一个新的区块，就会被盖上相应的时间戳，这样就保证整条链上的区块都按照时间顺序进行排列。</p>
 </li>
-<li>POST /user # 创建新的用户（注册）</li>
-<li>PUT /user/:id # 更新id用户的信息</li>
-<li>DELETE /user/:id # 删除id用户（注销）</li>
+<li><p>区块高度和哈希：区块高度是区块的标示符，是指该区块在区块链中的位置。区块高度并不是唯一的标识符。虽然一个单一的区块总是会有一个明确的、固定的区块高度，但反过来却并不成立，一个区块高度并不总是识别一个单一的区块。两个或两个以上的区块可能有相同的区块高度，在区块链里争夺同一位置。<br><strong>Note：我发现某些实现区块链的项目省略了区块高度这一字段，但其实它是很关键的标识符，在比特币分叉中，人们会提前说明将在比特币高度多少时进行分叉。</strong></p>
+</li>
+<li><p>哈希：哈希分为“前一区块哈希”和“默克尔根”。“前一区块哈希”通过对前一个区块的区块头数据进行哈希计算（SHA256算法）得出，区块哈希值可以唯一、明确地标识一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值，保证区块链不被篡改。“默克尔根”通过对当前区块的默克尔树进行哈希计算得出，保证区块数据/交易不被篡改。</p>
+</li>
+<li><p>难度值：区块难度是用来衡量挖出一个区块平均所需要的运算次数，反映了在一定难度下用多长时间才能挖到一定数量的区块，也是矿工挖矿时重要的参考指标。数据区块产生的难易程度是由难度值（difficulty）来衡量的，我们也可以将difficulty简单的理解为挖到数据区块所用的时间。难度值是要随着算力具体调整的，在我们的项目里，设为固定值</p>
+</li>
+<li><p>计数器（Nonce）：每人知道符合难度值的哈希值是什么，只能设置一个不断增加的计数器来不断地尝试</p>
+</li>
 </ul>
-<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
+<p>区块体：<br>暂略</p>
+<p>可以只看自己感兴趣的，或者回过头再来看。</p>
+<h3 id="我的区块"><a href="#我的区块" class="headerlink" title="我的区块"></a>我的区块</h3><p>区块是区块链的基本单位，目前我的区块中定义了如下字段：</p>
+<ul>
+<li>区块高度，</li>
+<li>时间戳，</li>
+<li>数据，</li>
+<li>哈希，</li>
+<li>上一个区块的哈希</li>
+<li>挖矿的难度值，</li>
+<li>计数器，</li>
+</ul>
+<p>我的破产版区块就长这样</p>
+<p><img src="images/blockchain.bmp" alt="区块"></p>
+<p>在我的区块中，将交易简化为了数据，将上一个区块的哈希直接放入本区块，本区块的哈希通过计算其他字段获得。相比较真正的区块链，实现难度大大下降。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjkibrcrj00009cuzvwwmxfnt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/18/blockchain/" data-id="cjl074dk80008d8uz71031dhx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,10 +219,10 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-learnGo2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/05/hello-world/" class="article-date">
-  <time datetime="2018-08-05T12:50:07.506Z" itemprop="datePublished">2018-08-05</time>
+    <a href="/2018/08/18/learnGo2/" class="article-date">
+  <time datetime="2018-08-18T01:44:07.592Z" itemprop="datePublished">2018-08-18</time>
 </a>
     
   </div>
@@ -230,7 +233,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/hello-world/">Hello World</a>
+      <a class="article-title" href="/2018/08/18/learnGo2/">学习Golang之Redis的使用</a>
     </h1>
   
 
@@ -238,20 +241,271 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h3 id="Go用到的键值数据库"><a href="#Go用到的键值数据库" class="headerlink" title="Go用到的键值数据库"></a>Go用到的键值数据库</h3><p>现在在项目中使用键值储存（Key-Value-Stores）已经成为了开发者的标配。在Golang中，bolt是一个完全用Go实现一个低级别的键/值存储；而今天的主题是Redis</p>
+<h3 id="Go操作Redis的包"><a href="#Go操作Redis的包" class="headerlink" title="Go操作Redis的包"></a>Go操作Redis的包</h3><p>go get github.com/alphazero/Go-Redis</p>
+<p>go get github.com/simonz05/godis</p>
+<p>redigo听起来挺像“ready？go！”，哈哈哈，redigo更像一个client，执行各种操作都是通过Do函数去做的，它也是官方推荐的<br>    <a href="https://github.com/garyburd/redigo" target="_blank" rel="noopener">github地址</a><br>    <a href="http://godoc.org/github.com/garyburd/redigo/redis" target="_blank" rel="noopener">文档地址</a><br>    获取：<code>$ go get github.com/garyburd/redigo/redis</code></p>
+<p>go get github.com/gosexy/redis<br>go get cgl.tideland.biz/redis</p>
+<p><a href="https://github.com/go-redis/redis" target="_blank" rel="noopener">github地址</a><br><a href="https://godoc.org/github.com/go-redis/redis" target="_blank" rel="noopener">文档地址</a><br>获取：<code>go get -u github.com/go-redis/redis</code></p>
+<h3 id="redigo的介绍"><a href="#redigo的介绍" class="headerlink" title="redigo的介绍"></a>redigo的介绍</h3><h4 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>连接：Conn接口是使用Redis时主要的接口。应用通过调用Dial，DIalWithTimeout或者NewConn函数来创建连接<br>当使用完连接后务必调用连接Close函数来关闭<br>执行命令：Conn接口有一个执行Redis命令的通用方法，最常用的就是Do方法</p>
+<h4 id="String-操作"><a href="#String-操作" class="headerlink" title="String 操作"></a>String 操作</h4><h3 id="go-redis的介绍"><a href="#go-redis的介绍" class="headerlink" title="go-redis的介绍"></a>go-redis的介绍</h3><p>go-redis没有实际用过，这里简单介绍一下。</p>
+<h4 id="创建客户端-1"><a href="#创建客户端-1" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>通过 redis.NewClient 函数即可创建一个 redis 客户端, 这个方法接收一个 redis.Options 对象参数, 通过这个参数, 我们可以配置 redis 相关的属性, 例如 redis 服务器地址, 数据库名, 数据库密码等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">redisdb := redis.NewClient(&amp;redis.Options&#123;</span><br><span class="line">    Addr:     &quot;localhost:6379&quot;,</span><br><span class="line">    Password: &quot;&quot;, // no password set</span><br><span class="line">    DB:       0,  // use default DB</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">pong, err := redisdb.Ping().Result()</span><br><span class="line">fmt.Println(pong, err)</span><br></pre></td></tr></table></figure></p>
+<p>通过 redisdb.Ping() 来检查是否成功连接到了 redis 服务器</p>
+<h4 id="String-操作-1"><a href="#String-操作-1" class="headerlink" title="String 操作"></a>String 操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// 第三个参数是过期时间, 如果是0, 则表示没有过期时间.</span><br><span class="line">err := redisdb.Set(&quot;key&quot;, &quot;value&quot;, 0).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val, err := redisdb.Get(&quot;key&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;key:&quot;, val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 这里设置过期时间.</span><br><span class="line">err = redisdb.Set(&quot;age&quot;, &quot;20&quot;, 1 * time.Second).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Decr(&quot;age&quot;) // 自减</span><br><span class="line"></span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val) // age 的值为21</span><br><span class="line"></span><br><span class="line">// 因为 key &quot;age&quot; 的过期时间是一秒钟, 因此当一秒后, 此 key 会自动被删除了.</span><br><span class="line">time.Sleep(1 * time.Second)</span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    // 因为 key &quot;age&quot; 已经过期了, 因此会有一个 redis: nil 的错误.</span><br><span class="line">    fmt.Printf(&quot;error: %v\n&quot;, err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/hello-world/" data-id="cjkibrcry00049cuzug85sfc2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/18/learnGo2/" data-id="cjl074dky000jd8uzr5607nn1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnDB4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/learnDB4/" class="article-date">
+  <time datetime="2018-08-17T13:01:53.013Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-数据库的学习之Redis入门"><a href="#title-数据库的学习之Redis入门" class="headerlink" title="title:数据库的学习之Redis入门"></a>title:数据库的学习之Redis入门</h2><p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
+<ul>
+<li>纯内存操作</li>
+<li>单线程操作，避免了频繁的上下文切换</li>
+<li>采用了非阻塞I/O多路复用机制</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">版本</a><br>安装完成之后，目录下会有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── redis.windows.conf</span><br><span class="line">├── redis-benchmark.exe</span><br><span class="line">├── redis-check-aof.exe</span><br><span class="line">├── redis-cli.exe</span><br><span class="line">├── redis-server.exe</span><br><span class="line">└── Windows Service Documentation.docx</span><br></pre></td></tr></table></figure>
+<p>redis-server.exe是服务器，用来启动redis<br>redis-cli.exe是客户端，命令行工具<br>redis-benchmark.exe是基准测试工具<br>redis-check-aof.exe是AOF持久化文件检测工具和修复工具<br>redis-check-dump是RDB持久化文件检测工具和修复工具</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>安装完成之后，编辑redis.windows.conf文件，</p>
+<h1 id="启动客户端和服务器"><a href="#启动客户端和服务器" class="headerlink" title="启动客户端和服务器"></a>启动客户端和服务器</h1><p>和MySQL一样，Git bash也是不支持redis的命令的，我们可以使用cmd或者powershell。<strong>！！！注意</strong> 在没有添加环境变量时，cmd下可以直接从当前位置（C:\redis）加载命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ajini&gt;redis-cli</span><br><span class="line">&apos;redis-cli&apos; 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"></span><br><span class="line">C:\Users\ajini&gt;cd C:\redis</span><br><span class="line"></span><br><span class="line">C:\redis&gt;redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<p>但powershell不可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">redis-cli : 无法将“redis-cli”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正</span><br><span class="line">确，然后再试一次。</span><br><span class="line">所在位置 行:1 字符: 1</span><br><span class="line">+ redis-cli</span><br><span class="line">+ ~~~~~~~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (redis-cli:String) [], CommandNotFoundException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Suggestion [3,General]: 找不到命令 redis-cli，但它确实存在于当前位置。默认情况下，Windows PowerShell 不会从当前位置加载命令。如</span><br><span class="line">果信任此命令，请改为键入“.\redis-cli”。有关详细信息，请参阅 &quot;get-help about_Command_Precedence&quot;。</span><br><span class="line">PS C:\redis&gt; .\redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<p>所以为了方便，我们添加环境变量，以后就可以正常执行Redis的相关命令了。</p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>执行<code>$ redis-cli -h {host} -p {port}</code>可以让我们以交互方式连接服务器，当然，你也可以选择<code>$ redis-cli -h {host} -p {port} {command}</code>命令方式直接得到服务器的返回结果</p>
+<p>如果配置的时候设置了密码，则按照下面的方式登陆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="为Redis注册"><a href="#为Redis注册" class="headerlink" title="为Redis注册"></a>为Redis注册</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-server --service-install redis.windows.conf</span><br><span class="line">[15220] 18 Aug 09:27:37.402 # Granting read/write access to &apos;NT AUTHORITY\NetworkService&apos; on: &quot;C:\redis&quot; &quot;C:\redis\&quot;</span><br><span class="line">[15220] 18 Aug 09:27:37.403 # Redis successfully installed as a service.</span><br><span class="line"></span><br><span class="line">PS C:\redis&gt; redis-server.exe --service-start redis.windows.conf</span><br><span class="line">[26364] 18 Aug 09:34:55.243 # Redis service successfully started.</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/learnDB4/" data-id="cjl074dkn000ed8uz1w86co4o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Net_Flow" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net_Flow/" class="article-date">
+  <time datetime="2018-08-17T11:50:07.034Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="titile-计算机网络复习之流量控制"><a href="#titile-计算机网络复习之流量控制" class="headerlink" title="titile:计算机网络复习之流量控制"></a>titile:计算机网络复习之流量控制</h2><p>TCP通过让发送方维护一个称为接收窗口（receive window）的变量来提供流量控制。接收窗口用于告诉发送方，该接收方还有多少可用的缓存空间。因为TCP是全双工通信，在连接两端的发送方都各自维护一个接收窗口</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net_Flow/" data-id="cjl7mtx2z0003awuzhlwo89u4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Net_Congestion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net_Congestion/" class="article-date">
+  <time datetime="2018-08-17T10:52:28.134Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-计算机网络复习之拥塞控制"><a href="#title-计算机网络复习之拥塞控制" class="headerlink" title="title:计算机网络复习之拥塞控制"></a>title:计算机网络复习之拥塞控制</h2><p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
+<h1 id="拥塞控制和流量的控制的区别"><a href="#拥塞控制和流量的控制的区别" class="headerlink" title="拥塞控制和流量的控制的区别"></a>拥塞控制和流量的控制的区别</h1><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
+<h1 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h1><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
+<p>最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容量，延迟逐步上升，然后骤然上升，超过后源与目的地的平均时延也会变成无穷大</p>
+<p>情况2：两个发送方和一台具有有限缓存的路由精<br>这种情况下，当分组到达一个已满的缓存时会被丢弃，同时假定每个连接都是可靠的，所以它终将被发送方重传。由于分组可以被重传，所以我们把应用程序将初始数据发送到套接字中的速率称为发送速率，运输层向网络中发送报文段（含有初始数据和重传数据）速率称为提交负载/供给载荷（offered load）</p>
+<p>当发送方仅当确定一个分组已经丢失时才重传，</p>
+<p>情况 3: 四个发送方和具在有限援存的多台路由器及多跳路径<br>当提交负载较小时，；当提交负载较大时，在极限情况下，吞吐量趋近于0</p>
+<h1 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h1><ul>
+<li><p>端到端拥塞控制</p>
+<ul>
+<li>TCP拥塞控制算法（TCP congestion control algorithm）包括三个主要部分：1. 加法递增乘法递减法则（AIMD, Additive Increase Multiplicative Decrease）；2. 慢启动；3. 对超时事件作出反应</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>网络辅助的拥塞控制</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net_Congestion/" data-id="cjl7mtx2y0002awuz7mxlroeh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Net" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net/" class="article-date">
+  <time datetime="2018-08-17T08:51:18.860Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="titile-计算机网络复习之服务"><a href="#titile-计算机网络复习之服务" class="headerlink" title="titile:计算机网络复习之服务"></a>titile:计算机网络复习之服务</h2><p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
+<h1 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h1><h2 id="面向连接的意义"><a href="#面向连接的意义" class="headerlink" title="面向连接的意义"></a>面向连接的意义</h2><p>建立连接，并通过重传机制增加了可靠性</p>
+<ul>
+<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
+<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
+<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
+</ul>
+<h1 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h1><h1 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h1><h1 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h1><p>流量控制，flow-control-service</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net/" data-id="cjl074djx0001d8uzh7c4xy22" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-OS_MMU" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/14/OS_MMU/" class="article-date">
+  <time datetime="2018-08-14T02:56:20.871Z" itemprop="datePublished">2018-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/14/OS_MMU/">CPU和MMU</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&gt;内存-&gt;硬盘-&gt;网络（可视为无限容量）。<br>在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：</p>
+<ol>
+<li>由于.out文件保存在磁盘内，由磁盘写入内存，再由内存进入cache区，CPU中的预取器，执行预取指令的工作，把这条二进制形式的指令取进CPU；</li>
+<li>预取器把取到的指令交给译码器，译码器对指令进行分析，获知指令要做的工作，以及完成指令需要使用什么寄存器（如果该指令是完成加法操作，就事先取出eax和ebx寄存器，把加数和被加数放在里面备好）；</li>
+<li>译码器了解具体的运算类型并且准备好寄存器后，有ALU算术逻辑单元完成具体的运算（算逻单元只会+和&lt;&lt;运算，所有运算都可以通过这两个基本运算完成）；</li>
+<li>ALU把计算好的结果回写到相应的寄存器，随后再由cache把哪个记录计算结果的寄存器中的内容取走。</li>
+</ol>
+<p>CPU中还有一块十分重要的单元——MMU内存管理单元。<br>MMU的作用：</p>
+<ol>
+<li>虚拟内存与物理内存的映射；</li>
+<li>设置和修改内存访问级别。<br>无论我们通过执行一个文件或者系统调用fork()函数产生一个进程，都会产生一片虚拟内存，在32位的系统上，虚拟内存是4G大小（其中0到3G是用户空间可使用的地址，3G到4G是内核空间可以使用的地址）。但是这片内存是虚拟的，并非实际存在的，切实存在的是我们的物理内存，只是我们通过这4G的虚拟内存能够更方便地管理内存空间。由于这块内存是虚拟的，看起来我们的程序相关内容都是存放在这片空间（程序中我们用户所有可以操控的内存地址都是虚拟内存的地址），但是实际还是存放在物理内存上，所以我们就要使用一个方法去把虚拟内存和物理内存之间相互映射，MMU就帮我们完成了这样的映射。在MMU把虚拟内存映射为物理内存的过程中，映射的最小单位是4K 大小（一个Page）,即便虚拟内存有一段区域只有1K大小，在把这块区域映射进物理内存，在物理内存上为它划分空间是时，也会毫不犹豫地划分出4K大小的区域。<br>MMU在完成映射的同时，还为CPU设置了对物理内存的访问级别。简单地说，访问级别最高是Ring0，是内核空间Kernel Space；最低是Ring3，是用户空间User Space。<br>例如：在程序执行一条命令printf()打印输出一些内容到屏幕上，调用printf()阶段，CPU运行在用户空间，但是printf()还需要向下作系统调用write()，此时CPU进入内核空间，对内存的访问级别发生了改变（由Ring3-&gt;Ring0）,这种级别的调整，就是MMU帮助CPU完成的。<br>MMU的工作在程序运行起来的时候就开始了，因为从cache上面取来的指令中使用的变量，数值等对应的存储位置就是虚拟内存，MMU需要把它映射到物理内存上，才能真正取出变量中的值。同样的CPU计算完把结果返回给cache也需要MMU协助把物理内存映射回虚拟内存。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/14/OS_MMU/" data-id="cjl074dk40004d8uzvlbuc21o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-developer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/12/developer/" class="article-date">
+  <time datetime="2018-08-12T12:36:16.840Z" itemprop="datePublished">2018-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/12/developer/">开发者的战争之语言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为一个开发者，他在开发的过程中会用到各种各样的工具，各种各样的语言，各种各样的系统等等。其中的每一个话题都会在论坛引起相关的讨论。不同的开发者会有不同的偏好，这给程序员社区带来了不少有趣的论战。我把这些主题的博客称为“开发者的战争”，因为很多时候的讨论真的有点类似宗教之间的圣战。</p>
+<h3 id="开发者战争之编辑器"><a href="#开发者战争之编辑器" class="headerlink" title="开发者战争之编辑器"></a>开发者战争之编辑器</h3><p>任何人从小接触计算机（windows）的时候，一定是从记事本Notepad，画图，扫雷开始的。深入之后会去office三件套word，ppt和excel。在没有编程之前，我一直以为记事本和word没什么区别，只不过记事本更加简陋而已。。。<br>在Liunx下，最著名的编辑器莫过于Vim了。</p>
+<p>除了编辑器之外，集成开发环境就没有太多争议了，这是因为有“宇宙第一IDE”之称的Visual Studio, VS，一骑绝尘。 </p>
+<h3 id="开发者战争之语言"><a href="#开发者战争之语言" class="headerlink" title="开发者战争之语言"></a>开发者战争之语言</h3><p>如果说编辑器只是微不足道的小不同，那语言绝对是天然的划分属性。每年都会有网站统计最受欢迎的语言排名。例如<a href="https://www.tiobe.com/tiobe-index/" target="_blank" rel="noopener">TIOBE</a></p>
+<p>对于语言之间的不同特性，很多人会用各种各样的比喻和通俗化解释，例如枪械，二次元。详情请见<a href="https://www.zhihu.com/question/25038841" target="_blank" rel="noopener">PHP、Java、Python、C、C++ 这几种编程语言都各有什么特点或优点？</a></p>
+<p>每种语言都会有一句自己的口号<br>语言 | Slogan<br>:-: | :-:<br>Ruby | Do one thing more than one way<br>Python | 约定优于配置<br>JavaScript | 凡是能用JavaScript重写的都将会被JavaScript重写<br>Java | 一次编译到处运行</p>
+<h4 id="机器汇编和高级"><a href="#机器汇编和高级" class="headerlink" title="机器汇编和高级"></a>机器汇编和高级</h4><p>机器语言，汇编语言和高级语言是按照等级划分的。</p>
+<h4 id="编译型和解释型的区别"><a href="#编译型和解释型的区别" class="headerlink" title="编译型和解释型的区别"></a>编译型和解释型的区别</h4><p>个人认为表面的差异，例如python的缩进，golang的错误处理，不是本质的东西。底层的编译原理才是它们的最大差别。</p>
+<p>在《编译原理》一开头，语言处理器就划分为两类——编译器和解释器interpreter</p>
+<p>源程序–编译器–&gt;目标程序<br>源程序和输入–解释器–&gt;输出</p>
+<h4 id="标记、脚本和编程语言"><a href="#标记、脚本和编程语言" class="headerlink" title="标记、脚本和编程语言"></a>标记、脚本和编程语言</h4><ul>
+<li>标记语言，是一种将文本（Text）以及文本相关的其他信息结合起来，展现出关于文档结构和数据处理细节的电脑文字编码。与文本相关的其他信息（包括例如文本的结构和表示信息等）与原来的文本结合在一起，但是使用标记（markup）进行标识。<br>我们常用的XML、JSON、HTML是标记语言，我写这篇博客用的markdown它也是标记语言。</li>
+<li>脚本语言是为了缩短传统的编写-编译-链接-运行（edit-compile-link-run）过程而创建的计算机编程语言。它的命名起源于一个脚本“screenplay”，每次运行都会使对话框逐字重复。早期的脚本语言经常被称为批量处理语言或工作控制语言。<br>Python、PHP、Ruby、Lua、JavaScript它们都是脚本语言</li>
+<li></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>综合以上的说明，我们可以把语言划分为<br>编程语言的代际划分也是这样的<br>代 | |类如<br>:-: | :-: | :-:<br>第一代 | 机器语言<br>第二代 | 汇编语言<br>第三代 | 面向过程语言：C、FORTHAN语言<br>第四代 | 面向对象语言：C++ Java<br>第五代 | 脚本语言：Python、PHP、Ruby、Lua、JavaScript<br>第六代 | 专业性的语言：MATLAB精于数值计算，Map适合符号运算，R/sas等适合统计计算</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/12/developer/" data-id="cjl074dka0009d8uzd6bnalv8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -265,7 +519,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -297,23 +551,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/14/OS_MMU/">CPU和MMU</a>
+            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
           <li>
-            <a href="/2018/08/12/developer/">开发者的战争</a>
+            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
           </li>
         
           <li>
-            <a href="/2018/08/10/OS_gdb/">gdb调试的学习</a>
+            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
           </li>
         
           <li>
-            <a href="/2018/08/10/OS_gcc/">gcc的学习</a>
+            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
           </li>
         
           <li>
-            <a href="/2018/08/09/singleton/">设计模式</a>
+            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

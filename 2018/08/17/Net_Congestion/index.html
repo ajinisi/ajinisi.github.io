@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/08/17/Net_Congestion/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-24T06:41:08.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Net_Congestion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net_Congestion/" class="article-date">
+  <time datetime="2018-08-17T10:52:28.134Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-计算机网络复习之拥塞控制"><a href="#title-计算机网络复习之拥塞控制" class="headerlink" title="title:计算机网络复习之拥塞控制"></a>title:计算机网络复习之拥塞控制</h2><p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
+<h1 id="拥塞控制和流量的控制的区别"><a href="#拥塞控制和流量的控制的区别" class="headerlink" title="拥塞控制和流量的控制的区别"></a>拥塞控制和流量的控制的区别</h1><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
+<h1 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h1><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
+<p>最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容量，延迟逐步上升，然后骤然上升，超过后源与目的地的平均时延也会变成无穷大</p>
+<p>情况2：两个发送方和一台具有有限缓存的路由精<br>这种情况下，当分组到达一个已满的缓存时会被丢弃，同时假定每个连接都是可靠的，所以它终将被发送方重传。由于分组可以被重传，所以我们把应用程序将初始数据发送到套接字中的速率称为发送速率，运输层向网络中发送报文段（含有初始数据和重传数据）速率称为提交负载/供给载荷（offered load）</p>
+<p>当发送方仅当确定一个分组已经丢失时才重传，</p>
+<p>情况 3: 四个发送方和具在有限援存的多台路由器及多跳路径<br>当提交负载较小时，；当提交负载较大时，在极限情况下，吞吐量趋近于0</p>
+<h1 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h1><ul>
+<li><p>端到端拥塞控制</p>
+<ul>
+<li>TCP拥塞控制算法（TCP congestion control algorithm）包括三个主要部分：1. 加法递增乘法递减法则（AIMD, Additive Increase Multiplicative Decrease）；2. 慢启动；3. 对超时事件作出反应</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>网络辅助的拥塞控制</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net_Congestion/" data-id="cjl7mtx2y0002awuz7mxlroeh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/17/Net_Flow/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/17/Net/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/23/cache/">缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

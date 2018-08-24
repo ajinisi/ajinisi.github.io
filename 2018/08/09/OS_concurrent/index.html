@@ -7,17 +7,17 @@
   
   <title>操作系统基本概念之并发 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，实际上是宏观上的并行，微观上仍然是串行运行。 早期的CPU都是单道模式，一段时间内只能有一个进程占用CPU，直到这个进程运行结束，退出或者返回，其他正在排队等待执行的进程才能占用CPU进行运算，效率十分低下。 为了解决这样的问题，提出CPU的多道">
+  <meta name="description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，有三个方面的含义  多道程序设计，进程被交替执行，表现出一种并发执行的外部特征； 模块化设计 操作系统本身  进程间的三种关系为了简单起见，我们说的并发指的是“进程”的并发执行，在某些系统中，并发的实体">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统基本概念之并发">
 <meta property="og:url" content="http://yoursite.com/2018/08/09/OS_concurrent/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，实际上是宏观上的并行，微观上仍然是串行运行。 早期的CPU都是单道模式，一段时间内只能有一个进程占用CPU，直到这个进程运行结束，退出或者返回，其他正在排队等待执行的进程才能占用CPU进行运算，效率十分低下。 为了解决这样的问题，提出CPU的多道">
+<meta property="og:description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，有三个方面的含义  多道程序设计，进程被交替执行，表现出一种并发执行的外部特征； 模块化设计 操作系统本身  进程间的三种关系为了简单起见，我们说的并发指的是“进程”的并发执行，在某些系统中，并发的实体">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-14T02:45:50.951Z">
+<meta property="og:updated_time" content="2018-08-17T03:39:46.044Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统基本概念之并发">
-<meta name="twitter:description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，实际上是宏观上的并行，微观上仍然是串行运行。 早期的CPU都是单道模式，一段时间内只能有一个进程占用CPU，直到这个进程运行结束，退出或者返回，其他正在排队等待执行的进程才能占用CPU进行运算，效率十分低下。 为了解决这样的问题，提出CPU的多道">
+<meta name="twitter:description" content="并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，有三个方面的含义  多道程序设计，进程被交替执行，表现出一种并发执行的外部特征； 模块化设计 操作系统本身  进程间的三种关系为了简单起见，我们说的并发指的是“进程”的并发执行，在某些系统中，并发的实体">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,14 +86,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，实际上是宏观上的并行，微观上仍然是串行运行。</p>
-<p>早期的CPU都是单道模式，一段时间内只能有一个进程占用CPU，直到这个进程运行结束，退出或者返回，其他正在排队等待执行的进程才能占用CPU进行运算，效率十分低下。</p>
-<p>为了解决这样的问题，提出CPU的多道模型。多道实际就是对于CPU的时分复用，CPU划分出非常小的固定长度的时隙片段，同时每个进程也被划分为多个任务片段。CPU先把自己的第一个时隙片段分给进程A使用，一旦这个时隙片段结束，时钟中断到来，进程A无论是否执行完毕，都要主动交出手头的CPU占用权（时钟中断具有强制性）；随后再把下一个CPU时隙片段分给进程B使用，同样的这个时隙片段结束时钟中断到来，进程B也要交出CPU使用权；下一个时隙片段归哪个进程使用是不确定的，谁抢上就是谁的，CPU这样轮询着，直至完成所有进程的运算。这样一来，在某个时间段内，有多个进程都处于启动-&gt;运行完成的过程之内，在我们看来，就是多个进程在并列着运行在CPU上。</p>
+        <p>并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数，高并发指同时有很多用户对服务器进行访问；而在操作系统领域，所谓并发，有三个方面的含义</p>
+<ol>
+<li>多道程序设计，进程被交替执行，表现出一种并发执行的外部特征；</li>
+<li>模块化设计</li>
+<li>操作系统本身</li>
+</ol>
+<h1 id="进程间的三种关系"><a href="#进程间的三种关系" class="headerlink" title="进程间的三种关系"></a>进程间的三种关系</h1><p>为了简单起见，我们说的并发指的是“进程”的并发执行，在某些系统中，并发的实体是线程而不是进程。</p>
+<p>进程之间的感知程度</p>
+<ol>
+<li>进程之间不知道对方的存在，它们之间的关系是竞争；</li>
+<li>进程间接知道对方的存在，它们之间的关系是通过共享进行合作；</li>
+<li>进程直接知道对方的存在（它们有可用的通信原语），它们之间的关系是通过通信进行合作；</li>
+</ol>
+<h1 id="进程间的三种控制机制"><a href="#进程间的三种控制机制" class="headerlink" title="进程间的三种控制机制"></a>进程间的三种控制机制</h1><ul>
+<li>互斥：它主要源于资源共享，是进程之间的间接制约关系。在多道系统中，每次只允许一个进程访问的资源称为临界资源，进程互斥就是保证每次只有一个进程使用临界资源。如访问控制台、打印机</li>
+<li>同步：它主要源于进程合作，是进程间共同完成一项任务时直接发生相互作用的关系。为进程之间的直接制约关系。如生产者-消费者问题，哲学家进餐问题</li>
+<li>（进程间）通信，IPC：<br>同步是一种更为复杂的互斥，而互斥是一种特殊的同步，同步互斥也是一种进程间通信方法</li>
+</ul>
+<p>相互竞争的进程，共享资源，需要互斥<br>共享合作的进程，共享变量，需要互斥和维护数据完整性<br>通信合作的进程，不共享任何对象，不需要互斥</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/OS_concurrent/" data-id="cjkt4em820000tsuz1wj8adjh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/OS_concurrent/" data-id="cjl074dk20003d8uz8qy9o3ej" class="article-share-link">Share</a>
       
       
     </footer>
@@ -102,11 +118,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/09/singleton/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/09/DP_singleton/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          设计模式
+          设计模式之单例模式
         
       </div>
     </a>
@@ -151,23 +167,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/14/OS_MMU/">CPU和MMU</a>
+            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
           <li>
-            <a href="/2018/08/12/developer/">开发者的战争</a>
+            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
           </li>
         
           <li>
-            <a href="/2018/08/10/OS_gdb/">gdb调试的学习</a>
+            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
           </li>
         
           <li>
-            <a href="/2018/08/10/OS_gcc/">gcc的学习</a>
+            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
           </li>
         
           <li>
-            <a href="/2018/08/09/singleton/">设计模式</a>
+            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>
