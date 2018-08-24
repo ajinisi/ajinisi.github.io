@@ -7,17 +7,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="titile:计算机网络复习之服务首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的意义建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TC">
+  <meta name="description" content="首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的服务按电话系统建模；无连接服务按邮政系统建模 面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有 面向消息和面向流不保留消息边界的协议通常称作“基于流的协议” 可">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/2018/08/17/Net/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/17/Net_service/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="titile:计算机网络复习之服务首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的意义建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TC">
+<meta property="og:description" content="首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的服务按电话系统建模；无连接服务按邮政系统建模 面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有 面向消息和面向流不保留消息边界的协议通常称作“基于流的协议” 可">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-17T11:51:18.639Z">
+<meta property="og:updated_time" content="2018-08-24T13:15:10.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="titile:计算机网络复习之服务首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的意义建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TC">
+<meta name="twitter:description" content="首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。后两篇博客将详述流量控制和拥塞控制 面向连接服务与无连接服务面向连接的服务按电话系统建模；无连接服务按邮政系统建模 面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有 面向消息和面向流不保留消息边界的协议通常称作“基于流的协议” 可">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,9 +64,9 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Net" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Net_service" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/17/Net/" class="article-date">
+    <a href="/2018/08/17/Net_service/" class="article-date">
   <time datetime="2018-08-17T08:51:18.860Z" itemprop="datePublished">2018-08-17</time>
 </a>
     
@@ -76,20 +76,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="titile-计算机网络复习之服务"><a href="#titile-计算机网络复习之服务" class="headerlink" title="titile:计算机网络复习之服务"></a>titile:计算机网络复习之服务</h2><p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
-<h1 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h1><h2 id="面向连接的意义"><a href="#面向连接的意义" class="headerlink" title="面向连接的意义"></a>面向连接的意义</h2><p>建立连接，并通过重传机制增加了可靠性</p>
-<ul>
-<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
-<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
-<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
-</ul>
-<h1 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h1><h1 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h1><h1 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h1><p>流量控制，flow-control-service</p>
+        <p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
+<h3 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h3><p>面向连接的服务按电话系统建模；无连接服务按邮政系统建模</p>
+<p>面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有</p>
+<h3 id="面向消息和面向流"><a href="#面向消息和面向流" class="headerlink" title="面向消息和面向流"></a>面向消息和面向流</h3><p>不保留消息边界的协议通常称作“基于流的协议”</p>
+<h3 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h3><h3 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h3><h3 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h3><p>流量控制，flow-control-service</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/17/Net/" data-id="cjl074djx0001d8uzh7c4xy22" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/17/Net_service/" data-id="cjl82xxel0001ykuz1o89ijli" class="article-share-link">Share</a>
       
       
     </footer>
@@ -102,7 +98,7 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          计算机网络复习之拥塞控制
         
       </div>
     </a>
@@ -147,6 +143,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
@@ -160,10 +160,6 @@
         
           <li>
             <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

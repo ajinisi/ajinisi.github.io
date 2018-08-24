@@ -7,17 +7,17 @@
   
   <title>开发者的战争之全栈~~入门~~入坑指南 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡">
+  <meta name="description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 JavaScript 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡Golang 自动垃圾回收 函数多返回值多值返回仅动态语言Python有此特性 错误处理3个重要关键字defer、panic、recover  defer是函数结束">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开发者的战争之全栈~~入门~~入坑指南">
 <meta property="og:url" content="http://yoursite.com/2018/08/19/developer3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡">
+<meta property="og:description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 JavaScript 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡Golang 自动垃圾回收 函数多返回值多值返回仅动态语言Python有此特性 错误处理3个重要关键字defer、panic、recover  defer是函数结束">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T00:57:04.300Z">
+<meta property="og:updated_time" content="2018-08-24T13:52:39.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开发者的战争之全栈~~入门~~入坑指南">
-<meta name="twitter:description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡">
+<meta name="twitter:description" content="网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。 JavaScript 跨域问题跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么 闭包事件冒泡Golang 自动垃圾回收 函数多返回值多值返回仅动态语言Python有此特性 错误处理3个重要关键字defer、panic、recover  defer是函数结束">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,8 +87,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。</p>
-<h1 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h1><p>跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么</p>
-<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><h1 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h1>
+<p>JavaScript</p>
+<h3 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h3><p>跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>Golang</p>
+<h3 id="自动垃圾回收"><a href="#自动垃圾回收" class="headerlink" title="自动垃圾回收"></a>自动垃圾回收</h3><ul>
+<li>函数多返回值<br>多值返回仅动态语言Python有此特性</li>
+<li>错误处理<br>3个重要关键字defer、panic、recover<br>  defer是函数结束后执行，呈先进后出；<br>  panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>  recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</li>
+<li>并发编程<br>go语言倡导使用消息传递来共享内存，引入了goroutine概念，这是一个协程，更轻量级的线程。与channel搭配使用</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
@@ -150,6 +157,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
@@ -163,10 +174,6 @@
         
           <li>
             <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

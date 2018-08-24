@@ -5,19 +5,19 @@
   
 
   
-  <title>Hexo</title>
+  <title>计算机网络复习之拥塞控制 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+  <meta name="description" content="像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="计算机网络复习之拥塞控制">
 <meta property="og:url" content="http://yoursite.com/2018/08/17/Net_Congestion/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+<meta property="og:description" content="像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T06:41:08.718Z">
+<meta property="og:updated_time" content="2018-08-24T12:27:25.894Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="title:计算机网络复习之拥塞控制像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量的控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整">
+<meta name="twitter:title" content="计算机网络复习之拥塞控制">
+<meta name="twitter:description" content="像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。拥塞控制是网络层和传输层的共同责任 拥塞控制和流量控制的区别尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制）， 拥塞发生原因情况1：两个发送方和一台具有无穷大缓存的路由器这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的 最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -74,17 +74,26 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      计算机网络复习之拥塞控制
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-计算机网络复习之拥塞控制"><a href="#title-计算机网络复习之拥塞控制" class="headerlink" title="title:计算机网络复习之拥塞控制"></a>title:计算机网络复习之拥塞控制</h2><p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
-<h1 id="拥塞控制和流量的控制的区别"><a href="#拥塞控制和流量的控制的区别" class="headerlink" title="拥塞控制和流量的控制的区别"></a>拥塞控制和流量的控制的区别</h1><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
-<h1 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h1><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
+        <p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
+<h3 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h3><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
+<h3 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h3><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
 <p>最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容量，延迟逐步上升，然后骤然上升，超过后源与目的地的平均时延也会变成无穷大</p>
 <p>情况2：两个发送方和一台具有有限缓存的路由精<br>这种情况下，当分组到达一个已满的缓存时会被丢弃，同时假定每个连接都是可靠的，所以它终将被发送方重传。由于分组可以被重传，所以我们把应用程序将初始数据发送到套接字中的速率称为发送速率，运输层向网络中发送报文段（含有初始数据和重传数据）速率称为提交负载/供给载荷（offered load）</p>
 <p>当发送方仅当确定一个分组已经丢失时才重传，</p>
 <p>情况 3: 四个发送方和具在有限援存的多台路由器及多跳路径<br>当提交负载较小时，；当提交负载较大时，在极限情况下，吞吐量趋近于0</p>
-<h1 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h1><ul>
+<h3 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h3><ul>
 <li><p>端到端拥塞控制</p>
 <ul>
 <li>TCP拥塞控制算法（TCP congestion control algorithm）包括三个主要部分：1. 加法递增乘法递减法则（AIMD, Additive Increase Multiplicative Decrease）；2. 慢启动；3. 对超时事件作出反应</li>
@@ -117,7 +126,7 @@
     </a>
   
   
-    <a href="/2018/08/17/Net/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/17/Net_service/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title"></div>
     </a>
@@ -156,6 +165,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
@@ -169,10 +182,6 @@
         
           <li>
             <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

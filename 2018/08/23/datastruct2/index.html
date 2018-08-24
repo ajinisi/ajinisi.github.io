@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="说完了Redis和LRU，怎么能忘记STL。 vector的实现vector 的存储是自动管理的，按需扩张收缩。 vector 通常占用多于静态数组的空间，因为要分配更多内存以管理将来的增长。 vector 所用的方式不在每次插入元素时，而只在额外内存耗尽时重分配。分配的内存总量可用 capacity() 函数查询。额外内存可通过对 shrink_to_fit() 的调用返回给系统。 (C++11">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T06:53:10.730Z">
+<meta property="og:updated_time" content="2018-08-24T12:07:07.985Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和算法之STL">
 <meta name="twitter:description" content="说完了Redis和LRU，怎么能忘记STL。 vector的实现vector 的存储是自动管理的，按需扩张收缩。 vector 通常占用多于静态数组的空间，因为要分配更多内存以管理将来的增长。 vector 所用的方式不在每次插入元素时，而只在额外内存耗尽时重分配。分配的内存总量可用 capacity() 函数查询。额外内存可通过对 shrink_to_fit() 的调用返回给系统。 (C++11">
@@ -88,6 +88,11 @@
       
         <p>说完了Redis和LRU，怎么能忘记STL。</p>
 <h3 id="vector的实现"><a href="#vector的实现" class="headerlink" title="vector的实现"></a>vector的实现</h3><p>vector 的存储是自动管理的，按需扩张收缩。 vector 通常占用多于静态数组的空间，因为要分配更多内存以管理将来的增长。 vector 所用的方式不在每次插入元素时，而只在额外内存耗尽时重分配。分配的内存总量可用 capacity() 函数查询。额外内存可通过对 shrink_to_fit() 的调用返回给系统。 (C++11 起) </p>
+<p>当添加元素时，如果vector空间大小不足，则会另外分配一块较大的新内存空间，然后将原空间内容拷贝过来，在新空间的内容末尾添加元素，并释放原空间。不同的编译器分配的手段不同</p>
+<ul>
+<li>windows下当前容量capacity的1.5倍</li>
+<li>Linux下当前容量capacity的2倍</li>
+</ul>
 <h3 id="deque的实现"><a href="#deque的实现" class="headerlink" title="deque的实现"></a>deque的实现</h3><p>与 std::vector 相反， deque 的元素不是相接存储的：典型实现用单独分配的固定大小数组的序列，外加额外的登记，这表示下标访问必须进行二次指针解引用，与之相比 vector 的下标访问只进行一次。<br>deque 的存储按需自动扩展及收缩。扩张 deque 比扩展 std::vector 便宜，因为它不涉及到复制既存元素到新内存位置。另一方面， deque 典型地拥有较大的最小内存开销；只保有一个元素的 deque 必须分配其整个内部数组（例如 64 位 libstdc++ 上为对象大小 8 倍； 64 位 libc++ 上为对象大小 16 倍或 4096 字节的较大者）</p>
 <p>deque提供了两级数组结构，第一级完全类似于vector，代表实际容器；另一级维护容器的首位地址</p>
 
@@ -152,6 +157,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
@@ -165,10 +174,6 @@
         
           <li>
             <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

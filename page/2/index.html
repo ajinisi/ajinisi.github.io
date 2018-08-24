@@ -62,6 +62,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-developer3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/19/developer3/" class="article-date">
+  <time datetime="2018-08-19T05:26:44.863Z" itemprop="datePublished">2018-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/19/developer3/">开发者的战争之全栈~~入门~~入坑指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。</p>
+<p>JavaScript</p>
+<h3 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h3><p>跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>Golang</p>
+<h3 id="自动垃圾回收"><a href="#自动垃圾回收" class="headerlink" title="自动垃圾回收"></a>自动垃圾回收</h3><ul>
+<li>函数多返回值<br>多值返回仅动态语言Python有此特性</li>
+<li>错误处理<br>3个重要关键字defer、panic、recover<br>  defer是函数结束后执行，呈先进后出；<br>  panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>  recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</li>
+<li>并发编程<br>go语言倡导使用消息传递来共享内存，引入了goroutine概念，这是一个协程，更轻量级的线程。与channel搭配使用</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/19/developer3/" data-id="cjl7mtx340009awuzjai6pv3g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-learnDB3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/18/learnDB3/" class="article-date">
@@ -276,10 +321,19 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/17/learnDB4/">数据库的学习之Redis入门</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-数据库的学习之Redis入门"><a href="#title-数据库的学习之Redis入门" class="headerlink" title="title:数据库的学习之Redis入门"></a>title:数据库的学习之Redis入门</h2><p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
+        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
 <ul>
 <li>纯内存操作</li>
 <li>单线程操作，避免了频繁的上下文切换</li>
@@ -320,8 +374,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="titile-计算机网络复习之流量控制"><a href="#titile-计算机网络复习之流量控制" class="headerlink" title="titile:计算机网络复习之流量控制"></a>titile:计算机网络复习之流量控制</h2><p>TCP通过让发送方维护一个称为接收窗口（receive window）的变量来提供流量控制。接收窗口用于告诉发送方，该接收方还有多少可用的缓存空间。因为TCP是全双工通信，在连接两端的发送方都各自维护一个接收窗口</p>
+        <p>TCP通过让发送方维护一个称为接收窗口（receive window）的变量来提供流量控制。接收窗口用于告诉发送方，该接收方还有多少可用的缓存空间。因为TCP是全双工通信，在连接两端的发送方都各自维护一个接收窗口</p>
 
       
     </div>
@@ -346,17 +399,26 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/17/Net_Congestion/">计算机网络复习之拥塞控制</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-计算机网络复习之拥塞控制"><a href="#title-计算机网络复习之拥塞控制" class="headerlink" title="title:计算机网络复习之拥塞控制"></a>title:计算机网络复习之拥塞控制</h2><p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
-<h1 id="拥塞控制和流量的控制的区别"><a href="#拥塞控制和流量的控制的区别" class="headerlink" title="拥塞控制和流量的控制的区别"></a>拥塞控制和流量的控制的区别</h1><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
-<h1 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h1><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
+        <p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
+<h3 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h3><p>尽管流量控制和拥塞控制采取的动作非常相似（对发送方的遏制），</p>
+<h3 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h3><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
 <p>最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容量，延迟逐步上升，然后骤然上升，超过后源与目的地的平均时延也会变成无穷大</p>
 <p>情况2：两个发送方和一台具有有限缓存的路由精<br>这种情况下，当分组到达一个已满的缓存时会被丢弃，同时假定每个连接都是可靠的，所以它终将被发送方重传。由于分组可以被重传，所以我们把应用程序将初始数据发送到套接字中的速率称为发送速率，运输层向网络中发送报文段（含有初始数据和重传数据）速率称为提交负载/供给载荷（offered load）</p>
 <p>当发送方仅当确定一个分组已经丢失时才重传，</p>
 <p>情况 3: 四个发送方和具在有限援存的多台路由器及多跳路径<br>当提交负载较小时，；当提交负载较大时，在极限情况下，吞吐量趋近于0</p>
-<h1 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h1><ul>
+<h3 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h3><ul>
 <li><p>端到端拥塞控制</p>
 <ul>
 <li>TCP拥塞控制算法（TCP congestion control algorithm）包括三个主要部分：1. 加法递增乘法递减法则（AIMD, Additive Increase Multiplicative Decrease）；2. 慢启动；3. 对超时事件作出反应</li>
@@ -380,9 +442,9 @@
 
 
   
-    <article id="post-Net" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Net_service" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/17/Net/" class="article-date">
+    <a href="/2018/08/17/Net_service/" class="article-date">
   <time datetime="2018-08-17T08:51:18.860Z" itemprop="datePublished">2018-08-17</time>
 </a>
     
@@ -392,20 +454,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="titile-计算机网络复习之服务"><a href="#titile-计算机网络复习之服务" class="headerlink" title="titile:计算机网络复习之服务"></a>titile:计算机网络复习之服务</h2><p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
-<h1 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h1><h2 id="面向连接的意义"><a href="#面向连接的意义" class="headerlink" title="面向连接的意义"></a>面向连接的意义</h2><p>建立连接，并通过重传机制增加了可靠性</p>
-<ul>
-<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
-<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
-<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
-</ul>
-<h1 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h1><h1 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h1><h1 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h1><p>流量控制，flow-control-service</p>
+        <p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
+<h3 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h3><p>面向连接的服务按电话系统建模；无连接服务按邮政系统建模</p>
+<p>面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有</p>
+<h3 id="面向消息和面向流"><a href="#面向消息和面向流" class="headerlink" title="面向消息和面向流"></a>面向消息和面向流</h3><p>不保留消息边界的协议通常称作“基于流的协议”</p>
+<h3 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h3><h3 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h3><h3 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h3><p>流量控制，flow-control-service</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/17/Net/" data-id="cjl074djx0001d8uzh7c4xy22" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/17/Net_service/" data-id="cjl82xxel0001ykuz1o89ijli" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,58 +521,6 @@
 
 
   
-    <article id="post-developer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/12/developer/" class="article-date">
-  <time datetime="2018-08-12T12:36:16.840Z" itemprop="datePublished">2018-08-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/12/developer/">开发者的战争之语言</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为一个开发者，他在开发的过程中会用到各种各样的工具，各种各样的语言，各种各样的系统等等。其中的每一个话题都会在论坛引起相关的讨论。不同的开发者会有不同的偏好，这给程序员社区带来了不少有趣的论战。我把这些主题的博客称为“开发者的战争”，因为很多时候的讨论真的有点类似宗教之间的圣战。</p>
-<h3 id="开发者战争之编辑器"><a href="#开发者战争之编辑器" class="headerlink" title="开发者战争之编辑器"></a>开发者战争之编辑器</h3><p>任何人从小接触计算机（windows）的时候，一定是从记事本Notepad，画图，扫雷开始的。深入之后会去office三件套word，ppt和excel。在没有编程之前，我一直以为记事本和word没什么区别，只不过记事本更加简陋而已。。。<br>在Liunx下，最著名的编辑器莫过于Vim了。</p>
-<p>除了编辑器之外，集成开发环境就没有太多争议了，这是因为有“宇宙第一IDE”之称的Visual Studio, VS，一骑绝尘。 </p>
-<h3 id="开发者战争之语言"><a href="#开发者战争之语言" class="headerlink" title="开发者战争之语言"></a>开发者战争之语言</h3><p>如果说编辑器只是微不足道的小不同，那语言绝对是天然的划分属性。每年都会有网站统计最受欢迎的语言排名。例如<a href="https://www.tiobe.com/tiobe-index/" target="_blank" rel="noopener">TIOBE</a></p>
-<p>对于语言之间的不同特性，很多人会用各种各样的比喻和通俗化解释，例如枪械，二次元。详情请见<a href="https://www.zhihu.com/question/25038841" target="_blank" rel="noopener">PHP、Java、Python、C、C++ 这几种编程语言都各有什么特点或优点？</a></p>
-<p>每种语言都会有一句自己的口号<br>语言 | Slogan<br>:-: | :-:<br>Ruby | Do one thing more than one way<br>Python | 约定优于配置<br>JavaScript | 凡是能用JavaScript重写的都将会被JavaScript重写<br>Java | 一次编译到处运行</p>
-<h4 id="机器汇编和高级"><a href="#机器汇编和高级" class="headerlink" title="机器汇编和高级"></a>机器汇编和高级</h4><p>机器语言，汇编语言和高级语言是按照等级划分的。</p>
-<h4 id="编译型和解释型的区别"><a href="#编译型和解释型的区别" class="headerlink" title="编译型和解释型的区别"></a>编译型和解释型的区别</h4><p>个人认为表面的差异，例如python的缩进，golang的错误处理，不是本质的东西。底层的编译原理才是它们的最大差别。</p>
-<p>在《编译原理》一开头，语言处理器就划分为两类——编译器和解释器interpreter</p>
-<p>源程序–编译器–&gt;目标程序<br>源程序和输入–解释器–&gt;输出</p>
-<h4 id="标记、脚本和编程语言"><a href="#标记、脚本和编程语言" class="headerlink" title="标记、脚本和编程语言"></a>标记、脚本和编程语言</h4><ul>
-<li>标记语言，是一种将文本（Text）以及文本相关的其他信息结合起来，展现出关于文档结构和数据处理细节的电脑文字编码。与文本相关的其他信息（包括例如文本的结构和表示信息等）与原来的文本结合在一起，但是使用标记（markup）进行标识。<br>我们常用的XML、JSON、HTML是标记语言，我写这篇博客用的markdown它也是标记语言。</li>
-<li>脚本语言是为了缩短传统的编写-编译-链接-运行（edit-compile-link-run）过程而创建的计算机编程语言。它的命名起源于一个脚本“screenplay”，每次运行都会使对话框逐字重复。早期的脚本语言经常被称为批量处理语言或工作控制语言。<br>Python、PHP、Ruby、Lua、JavaScript它们都是脚本语言</li>
-<li></li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>综合以上的说明，我们可以把语言划分为<br>编程语言的代际划分也是这样的<br>代 | |类如<br>:-: | :-: | :-:<br>第一代 | 机器语言<br>第二代 | 汇编语言<br>第三代 | 面向过程语言：C、FORTHAN语言<br>第四代 | 面向对象语言：C++ Java<br>第五代 | 脚本语言：Python、PHP、Ruby、Lua、JavaScript<br>第六代 | 专业性的语言：MATLAB精于数值计算，Map适合符号运算，R/sas等适合统计计算</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/12/developer/" data-id="cjl074dka0009d8uzd6bnalv8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -551,6 +557,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
           </li>
         
@@ -564,10 +574,6 @@
         
           <li>
             <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/23/cache/">缓存</a>
           </li>
         
       </ul>

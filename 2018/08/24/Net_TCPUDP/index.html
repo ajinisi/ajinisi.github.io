@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>TCP和UDP | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP和UDP">
+<meta property="og:url" content="http://yoursite.com/2018/08/24/Net_TCPUDP/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-24T13:32:43.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP和UDP">
+<meta name="twitter:description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Net_TCPUDP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/24/Net_TCPUDP/" class="article-date">
+  <time datetime="2018-08-24T12:48:12.909Z" itemprop="datePublished">2018-08-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TCP和UDP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TCP和UDP也是一对老冤家了</p>
+<p>###TCP可靠传输实现<br>两点：建立连接，并通过重传机制增加了可靠性</p>
+<ul>
+<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
+<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
+<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
+</ul>
+<p>###TCP和UDP的区别</p>
+<ol>
+<li><p>面向连接与无连接</p>
+<ol start="7">
+<li>TCP只能是点到点的；UDP支持一对一、一对多、多对一和多对多的通信</li>
+<li>TCP可以在同一对端口上可以有复数个连接；UDP做不到</li>
+</ol>
+</li>
+<li><p>TCP提供可靠的服务，通过TCP连接传送的数据，无差错、不丢失，不重复，按序到达；UDP尽最大努力交付，即不保证可靠交付</p>
+<ol start="5">
+<li>TCP保证数据正确性，UDP可能丢包 </li>
+<li>TCP保证数据顺序，UDP不保证 </li>
+</ol>
+</li>
+<li><p>TCP面向字节流，UDP面向数据报;<br>这是比较重要的区别<br>发送方的TCP将应用程序看成是一连串的无结构的字节流。每个TCP套接口有一个发送缓冲区，如果字节流太长时，TCP会将其拆分进行发送。当字节流太短时，TCP会等待缓冲区中的字节流达到一定程度时再构成报文发送出去。<br>对于接收方的TCP，客户端连续发送数据，只要服务端的这个函数的缓冲区足够大，会一次性接收过来，即使客户端是分好几次发过来；</p>
+</li>
+</ol>
+<p>发送方的UDP对应用层交下来的报文，不合并，不拆分，只是在其上面加上首部后就交给了下面的网络层，也就是说无论应用层交给UDP多长的报文，它统统发送，一次发送一个。因此，应用程序必须选择合适大小的报文。若报文太长，则IP层需要分片，降低效率。若太短，IP太小。<br>对于接收方的UDP，客户端连续发送数据，即使服务端的这个函数的缓冲区足够大，也只会一次一次的接收，发送多少次接收多少次，即客户端分几次发送过来，服务端就必须按几次接收。</p>
+<p>拥有这些区别的原因是由于TCP和UDP的特性不同而决定的。TCP是面向连接的，也就是说，在连接持续的过程中，socket中收到的数据都是由同一台主机发出的，因此，知道保证数据是有序的到达就行了，至于每次读取多少数据自己看着办。 而UDP是无连接的协议，也就是说，只要知道接收端的IP和端口，且网络是可达的，任何主机都可以向接收端发送数据。这时候，如果一次能读取超过一个报文的数据，则会乱套。比如，主机A向发送了报文P1，主机B发送了报文P2，如果能够读取超过一个报文的数据，那么就会将P1和P2的数据合并在了一起，这样的数据是没有意义的。</p>
+<ol start="2">
+<li>TCP要求系统资源较多，UDP较少； </li>
+<li>UDP程序结构较简单 </li>
+<li>TCP应用场景：效率要求相对低，但对准确性要求相对高的场景。因为传输中需要对数据确认、重发、排序等操作，相比之下效率没有UDP高。举几个例子：文件传输（准确高要求高、但是速度可以相对慢）、接受邮件、远程登录。<br>UDP应用场景：效率要求相对高，对准确性要求相对低的场景。举几个例子：QQ聊天、在线视频、网络语音电话（即时通讯，速度要求高，但是出现偶尔断续不是太大问题，并且此处完全不可以使用重发机制）、广播通信（广播、多播）</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/24/Net_TCPUDP/" data-id="cjl82xxef0000ykuzxi9sok2t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/24/developer5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">开发者战争之Shell</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
