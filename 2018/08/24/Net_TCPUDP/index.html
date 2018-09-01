@@ -7,17 +7,17 @@
   
   <title>TCP和UDP | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+  <meta name="description" content="TCP和UDP也是一对老冤家了 ###TCP和UDP的区别  面向连接与无连接  TCP只能是点到点的，广播和多播不能用于TCP；UDP支持一对一、一对多、多对一和多对多的通信 TCP可以在同一对端口上可以有复数个连接；UDP做不到   TCP提供可靠的服务，通过TCP连接传送的数据，无差错、不丢失，不重复，按序到达；UDP尽最大努力交付，即不保证可靠交付  TCP保证数据正确性，UDP可能丢包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP和UDP">
 <meta property="og:url" content="http://yoursite.com/2018/08/24/Net_TCPUDP/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+<meta property="og:description" content="TCP和UDP也是一对老冤家了 ###TCP和UDP的区别  面向连接与无连接  TCP只能是点到点的，广播和多播不能用于TCP；UDP支持一对一、一对多、多对一和多对多的通信 TCP可以在同一对端口上可以有复数个连接；UDP做不到   TCP提供可靠的服务，通过TCP连接传送的数据，无差错、不丢失，不重复，按序到达；UDP尽最大努力交付，即不保证可靠交付  TCP保证数据正确性，UDP可能丢包">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T13:32:43.698Z">
+<meta property="og:updated_time" content="2018-09-01T01:58:53.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP和UDP">
-<meta name="twitter:description" content="TCP和UDP也是一对老冤家了 ###TCP可靠传输实现两点：建立连接，并通过重传机制增加了可靠性  以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法 接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序 流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告">
+<meta name="twitter:description" content="TCP和UDP也是一对老冤家了 ###TCP和UDP的区别  面向连接与无连接  TCP只能是点到点的，广播和多播不能用于TCP；UDP支持一对一、一对多、多对一和多对多的通信 TCP可以在同一对端口上可以有复数个连接；UDP做不到   TCP提供可靠的服务，通过TCP连接传送的数据，无差错、不丢失，不重复，按序到达；UDP尽最大努力交付，即不保证可靠交付  TCP保证数据正确性，UDP可能丢包">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,17 +87,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>TCP和UDP也是一对老冤家了</p>
-<p>###TCP可靠传输实现<br>两点：建立连接，并通过重传机制增加了可靠性</p>
-<ul>
-<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
-<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
-<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
-</ul>
 <p>###TCP和UDP的区别</p>
 <ol>
 <li><p>面向连接与无连接</p>
 <ol start="7">
-<li>TCP只能是点到点的；UDP支持一对一、一对多、多对一和多对多的通信</li>
+<li>TCP只能是点到点的，广播和多播不能用于TCP；UDP支持一对一、一对多、多对一和多对多的通信</li>
 <li>TCP可以在同一对端口上可以有复数个连接；UDP做不到</li>
 </ol>
 </li>
@@ -121,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/Net_TCPUDP/" data-id="cjl82xxef0000ykuzxi9sok2t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/Net_TCPUDP/" data-id="cjljcxhp000041guzejcd12yd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -129,6 +123,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/08/29/C++/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++常见问题之内存布局（一）
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/24/developer5/" id="article-nav-older" class="article-nav-link-wrap">
@@ -170,23 +173,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+            <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
           </li>
         
           <li>
-            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
+            <a href="/2018/08/29/C++5/">C++常见问题之内存布局（二）</a>
           </li>
         
           <li>
-            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
+            <a href="/2018/08/29/C++4/">C++常见问题之其他</a>
           </li>
         
           <li>
-            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
+            <a href="/2018/08/29/C++3/">C++常见问题之初始化</a>
           </li>
         
           <li>
-            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
+            <a href="/2018/08/29/C++/">C++常见问题之内存布局（一）</a>
           </li>
         
       </ul>

@@ -62,6 +62,279 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C++6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/C++6/" class="article-date">
+  <time datetime="2018-08-29T12:54:24.016Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>好了，现在要把继承考虑进去了，这里主要谈谈虚继承和虚函数对内存布局的影响。记住两点，虚函数带来虚函数表，虚继承带来虚基类表</p>
+<h4 id="单一继承且不含虚函数"><a href="#单一继承且不含虚函数" class="headerlink" title="单一继承且不含虚函数"></a>单一继承且不含虚函数</h4><p>不含虚函数，即不考虑多态</p>
+<p>在C++继承模型中，一个派生类对象所表现出来的东西，是其自己的成员加上基类成员的总和。至于派生类对象和基类对象的排列次序并未在C++ 标准中强制指定<br>基类成员总是先出现</p>
+<p>C<br>↑<br>D</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct C</span><br><span class="line">&#123;</span><br><span class="line">    int _c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct D : C</span><br><span class="line">&#123;</span><br><span class="line">    int _d;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="images/C++61.bmp" alt="单一继承且不含虚函数"></p>
+<p>既然派生类要保留基类的所有属性和行为，自然地，每个派生类的实例都包含了一份完整的基类实例数据。在D中，并不是说基类C的数据一定要放在D的数据之前，只不过这样放的话，能够保证D中的C对象地址，恰好是D对象地址的第一个字节。这种安排之下，有了派生类D的指针，要获得基类C的指针，就不必要计算偏移量了。几乎所有知名的C++厂商都采用这种内存安排（基类成员在前）。 在单继承类层次下，每一个新的派生类都简单地把自己的成员变量添加到基类的成员变量之后 。 看看上图，C对象指针和D对象指针指向同一地址</p>
+<h4 id="单一继承并含虚函数"><a href="#单一继承并含虚函数" class="headerlink" title="单一继承并含虚函数"></a>单一继承并含虚函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class C &#123; </span><br><span class="line">public: </span><br><span class="line">  C(); </span><br><span class="line">  virtual ~C(); </span><br><span class="line">  virtual void f1(); </span><br><span class="line">  virtual int f2(char c) const; </span><br><span class="line">  virtual void f3(const string&amp; s); </span><br><span class="line">  void f4() const; </span><br><span class="line">  ... </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class D: public C &#123; </span><br><span class="line">public: </span><br><span class="line">  D();               // 非虚函数 </span><br><span class="line">  virtual ~D();      // 重定义函数 </span><br><span class="line">  virtual void f1();  // 重定义函数 </span><br><span class="line">  virtual void f5(char *str); // 新的虚函数 </span><br><span class="line">  ... </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="images/C++6.bmp" alt="单一继承并含虚函数"></p>
+<p>当类中声明虚函数时，编译器会在类中生成一个虚函数表（virtual function table, vftbl），用来存放它所声明的每一个虚函数的地址。这个表的元素数目一般而言是被声明的虚函数的数目。</p>
+<pre><code>* 虚函数表通常是一个函数指针数组，由编译器自动生成与维护的。
+* 虚表可以继承，如果子类没有重写虚函数，那么子类虚表中仍然会有该函数的地址，只不过这个地址指向的是基类的虚函数实现，如果基类有3个虚函数，那么基类的虚表中就有三项(虚函数地址)，派生类也会虚表，至少有三项，如果重写了相应的虚函数，那么虚表中的地址就会改变，指向自身的虚函数实现，如果派生类有自己的虚函数，那么虚表中就会添加该项。
+* 派生类的虚表中虚地址的排列顺序和基类的虚表中虚函数地址排列顺序相同
+</code></pre><p>同时，每个对象中都有一个指向虚函数表的指针，C++编译器给父类对象、子类对象提前布局，在每一个类对象中导入一个虚函数表指针（virtual function table pointer, vfptr），提供执行期的链接，使每一个对象能够找到相应的虚函数表。位置只有才编译器知道</p>
+<p>因此</p>
+<ul>
+<li>你必须为每个包含虚函数的类的虚函数留出空间。类的虚函数表的大小与类中声明的虚函数的数量成正比（包括从基类继承的虚函数）</li>
+<li>在每个包含虚函数的类的对象里，你必须为额外的指针付出代价</li>
+</ul>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><p><strong>首先</strong> 要知道指向基类的指针可以指向派生类，但反之不行</p>
+<p>这是因为，派生类对象的内存范围大于基类对象的内存范围。指向派生类的指针如果指向基类，则可能访问不可预知的内存空间，也就是派生类增加的特殊属性或方法地址入口。指向基类的指针如果指向派生类，其访问空间总是在派生类的内存空间的内部，不会越界。 </p>
+<p>假设有个 Person 类，是基类，包括了人的一些基本属性和方法。。<br>再假设有个 Student 类，派生于 Person 类，新增了一个 “学号” 成员。。<br>Person <em>p = new Student()，指向基类的指针去指向派生类，这时可以，因为 p 是 Person 的指针，所以 p 里面是没有 “学号” 这个成员的，也就无法访问 Student 新增的 “学号” 成员，如果试图访问编译的时候就报错了。。<br>如果反过来，Student </em>s = new Person()，s 有 “学号” 成员，编译器认为访问 “学号” 这个成员是没有问题的，但是实际对象是 Person，是没有这个成员的，这样的话在运行期间实际访问到哪部分的内存也就不得而知了。。这样是很危险的。。</p>
+<p>因此，当我们将派生类的对象的地址赋给基类类型指针时，</p>
+<p><strong>然后</strong> 如果函数不是虚函数，编译器在编译时，会确定每个对象调用的非虚函数的地址（早期绑定），当基类类型指针指向派生类对象时，c++编译器进行了类型转换，此时c++编译器认为基类类型指针保存的就是基类对象的地址，那么当我们利用类型转换后的对象指针去调用它的方法时，也就会调用基类对象中的方法。</p>
+<p>如果函数是虚函数，程序在运行时，根据对象的类型（基类或派生类）去初始化vfptr，从而让vptr正确的指向了对象所属类的vftbl。根据对象的vfptr指针，所指的vftbl中查找函数，并调用。（晚绑定）</p>
+<p>如何初始化？是在构造函数中进行虚表的创建和虚表指针的初始化，在构造子类对象时，要先调用父类的构造函数，此时编译器只“看到了”父类，并不知道后面是否还有继承者，它初始化父类对象的虚表指针，该虚表指针指向父类的虚表，当执行子类的构造函数时，子类对象的虚表指针被初始化，指向自身的虚表</p>
+<p><strong>最后</strong><br>当不涉及虚函数，当我们用一个指针/引用调用一个函数的时候，被调用的函数是取决于这个指针/引用的类型。当设计到多态性的时候，采用了虚函数和动态绑定，此时的调用就不会在编译时候确定而是在运行时确定。不在单独考虑指针/引用的类型而是看指针/引用的对象的类型来判断函数的调用，根据对象中虚指针指向的虚表中的函数的地址来确定调用哪个函数</p>
+<p>因此，通过虚函数表指针vfptr调用重写函数是在程序运行时进行的，因此需要通过寻址操作才能确定真正应该调用的函数。而普通成员函数是在编译时就确定了调用的函数。在效率上，虚函数的效率要低很多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">struct C</span><br><span class="line">&#123;</span><br><span class="line">    int _c;</span><br><span class="line">    virtual void f() &#123;</span><br><span class="line">        std::cout &lt;&lt; &quot;base\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct D : C</span><br><span class="line">&#123;</span><br><span class="line">    int _d;</span><br><span class="line">    void f() override &#123; // &apos;override&apos; 可选</span><br><span class="line">        std::cout &lt;&lt; &quot;derived\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    C c;</span><br><span class="line">    D d;</span><br><span class="line">    C* cp = &amp;c; // bp 的类型是 Base*</span><br><span class="line">    C* dp = &amp;d; // dp 的类型也是 Base*</span><br><span class="line">    cp-&gt;f(); // 打印 &quot;base&quot;</span><br><span class="line">    dp-&gt;f(); // 打印 &quot;derived&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="虚拟继承"><a href="#虚拟继承" class="headerlink" title="虚拟继承"></a>虚拟继承</h4><p>  X<br> ↗ ↖<br>Y    Z<br> ↖ ↗<br>  A</p>
+<p>每一个对象必须针对其每一个虚基类背负一个额外的指针，然而理想上</p>
+<p>MicroSoft 编译器引入所谓的虚基类表（virtual base class table, vbtbl）。每一个类对象如果有一个或多个虚基类，就会由编译器安插一个指针，指向虚基类表</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/C++6/" data-id="cjljcxhow00031guzp7gyvh8b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/C++5/" class="article-date">
+  <time datetime="2018-08-29T12:54:16.863Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/C++5/">C++常见问题之内存布局（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看完了C语言中的内存布局，我们来了解一下C++的对象模型，这里先不考虑继承。</p>
+<p>一个空的class<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// sizeof X==1</span><br><span class="line">class X &#123;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>它有一个隐晦的 1字节，那是被编译器安插进去的一个char，这使得这个class的两个objects得以在内存中配置独一无二的地址</p>
+<p>首先我们要知道<br><strong>除非 为了实现虚函数和虚继承引入的隐藏成员变量外，C++类实例的大小完全取决于一个类及其基类的成员变量！成员函数基本上不影响类实例的大小。</strong></p>
+<p>实际上，只有成员变量才占用类实例的空间 。</p>
+<p>C++标准要求，在同一个访问区（即private、public和protected等区段）中，成员变量的排列只需符合“较晚出现的成员在类对象中有较高的地址”这一条件即可<br>C++标准也允许编译器将多个访问区之中的成员变量自由排列，不必在乎它们出现在class声明中的次序<br>要注意的是，C++标准委员会不限制由“public/protected/private”关键字分开的各段在实现时的先后顺序，因此，不同的编译器实现的内存布局可能并不相同。（ 在VC++中，成员变量总是按照声明时的顺序排列）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">struct B</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int bm1;</span><br><span class="line"></span><br><span class="line">protected:</span><br><span class="line">    int bm2;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    int bm3;</span><br><span class="line">    static int bsm;</span><br><span class="line">    void bf();</span><br><span class="line">    static void bsf();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>B的内存布局</p>
+<p>B中，为何static int bsm不占用内存空间？因为它是静态成员，该数据存放在程序的数据段中，不在类实例中</p>
+<p>说完了这一点之后，我们可以先把关注点放在成员变量上，而不再关注静态成员变量和非虚函数</p>
+<p>（11）    计算下面几个类的大小：</p>
+<p>class A { virtual Fun(){} };: sizeof(A) = 4(32位机器)/8(64位机器);<br>class A { static int a; };: sizeof(A) = 1;<br>class A { int a; };: sizeof(A) = 4;<br>class A { static int a; int b; };: sizeof(A) = 4;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/C++5/" data-id="cjljcxhp300051guzj02o9sku" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/C++4/" class="article-date">
+  <time datetime="2018-08-29T08:11:21.716Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/C++4/">C++常见问题之其他</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="字符数组、空终止字符串和字符串string"><a href="#字符数组、空终止字符串和字符串string" class="headerlink" title="字符数组、空终止字符串和字符串string"></a>字符数组、空终止字符串和字符串string</h3><ul>
+<li><p>字符数组不用多说了，就是存储字符的数组；</p>
+</li>
+<li><p>空终止字符串对初学者来说可能容易踩坑。首先，它本质上还是数组，只不过是以特殊的空字符null终止的字符数组。是C风格的字符串，既不能确切地归结为 C语言的类型，也不能归结为 C++语言的类型。我们常见的字符串字面值”abc”的类型就是const char类型的数组。 </p>
+</li>
+</ul>
+<p>字符数组和空终止字符串的比较<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char ca1[] = &#123;&apos;C&apos;, &apos;+&apos;, &apos;+&apos;&#125;; // no null</span><br><span class="line">char ca2[] = &#123;&apos;C&apos;, &apos;+&apos;, &apos;+&apos;, &apos;\0&apos;&#125;; // explicit null</span><br><span class="line">char ca3[] = &quot;C++&quot;; // null terminator added automatically</span><br><span class="line">const char *cp = &quot;C++&quot;; // null terminator added automatically</span><br><span class="line">char *cp1 = ca1; // points to first element of a array, but not C-style string</span><br><span class="line">char *cp2 = ca2; // points to first element of a null-terminated char array</span><br></pre></td></tr></table></figure></p>
+<p>ca1 和 cp1 都不是 C 风格字符串：ca1 是一个不带结束符 null 的字符数组，而指针 cp1 指向 ca1，因此，它指向的并不是以 null 结束的数组。其他 的声明则都是 C 风格字符串，数组的名字即是指向该数组第一个元素的指针。 于是，ca2 和 ca3 分别是指向各自数组第一个元素的指针</p>
+<ul>
+<li>字符串string是C++标准库类型。标准库负责处理所有的内存管理问题，我们不必再担心每一次修改字符串时涉及到的大小问题。对大部分的应用而言，使用标准库类型 string，除了增强安全性外，效率也提高了，因此应该尽量避免使用 C风格字符串。</li>
+</ul>
+<p>C 风格字符串与 C++ 的标准库类型 string 的比较<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// C-style character string implementation              </span><br><span class="line">const char *pc = &quot;a very long literal string&quot;;              </span><br><span class="line">const size_t len = strlen(pc);      // space to allocate              </span><br><span class="line"></span><br><span class="line">// performance test on string allocation and copy              </span><br><span class="line">for (size_t ix = 0; ix != 1000000; ++ix) &#123;                  </span><br><span class="line">    char *pc2 = new char[len + 1]; // allocate the space                  </span><br><span class="line">    strcpy(pc2, pc);               // do the copy                  </span><br><span class="line">    if (strcmp(pc2, pc))           // use the new string                      </span><br><span class="line">        ;   // do nothing                  </span><br><span class="line">    delete [] pc2;                 // free the memory           </span><br><span class="line">&#125;     </span><br><span class="line">    </span><br><span class="line">// string implementation              </span><br><span class="line">string str(&quot;a very long literal string&quot;);              </span><br><span class="line">// performance test on string allocation and copy              </span><br><span class="line">for (int ix = 0; ix != 1000000; ++ix) &#123;                  </span><br><span class="line">    string str2 = str; // do the copy, automatically  allocated                  </span><br><span class="line">    if (str != str2)           // use the new string                        </span><br><span class="line">        ;  // do nothing           </span><br><span class="line">&#125;                                             </span><br><span class="line">// str2 is  automatically freed</span><br></pre></td></tr></table></figure></p>
+<p>(a) 这两段程序的功能是：执行一个循环次数为 1000000 的循环，在该循环的循环体中：创建一个新字符串，将一个已存在的字符串复制给新字符串，然后比较两个字符串，最后释放新字符串。<br>(b) 使用 C 风格字符串的程序需要自己管理内存的分配和释放，而使用string 类型的程序由系统自动进行内存的分配和释放，因此比使用 C风格字符串的程序要简短，执行速度也要快一些</p>
+<p>混合使用标准库类 string 和 C 风格字符串 </p>
+<ul>
+<li>可以使用 C 风格字符串对 string 对象进行初始化或赋值<br><code>string st3(&quot;Hello World&quot;);  // st3 holds Hello World</code></li>
+<li><p>string 类型的加法操作需要两个操作数，可以使用 C风格字符串作为其中的一个操作数，也允许将 C风格字符串用作复合赋值操作的右操作数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">string s1 = &quot;hello&quot;;   // no punctuation      </span><br><span class="line">string s2 = &quot;world&quot;;      </span><br><span class="line">string s3 = s1 + &quot;, &quot;;           // ok: adding a string and a literal      </span><br><span class="line">string s4 = &quot;hello&quot; + &quot;, &quot;;      // error: no string operand      </span><br><span class="line">string s5 = s1 + &quot;, &quot; + &quot;world&quot;; // ok: each + has string operand      </span><br><span class="line">string s6 = &quot;hello&quot; + &quot;, &quot; + s2; // error: can&apos;t add string literals</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反之则不成立：在要求 C风格字符串的地方不可直接使用标准库 string 类型对象<br><code>char *str = st2; // compile-time type error</code></p>
+</li>
+</ul>
+<h3 id="类class和结构体struct"><a href="#类class和结构体struct" class="headerlink" title="类class和结构体struct"></a>类class和结构体struct</h3><p> 两种引用类类型方法是等价的。第二种方法struct是从 C继承而来的，在 C++中仍然有效。第一种class更为简练，由 C++ 语言引入，使得类类型更容易使用<br> 用 class 和 struct 关键字定义类的唯一差别在于默认访问级别：默认情况下，struct 的成员为 public，而class 的成员为 private</p>
+<ul>
+<li>在表示诸如点、矩形等主要用来存储数据的轻量级对象时，首选struct</li>
+<li>在表示数据量大、逻辑复杂的大对象时，首选class</li>
+<li>在表现抽象和多级别的对象层次时，class是最佳选择</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/C++4/" data-id="cjljcxhp600061guz6pouiiik" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/C++3/" class="article-date">
+  <time datetime="2018-08-29T08:09:03.726Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/C++3/">C++常见问题之初始化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>const变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const std::string hi = &quot;hello!&quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized const</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int i = 42; //legal for const references only const</span><br><span class="line">int &amp;r = 42;</span><br><span class="line">const int &amp;r2 = r + i;</span><br></pre></td></tr></table></figure></p>
+<p>因为常量在定义后就不能被修改，所以定义时必须初始化</p>
+<p>数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const unsigned array_size = 3;</span><br><span class="line">int ia[array_size] = &#123;0, 1, 2&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>一个数组不能用另外一个数组初始化，也不能将一个数组赋值给另一个数组</p>
+<p>指针<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int ival = 1024; </span><br><span class="line">int *pi = 0; // pi initialized to address no object</span><br><span class="line">int *pi2 = &amp;ival; // pi2 initialized to address of ival </span><br><span class="line">int *pi3; // ok, but dangerous, pi3 is uninitialized</span><br><span class="line">pi = pi2; // pi and pi2 address the same object,e.g. ival </span><br><span class="line">pi2 = 0; // pi2 now addresses no object</span><br></pre></td></tr></table></figure></p>
+<p>有效的指针必然是以下三种状态之一：保存一个特定对象的地址；指向某个对象后面的另一对象；或者是 0 值。所以对指针进行初始化或赋值只能使用以下四种类型的值</p>
+<ul>
+<li>值常量表达式</li>
+<li>类型匹配的对象的地址</li>
+<li>另一对象末的下一地址</li>
+<li>同类型的另一个有效指针</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/C++3/" data-id="cjljcxhoe00001guzbhf0z8xr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C++" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/C++/" class="article-date">
+  <time datetime="2018-08-29T01:16:35.810Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/C++/">C++常见问题之内存布局（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在参加各大公司笔试的时候，经常会出现这类的题，计算内存大小</p>
+<p>由于C++基于C，所以C++也“基本上”兼容C。特别地，C++规范在“结构”上使用了和C相同的、简单的内存布局原则。我们首先看C语言中的内存布局</p>
+<h4 id="结构体struct"><a href="#结构体struct" class="headerlink" title="结构体struct"></a>结构体struct</h4><p>结构体的所有组成部分都存放在存储器中一段连续的区域内，而指向结构的指针就是结构第一个字节的地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 地址以声明顺序递增</span><br><span class="line">// 可能插入填充字节</span><br><span class="line">struct A &#123; </span><br><span class="line">    char a; </span><br><span class="line">    double b; </span><br><span class="line">    char c;</span><br><span class="line">&#125;;</span><br><span class="line">printf(&quot;offset of char a = %zu\noffset of double b = %zu\noffset of char c = %zu\n&quot;</span><br><span class="line">           &quot;sizeof(struct A)=%zu\n&quot;, offsetof(struct A, a), offsetof(struct A, b),</span><br><span class="line">           offsetof(struct A, c), sizeof(struct A));</span><br><span class="line">    </span><br><span class="line">struct B &#123; </span><br><span class="line">    char a; </span><br><span class="line">    char b; </span><br><span class="line">    double c;</span><br><span class="line">&#125;;</span><br><span class="line">printf(&quot;offset of char a = %zu\noffset of char b = %zu\noffset of double c = %zu\n&quot;</span><br><span class="line">           &quot;sizeof(struct B)=%zu\n&quot;, offsetof(struct B, a), offsetof(struct B, b),</span><br><span class="line">           offsetof(struct B, c), sizeof(struct B));</span><br></pre></td></tr></table></figure></p>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">offset of char a = 0</span><br><span class="line">offset of double b = 8</span><br><span class="line">offset of char c = 16</span><br><span class="line">sizeof(struct A)=24</span><br><span class="line"></span><br><span class="line">offset of char a = 0</span><br><span class="line">offset of char b = 1</span><br><span class="line">offset of double c = 8</span><br><span class="line">sizeof(struct B)=16</span><br></pre></td></tr></table></figure></p>
+<p>A的内存布局<br>|char|—-|—-|—-|—-|—-|—-|—-|<br>|—————-double—————–|<br>|char|—-|—-|—-|—-|—-|—-|—-|</p>
+<p>B的内存布局<br>|char|char|—-|—-|—————–|<br>|—————-double—————|</p>
+<h4 id="联合union"><a href="#联合union" class="headerlink" title="联合union"></a>联合union</h4><p>联合体只大到足以保有其最大成员（亦可能添加额外的尾随填充字节）。其他成员被分配同该最大成员一部分的字节中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdint.h&gt;</span><br><span class="line">#include &lt;assert.h&gt;</span><br><span class="line"> </span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">    union S &#123;</span><br><span class="line">        uint32_t u32;</span><br><span class="line">        uint16_t u16[2];</span><br><span class="line">        uint8_t  u8;</span><br><span class="line">    &#125; s = &#123;0x12345678&#125;; // s.u32 现为活跃成员</span><br><span class="line">    printf(&quot;Union S has size %zu and holds %x\n&quot;, sizeof s, s.u32);</span><br><span class="line">    s.u16[0] = 0x0011;  // s.u16 现为活跃成员</span><br><span class="line">    // 从 s.u32 或 s.u8 的读取转译对象表示</span><br><span class="line">//  printf(&quot;s.u8 is now %x\n&quot;, s.u8); // 未指定，典型结果是 11 或 00</span><br><span class="line">//  printf(&quot;s.u32 is now %x\n&quot;, s.u32); // 未指定，典型结果是 12340011 或 00115678</span><br><span class="line"> </span><br><span class="line">    // 指向联合体所有成员的指针彼此间比较相等，也与指向联合体的指针比较相等</span><br><span class="line">    assert((uint8_t*)&amp;s == &amp;s.u8);</span><br><span class="line"> </span><br><span class="line">    // 此联合体拥有尾随的 3 个填充字节</span><br><span class="line">    union pad &#123;</span><br><span class="line">       char  c[5];   // 占据 5 字节</span><br><span class="line">       float f;      // 占据 4 字节，隐含对齐 4</span><br><span class="line">    &#125; p = &#123;.f = 1.23&#125;; // 大小为 8 以满足 float 的对齐</span><br><span class="line">    printf(&quot;size of union of char[5] and float is %zu\n&quot;, sizeof p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>union分别大端小端</p>
+<h4 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/C++/" data-id="cjljcxhot00021guzv3wh0j4c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Net_TCPUDP" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/24/Net_TCPUDP/" class="article-date">
@@ -85,17 +358,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>TCP和UDP也是一对老冤家了</p>
-<p>###TCP可靠传输实现<br>两点：建立连接，并通过重传机制增加了可靠性</p>
-<ul>
-<li>以便它知道等待一个确认需要多少时间：用于动态估算客户和服务器之间的往返时间的算法</li>
-<li>接收端TCP重新排序；丢弃重复数据：通过给其中每个字节关联一个序列号对所发送的数据进行排序</li>
-<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
-</ul>
 <p>###TCP和UDP的区别</p>
 <ol>
 <li><p>面向连接与无连接</p>
 <ol start="7">
-<li>TCP只能是点到点的；UDP支持一对一、一对多、多对一和多对多的通信</li>
+<li>TCP只能是点到点的，广播和多播不能用于TCP；UDP支持一对一、一对多、多对一和多对多的通信</li>
 <li>TCP可以在同一对端口上可以有复数个连接；UDP做不到</li>
 </ol>
 </li>
@@ -119,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/Net_TCPUDP/" data-id="cjl82xxef0000ykuzxi9sok2t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/Net_TCPUDP/" data-id="cjljcxhp000041guzejcd12yd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -167,7 +434,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/developer5/" data-id="cjl7v8wy70000m4uz27i97rvj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/developer5/" data-id="cjljcxhpy000p1guz8yxghzaa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -213,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/developer4/" data-id="cjl7mtx1r0000awuzzuhq7z1r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/developer4/" data-id="cjljcxhpv000m1guzau1slzqd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,7 +525,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/datastruct2/" data-id="cjl7mtx330007awuzmll8ewhp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/datastruct2/" data-id="cjljcxhpu000k1guzqaa7hwke" class="article-share-link">Share</a>
       
       
     </footer>
@@ -268,9 +535,9 @@
 
 
   
-    <article id="post-developer2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-C++2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/23/developer2/" class="article-date">
+    <a href="/2018/08/23/C++2/" class="article-date">
   <time datetime="2018-08-23T06:10:15.677Z" itemprop="datePublished">2018-08-23</time>
 </a>
     
@@ -282,7 +549,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/23/developer2/">开发者的战争之C++</a>
+      <a class="article-title" href="/2018/08/23/C++2/">C++常见问题之指针</a>
     </h1>
   
 
@@ -290,8 +557,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这篇博客继续谈和语言相关的话题。</p>
-<h1 id="指针和迭代器"><a href="#指针和迭代器" class="headerlink" title="指针和迭代器"></a>指针和迭代器</h1><p>可以把迭代器想象成指针的抽象。C++的具名要求提到迭代器必须支持<code>*r</code>和<code>++r</code>两种表达式</p>
+        <p>这篇博客继续谈和语言相关的话题，话题集中在C++这块。</p>
+<h4 id="指针和迭代器"><a href="#指针和迭代器" class="headerlink" title="指针和迭代器"></a>指针和迭代器</h4><p>可以把迭代器想象成指针的抽象。C++的具名要求提到迭代器必须支持<code>*r</code>和<code>++r</code>两种表达式</p>
 <p>从应用范围来说，指针是迭代器的一种,可以视为狭义的迭代器。迭代器是指针的抽象和泛化。指针只能用于某些特定的容器。而迭代器可以适用于所有容器。迭代器的设计就是为了数据结构的泛化。所以迭代器的适用范围更广。</p>
 <p>从功能上来说，（随机）迭代器是具有类似指针行为的类模板（class template）。也就是重载了操作符“-&gt;”、“*”和“++”等操作符的类模板。用迭代器可以很大程度上隔离容器底层实现，使用时只需依赖迭代器相对统一的方法/接口。其实这也是一个设计模式，后来众多编程语言都在核心语言或库中引入了迭代器。</p>
 <p>从使用上来说，iterator 比 pointer 更统一和良好的用法，（更轻易使用 begin()、end()且不用担心越界）更安全。</p>
@@ -301,254 +568,25 @@
 <li>指针能指向函数而迭代器不行，迭代器只能指向容器</li>
 <li>迭代器在使用后就释放了，不能再继续使用，但是指针可以</li>
 </ul>
-<h1 id="数组、空终止字符串和string"><a href="#数组、空终止字符串和string" class="headerlink" title="数组、空终止字符串和string"></a>数组、空终止字符串和string</h1><p>数组不用多说了，来自C语言的概念，</p>
-<p>空终止字符串对初学者来说可能容易踩坑。首先，它本质上还是数组，只不过是以特殊的空字符null终止的字符数组。是C风格的字符串，既不能确切地归结为 C 语言的类型，也不能归结为 C++ 语言的类型。</p>
-<p>string<br>三者获取长度的方法不同<br><em>
-</em><br>*</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/developer2/" data-id="cjl7mtx35000aawuzbd2jw1rj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-cache" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/23/cache/" class="article-date">
-  <time datetime="2018-08-23T03:16:03.369Z" itemprop="datePublished">2018-08-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/23/cache/">缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>什么是Cache？狭义的Cache指的是位于CPU和主存间的快速RAM， 通常它不像系统主存那样使用DRAM技术，而使用昂贵但较快速的SRAM技术。 广义上的Cache指的是位于速度相差较大的两种硬件之间， 用于协调两者数据传输速度差异的结构。除了CPU与主存之间有Cache， 内存与硬盘之间也有Cache，乃至在硬盘与网络之间也有某种意义上的Cache── 称为Internet临时文件夹或网络内容缓存等</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/cache/" data-id="cjl7mtx300004awuznzuawp0b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-datastruct1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/22/datastruct1/" class="article-date">
-  <time datetime="2018-08-22T03:28:07.029Z" itemprop="datePublished">2018-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/22/datastruct1/">数据结构和算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学习数据结构和算法很久了，以这篇文章总结下自己的想法。</p>
-<h1 id="数据结构和算法的关系"><a href="#数据结构和算法的关系" class="headerlink" title="数据结构和算法的关系"></a>数据结构和算法的关系</h1><ul>
-<li><p>首先上经典公式：程序=数据结构+算法</p>
-</li>
-<li><p>其次，从哲学的角度谈：<br>数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操作，必须能够找到数据，这样就必须将它们按照一定规律组织起来。这个过程不一定是算法，但是算法可以实现这个过程。数据结构是算法得以诞生的条件，否则就是数据间的杂乱无章的运动。例如，设计a+b的程序，你总得找到a和b的值吧，a和b必须是可以互相找到的才能进行程序运算，a和b就必然要联结成一定的关系，或是线性关系，或是树型关系，或者是图型关系，你的程序才能产生，杂乱无章的数据——-就是没有数据结构的数据，是没有算法的，你试试做一个电子运动的时间和坐标对应的算法看看行不行，显然不行。因为有了数据结构，算法才能诞生。</p>
-</li>
-</ul>
-<p>反过来，算法又是数据结构得以维持的一个条件，没有算法，数据根本无法有规律的打交道，也就是说数据的间只会是杂乱无章地碰撞，这样数据结构就会消灭。算法是绝对运动的，数据结构是相对静止的，二者是不可分割的关系。数据结构和算法不仅仅是计算机中才有的，计算机是后来诞生的东西，计算机的概念来源于自然界，自然界中例如一棵树的根和树叶之间的信息交流就是一个算法，是建立在根数据和树叶数据之间可以相通的关系上的算法，计算机只是自然界的一个模拟，编程语言不是程序的一个要素，因为自然界是没有语言的，但是有程序，这是唯物主义的观点。客观世界是物质的，物质是运动的，运动是有规律的，有规律的运动就是程序</p>
-<p>算法的革命的、活泼的，数据结构是反动的、迟钝的，算法的发展必然推动数据结构的发展，算法的发展必然会冲破数据结构的束缚。算法的发展要求数据结构跟着发展，否则就会阻碍算法的发展。算法的发展或迟或早必然冲破数据结构的束缚，二者必然将建立在一个新的起点继续着矛盾运动，</p>
+<h4 id="指针和引用的区别"><a href="#指针和引用的区别" class="headerlink" title="指针和引用的区别"></a>指针和引用的区别</h4><p>指针与引用都是让你间接引用其他对象</p>
 <ul>
-<li>从实际的角度谈，基本上可以认为一种数据结构对应一种算法。例如栈对应递归，查找树对应查找算法，图对应搜索算法。</li>
+<li>无到 void 的引用，因此使用引用之前不需要测试它的合法；相反，指针则应该总是被测试，防止其为空</li>
+<li>因为引用不是对象，故无引用的数组，无指向引用的指针，无到引用的引用</li>
 </ul>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>数据结构从逻辑上可以分为集合结构，线性结构，树形结构，图形结构，以及不同于这些结构的字典/键值对；从物理上可以分为顺序存储结构和链式存储结构。这两类概念可以组合，成为常见的数据结构。<br>举个例子，线性结构中的栈（stack），如果用顺序存储结构，就叫顺序栈，如果用链式存储结构，就叫链栈。<br>再举个例子，在STL中，所谓 <strong>顺序</strong> 容器 (SequenceContainer) 是在 <strong>线性</strong> 排列中存储相同类型对象的容器，即它们是线性结构。在顺序容器中，按存储结构又可分为 <strong>顺序</strong> 存储结构和链式存储结构。</p>
-<p><strong>Note：我经常发现有人把“连续”和“顺序”混用，把“顺序存储结构”称为“连续存储结构”，包括《C++ primer》都犯了这样的错误。细究起来，“连续”是指一个挨一个，中间没有缝隙，例如vector，“顺序”是指一个接一个，但中间可能有缝隙，例如deque。详情请见下一篇博客</strong></p>
-<p>因为顺序存储结构中，每个元素是在内存上是“连续”的（或者看起来是“连续的”），支持高效的随机访问和在尾端插入/删除操作，但其他位置的插入/删除操作效率低下。所以我们又叫它 <strong>随机</strong> 存取结构。</p>
-<ul>
-<li>查找————不管是哪个位置，时间复杂度都是O(1)</li>
-<li>插入和删除————需要平均移动表长一半的元素，时间为O(n)<br>vector和deque是其中，deque除了具有vector的所有功能外，还支持高效的首端插入/删除操作</li>
-</ul>
-<p>因为（双）链式存储结构，每个元素维护一对前向和后向指针，支持前向/后向遍历。支持高效的随机插入/删除操作，但随机访问效率低下，且由于需要额外维护指针，开销也比较大。所以我们又叫它 <strong>顺序</strong> 存取结构。</p>
-<p><strong>PS：为什么老用“顺序”这个词，上下文里已经出现了三次，每次的含义都不一样</strong></p>
-<ul>
-<li>查找————O(n)</li>
-<li>插入和删除————在找出某位置的指针后，插入和删除时间仅为O(1)<br>list是其中典型</li>
-</ul>
-<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>下面的知识很多在高中阶段就接触了，回忆一下。<br>算法的基本特性为有零个或多个输入，有一个或多个输出，有穷性，确定性，可行性；<br>设计算法要求正确性、可读性、健壮性、时间效率高和存储量低；<br>算法可以用伪代码、流程图、N-S结构图来描述<br>算法的三种基本结构：顺序结构；选择结构；循环结构。循环结构还分为当型和直到型</p>
+<h4 id="数组和指针的关系"><a href="#数组和指针的关系" class="headerlink" title="数组和指针的关系"></a>数组和指针的关系</h4><p>数组到指针退化<br>有一个数组类型左值和右值到指针类型右值的隐式转换：它构造指向数组首元素的指针。此转换在凡数组出现于不期待数组而期待指针的语境中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;numeric&gt;</span><br><span class="line">#include &lt;iterator&gt;</span><br><span class="line"> </span><br><span class="line">void g(int (&amp;a)[3])</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; a[0] &lt;&lt; &apos;\n&apos;;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void f(int* p)</span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; *p &lt;&lt; &apos;\n&apos;;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int a[3] = &#123;1, 2, 3&#125;;</span><br><span class="line">    int* p = a;</span><br><span class="line"> </span><br><span class="line">    std::cout &lt;&lt; sizeof a &lt;&lt; &apos;\n&apos;  // 打印数组的大小</span><br><span class="line">              &lt;&lt; sizeof p &lt;&lt; &apos;\n&apos;; // 打印指针的大小</span><br><span class="line"> </span><br><span class="line">    // 在可接受数组，而不可接受指针处，只能使用数组</span><br><span class="line">    g(a); // OK ：函数以引用接收数组</span><br><span class="line">//  g(p); // error</span><br><span class="line"> </span><br><span class="line">    for(int n: a)              // OK ：数组可用于范围 for 循环</span><br><span class="line">        std::cout &lt;&lt; n &lt;&lt; &apos; &apos;; // 打印数组的元素</span><br><span class="line">//  for(int n: p)              // 错误</span><br><span class="line">//      std::cout &lt;&lt; n &lt;&lt; &apos; &apos;;</span><br><span class="line"> </span><br><span class="line">    std::iota(std::begin(a), std::end(a), 7); // OK ： begin 与 end 接收数组</span><br><span class="line">//  std::iota(std::begin(p), std::end(p), 7); // 错误</span><br><span class="line"> </span><br><span class="line">    // 在可接受指针，而不可接受数组处，都可能使用</span><br><span class="line">    f(a); // OK ：函数接收指针</span><br><span class="line">    f(p); // 能以行为主布局视作 2 × 3 矩阵</span><br><span class="line"> </span><br><span class="line">    std::cout &lt;&lt; *a &lt;&lt; &apos;\n&apos; // 打印首元素</span><br><span class="line">              &lt;&lt; *p &lt;&lt; &apos;\n&apos; // 相同</span><br><span class="line">              &lt;&lt; *(a + 1) &lt;&lt; &apos; &apos; &lt;&lt; a[1] &lt;&lt; &apos;\n&apos;  // 打印第二元素</span><br><span class="line">              &lt;&lt; *(p + 1) &lt;&lt; &apos; &apos; &lt;&lt; p[1] &lt;&lt; &apos;\n&apos;; // 相同</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以，函数参数传递中，可以数组名到指针，数组名到数组名，指针到数组名和指针到指针都是可以的。</p>
+<p>注意应用数组到指针退化时，多维数组转换成指向其首元素的指针（例如，指向其首行或首平面的指针）：数组到指针退化仅应用一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int a[2];            // 2 个 int 的数组</span><br><span class="line">int* p1 = a;         // 退化到指向 a 首元素a[0] 的指针</span><br><span class="line"> </span><br><span class="line">int a[2];</span><br><span class="line">int (*ap)[2] = &amp;a; // 指向 int数组的指针</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int b[2][3];         // 2 个 3 个 int 的数组的数组</span><br><span class="line">// int** p2 = b;     // 错误： b 不退化到 int**</span><br><span class="line">int (*p2)[3] = b;    // b 退化到指向 b 首个 3 元素行的指针</span><br><span class="line"> </span><br><span class="line">int c[2][3][4];      // 2 个 3 个 4 个 int 的数组的数组的数组</span><br><span class="line">// int*** p3 = c;    // 错误： c 不退化到 int***</span><br><span class="line">int (*p3)[3][4] = c; // c 退化到指向 c 首个 3 × 4 元素平面的指针</span><br></pre></td></tr></table></figure>
+<p>当中出现的新概念这就是令人迷惑的“行指针”，或“（指向）数组指针”。我看了看网上大家的讨论，说得都不是很好</p>
+<p>一维数组a会退化为指向首元素的指针，但&amp;a是不退化的，二维数组b会退化为指向int [4]数组的行指针，但只退化一次</p>
+<p><img src="images/C++2.bmp" alt="数组指针"></p>
+<p>可以看出，行指针&amp;a它的值和数组a首元素的地址值一样，但是这个指针指向的内存大小是整个数组的总大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 验证内存布局</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">　　int a[5]=&#123;1,2,3,4,5&#125;;</span><br><span class="line">　　int *ptr=(int *)(&amp;a+1); // int数组的指针强制转换为指向int的指针</span><br><span class="line">　　printf(&quot;%d,%d&quot;,*(a+1),*(ptr-1));</span><br><span class="line"> 　 return;</span><br><span class="line">&#125;</span><br><span class="line">输出为：2,5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    const int N=10;</span><br><span class="line">    const int M=2;</span><br><span class="line">    int* a=new int[N];</span><br><span class="line">    for(int i=0;i&lt;N;++i)</span><br><span class="line">        a[i]=(0==i%2)?(i+2):(i+0);</span><br><span class="line">    int (*b)[N/M]=(int (*)[N/M])a;</span><br><span class="line">    for(int i=0;i&lt;M;++i)</span><br><span class="line">        for(int j=0;j&lt;N/M;++j)</span><br><span class="line">            printf(“%d”,b[i][j]);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">输出为：21436587109</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/22/datastruct1/" data-id="cjl7mtx320006awuzuvquqxw9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-developer1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/21/developer1/" class="article-date">
-  <time datetime="2018-08-21T02:57:59.695Z" itemprop="datePublished">2018-08-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/21/developer1/">开发者的战争之语言比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="C和C-的区别"><a href="#C和C-的区别" class="headerlink" title="C和C++的区别"></a>C和C++的区别</h1><p>C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重</p>
-<p>C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类的C)，随着时间推移，C++又接受了泛形编程的思想，像STL库就是一个例子。C++的语法风格不一而同，大部分人在写C++的时候还是当作带类的C来使用，其实C++可以写出像python一样现代的风格</p>
-<h1 id="Java和C-的区别"><a href="#Java和C-的区别" class="headerlink" title="Java和C++的区别"></a>Java和C++的区别</h1><ul>
-<li>数据类型：java的数据类型具有平台无关性，这使得Java语言完美的解决了C++中饱受诟病的可移植性问题</li>
-<li>字符串：Java中的字符串是不可变的；不能使用==来比较字符串（使用equals）</li>
-</ul>
-<p>C++把声明和实现分别放在头文件和源文件中，而Java则不使用头文件。C++引用其他内容时需要include，而Java则用package和import</p>
-<ul>
-<li><p>垃圾回收：C++需要程序员自己回收，对内存进行良好的管理，而Java则不需要程序员自己完成这个工作，有自己的垃圾回收机制，Java中有完善的内存管理机制，能自动垃圾回收，最大可能降低内存溢 出的可能，同时提高编程效率<br>Java语言中的对象内存分配都是堆上进行，只有方法中的局部变量才在栈上分配。而C/C++的对象则有多种内存分配方式，既可能在堆上分配，也可能在栈上分配，如果可以把线程私有的对象在栈上分配，将可以减轻内存回收的压力，也不需要考虑内存屏障方面的问题。另外，C/C++中主要由用户程序代码来回收分配的内存，这就不存在无用对象筛选的过程，因此效率上（仅指运行效率，排除了开发效率）也垃圾收集机制要高</p>
-</li>
-<li><p>Java完全对象化，比如数组在Java中是一个对象，含有length这个属性; 而不像C++中数组是一个指针。所以访问数组，Java都会进行边界检查，更安全 ，但牺牲了速度。Java中没有指针这样不安全(虽然指针速度快)的概念</p>
-</li>
-<li><p>Java标准库完整的多，相比之下C++除了一个STL(而且还超级难用)就没 了</p>
-</li>
-<li>Java因为是把程序编译为字节码，运行时需要JVM把字节码再翻译为机 器码，所以他跨平台，一次编译到处运行。但这也是他慢的根本原因</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/21/developer1/" data-id="cjl7mtx330008awuzio3amt0y" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-datastruct" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/20/datastruct/" class="article-date">
-  <time datetime="2018-08-20T07:16:20.371Z" itemprop="datePublished">2018-08-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/20/datastruct/">数据结构和算法之常用的数据结构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常用数据结构一览"><a href="#常用数据结构一览" class="headerlink" title="常用数据结构一览"></a>常用数据结构一览</h3><p>AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树<br>红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；<br>B/B+树：用在磁盘文件组织 数据索引和数据库索引<br>双向链表：STL的list，Redis的list<br>单向链表：STL的slist<br>链表散列：STL的hash_set，hash_map；Java的HashMap，HashTable<br>跳表：Redis的Sorted Set</p>
-<p>stack、queue默认的底层实现为deque结构<br>deque：用map管理多个size大小的连续内存块，方便头尾插入</p>
-<h3 id="红黑树和散列的比较"><a href="#红黑树和散列的比较" class="headerlink" title="红黑树和散列的比较"></a>红黑树和散列的比较</h3><p>权衡三个因素: 查找速度, 数据量, 内存使用，可扩展性。<br>总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别。但红黑树的查找速度是log(n)级别，并不一定常数就比log(n)小。hash还有hash函数的耗时。<br>所以STL的map和set用红黑树而不是hash实现</p>
-<p>红黑树并不适应所有应用树的领域。如果数据基本上是静态的，那么让他们待在他们能够插入，并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，例如，做一个哈希表，性能可能会更好一些</p>
-<p>首先set，不像map那样是key-value对，它的key与value是相同的。关于set有两种说法，第一个是STL中的set，用的是红黑树；第二个是hash_set，底层用得是hash table。红黑树与hash table最大的不同是，红黑树是有序结构，而hash table不是。但不是说set就不能用hash，如果只是判断set中的元素是否存在，那么hash显然更合适，因为set 的访问操作时间复杂度是log(N)的，而使用hash底层实现的hash_set是近似O(1)的。然而，set应该更加被强调理解为“集合”，而集合所涉及的操作并、交、差等，即STL提供的如交集set_intersection()、并集set_union()、差集set_difference()和对称差集set_symmetric_difference()，都需要进行大量的比较工作，那么使用底层是有序结构的红黑树就十分恰当了，这也是其相对hash结构的优势所在</p>
-<h3 id="几个实现例子"><a href="#几个实现例子" class="headerlink" title="几个实现例子"></a>几个实现例子</h3><p>Redis的list<br>用ziplist+quicklist实现的，ziplist压缩空间，quicklist实现链表</p>
-<p>LRU的实现<br>LRU，即最近最少使用页面/缓存替换算法，在web缓存和操作系统中经常被使用。</p>
-<p>如果用C++，则使用STL的list+map；如果用Java，则使用双向链表+HashMap；Python则使用双向链表+Dict。使用双向链表可以方便删除节点，使用map来保存每个节点的key-value</p>
-<ul>
-<li>新数据插入到链表头部</li>
-<li>每当缓存命中（即缓存数据被访问），则将数据移到链表头部</li>
-<li>当链表满的时候，将链表尾部的数据丢弃</li>
-</ul>
-<p><img src="images/datastruct.bmp" alt="使用的数据结构"></p>
-<p>leetcode的<a href="&quot;https://leetcode.com/problems/lru-cache/description/&quot;">No.146 LRU Cache</a>是关于LRU很好的模拟题。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/20/datastruct/" data-id="cjl7mtx310005awuzncog90qa" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-video" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/19/video/" class="article-date">
-  <time datetime="2018-08-19T05:41:56.958Z" itemprop="datePublished">2018-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/19/video/">项目演示视频</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学生端</p>
-<iframe height="498" width="510" src="images/student.mp4" frameborder="0" allowfullscreen><br></iframe><br>老师端<br><iframe height="498" width="510" src="images/teacher.mp4" frameborder="0" allowfullscreen><br></iframe>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/19/video/" data-id="cjl7mtx36000bawuzc2jzp7dt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C++2/" data-id="cjljcxhom00011guzc1ot8j0y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -594,23 +632,23 @@
       <ul>
         
           <li>
-            <a href="/2018/08/24/Net_TCPUDP/">TCP和UDP</a>
+            <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
           </li>
         
           <li>
-            <a href="/2018/08/24/developer5/">开发者战争之Shell</a>
+            <a href="/2018/08/29/C++5/">C++常见问题之内存布局（二）</a>
           </li>
         
           <li>
-            <a href="/2018/08/24/developer4/">开发者的战争之静态动态问题</a>
+            <a href="/2018/08/29/C++4/">C++常见问题之其他</a>
           </li>
         
           <li>
-            <a href="/2018/08/23/datastruct2/">数据结构和算法之STL</a>
+            <a href="/2018/08/29/C++3/">C++常见问题之初始化</a>
           </li>
         
           <li>
-            <a href="/2018/08/23/developer2/">开发者的战争之C++</a>
+            <a href="/2018/08/29/C++/">C++常见问题之内存布局（一）</a>
           </li>
         
       </ul>

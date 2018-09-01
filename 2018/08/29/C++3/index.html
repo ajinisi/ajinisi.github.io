@@ -5,19 +5,19 @@
   
 
   
-  <title>RESTful风格的实现 | Hexo</title>
+  <title>C++常见问题之初始化 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+  <meta name="description" content="const变量123456const std::string hi = &amp;quot;hello!&amp;quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized constint i = 42; //legal for const references only constint &amp;amp;r = 42;cons">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RESTful风格的实现">
-<meta property="og:url" content="http://yoursite.com/2018/08/05/learnGO/index.html">
+<meta property="og:title" content="C++常见问题之初始化">
+<meta property="og:url" content="http://yoursite.com/2018/08/29/C++3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+<meta property="og:description" content="const变量123456const std::string hi = &amp;quot;hello!&amp;quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized constint i = 42; //legal for const references only constint &amp;amp;r = 42;cons">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-07T06:53:40.820Z">
+<meta property="og:updated_time" content="2018-08-30T08:40:25.941Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RESTful风格的实现">
-<meta name="twitter:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，  GET /session # 获取会话信息 POST /session # 创">
+<meta name="twitter:title" content="C++常见问题之初始化">
+<meta name="twitter:description" content="const变量123456const std::string hi = &amp;quot;hello!&amp;quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized constint i = 42; //legal for const references only constint &amp;amp;r = 42;cons">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-C++3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
+    <a href="/2018/08/29/C++3/" class="article-date">
+  <time datetime="2018-08-29T08:09:03.726Z" itemprop="datePublished">2018-08-29</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      RESTful风格的实现
+      C++常见问题之初始化
     </h1>
   
 
@@ -86,26 +86,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
-<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
+        <p>const变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const std::string hi = &quot;hello!&quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized const</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int i = 42; //legal for const references only const</span><br><span class="line">int &amp;r = 42;</span><br><span class="line">const int &amp;r2 = r + i;</span><br></pre></td></tr></table></figure></p>
+<p>因为常量在定义后就不能被修改，所以定义时必须初始化</p>
+<p>数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const unsigned array_size = 3;</span><br><span class="line">int ia[array_size] = &#123;0, 1, 2&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>一个数组不能用另外一个数组初始化，也不能将一个数组赋值给另一个数组</p>
+<p>指针<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int ival = 1024; </span><br><span class="line">int *pi = 0; // pi initialized to address no object</span><br><span class="line">int *pi2 = &amp;ival; // pi2 initialized to address of ival </span><br><span class="line">int *pi3; // ok, but dangerous, pi3 is uninitialized</span><br><span class="line">pi = pi2; // pi and pi2 address the same object,e.g. ival </span><br><span class="line">pi2 = 0; // pi2 now addresses no object</span><br></pre></td></tr></table></figure></p>
+<p>有效的指针必然是以下三种状态之一：保存一个特定对象的地址；指向某个对象后面的另一对象；或者是 0 值。所以对指针进行初始化或赋值只能使用以下四种类型的值</p>
 <ul>
-<li>GET /session # 获取会话信息</li>
-<li>POST /session # 创建新的会话（登入）</li>
-<li>PUT /session # 更新会话信息</li>
-<li><p>DELETE /session # 销毁当前会话（登出）</p>
-</li>
-<li><p>GET /user/:id # 获取id用户的信息</p>
-</li>
-<li>POST /user # 创建新的用户（注册）</li>
-<li>PUT /user/:id # 更新id用户的信息</li>
-<li>DELETE /user/:id # 删除id用户（注销）</li>
+<li>值常量表达式</li>
+<li>类型匹配的对象的地址</li>
+<li>另一对象末的下一地址</li>
+<li>同类型的另一个有效指针</li>
 </ul>
-<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjljcxhq3000u1guz67zknqox" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/C++3/" data-id="cjljcxhoe00001guzbhf0z8xr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +111,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/05/learnHexo/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/29/C++4/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          hexo中踩的坑
+          C++常见问题之其他
         
       </div>
     </a>
   
   
-    <a href="/2018/08/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/29/C++/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">C++常见问题之内存布局（一）</div>
     </a>
   
 </nav>
