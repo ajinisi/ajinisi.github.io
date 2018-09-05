@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="学习数据结构和算法很久了，以这篇文章总结下自己的想法。 数据结构和算法的关系 首先上经典公式：程序=数据结构+算法  其次，从哲学的角度谈：数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T03:05:37.812Z">
+<meta property="og:updated_time" content="2018-09-02T03:29:06.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和算法">
 <meta name="twitter:description" content="学习数据结构和算法很久了，以这篇文章总结下自己的想法。 数据结构和算法的关系 首先上经典公式：程序=数据结构+算法  其次，从哲学的角度谈：数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操">
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>学习数据结构和算法很久了，以这篇文章总结下自己的想法。</p>
-<h1 id="数据结构和算法的关系"><a href="#数据结构和算法的关系" class="headerlink" title="数据结构和算法的关系"></a>数据结构和算法的关系</h1><ul>
+<h3 id="数据结构和算法的关系"><a href="#数据结构和算法的关系" class="headerlink" title="数据结构和算法的关系"></a>数据结构和算法的关系</h3><ul>
 <li><p>首先上经典公式：程序=数据结构+算法</p>
 </li>
 <li><p>其次，从哲学的角度谈：<br>数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操作，必须能够找到数据，这样就必须将它们按照一定规律组织起来。这个过程不一定是算法，但是算法可以实现这个过程。数据结构是算法得以诞生的条件，否则就是数据间的杂乱无章的运动。例如，设计a+b的程序，你总得找到a和b的值吧，a和b必须是可以互相找到的才能进行程序运算，a和b就必然要联结成一定的关系，或是线性关系，或是树型关系，或者是图型关系，你的程序才能产生，杂乱无章的数据——-就是没有数据结构的数据，是没有算法的，你试试做一个电子运动的时间和坐标对应的算法看看行不行，显然不行。因为有了数据结构，算法才能诞生。</p>
@@ -98,8 +98,35 @@
 <ul>
 <li>从实际的角度谈，基本上可以认为一种数据结构对应一种算法。例如栈对应递归，查找树对应查找算法，图对应搜索算法。</li>
 </ul>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>数据结构从逻辑上可以分为集合结构，线性结构，树形结构，图形结构，以及不同于这些结构的字典/键值对；从物理上可以分为顺序存储结构和链式存储结构。这两类概念可以组合，成为常见的数据结构。<br>举个例子，线性结构中的栈（stack），如果用顺序存储结构，就叫顺序栈，如果用链式存储结构，就叫链栈。<br>再举个例子，在STL中，所谓 <strong>顺序</strong> 容器 (SequenceContainer) 是在 <strong>线性</strong> 排列中存储相同类型对象的容器，即它们是线性结构。在顺序容器中，按存储结构又可分为 <strong>顺序</strong> 存储结构和链式存储结构。</p>
-<p><strong>Note：我经常发现有人把“连续”和“顺序”混用，把“顺序存储结构”称为“连续存储结构”，包括《C++ primer》都犯了这样的错误。细究起来，“连续”是指一个挨一个，中间没有缝隙，例如vector，“顺序”是指一个接一个，但中间可能有缝隙，例如deque。详情请见下一篇博客</strong></p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>数据结构从逻辑上可以分为集合结构，线性结构，树形结构，图形结构，以及不同于这些结构的字典/键值对；从物理上可以分为顺序存储结构和链式存储结构。这两类概念可以组合，成为常见的数据结构。<br>举个例子，线性结构中的栈（stack），如果用顺序存储结构，就叫顺序栈，如果用链式存储结构，就叫链栈。<br>再举个例子，在STL中，所谓 <strong>顺序</strong> 容器 (SequenceContainer) 是在 <strong>线性</strong> 排列中存储相同类型对象的容器，即它们是线性结构。</p>
+<p>顺序容器：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector</li>
+<li>deque</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p>在顺序容器中，按存储结构又可分为 <strong>顺序</strong> 存储结构和链式存储结构。<br>顺序存储结构：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector</li>
+<li>deque<br>链式存储结构：</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p><strong>顺序</strong> 存储结构又包含了连续存储结构<br>连续存储结构：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector<br>顺序存储结构：</li>
+<li>deque<br>链式存储结构：</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p>Note：我经常发现有人把“连续”和“顺序”混用，把“顺序存储结构”称为“连续存储结构”，包括《C++ primer》都犯了这样的错误。细究起来，“连续”是指一个挨一个，中间没有缝隙，例如vector，“顺序”是指一个接一个，但中间可能有缝隙，例如deque。总的来说，顺序包括连续。连续存储结构的容器也叫相接容器 (ContiguousContainer) ，是在相接内存位置存储对象的容器<br>vector和deque的详情请见下一篇博客</p>
 <p>因为顺序存储结构中，每个元素是在内存上是“连续”的（或者看起来是“连续的”），支持高效的随机访问和在尾端插入/删除操作，但其他位置的插入/删除操作效率低下。所以我们又叫它 <strong>随机</strong> 存取结构。</p>
 <ul>
 <li>查找————不管是哪个位置，时间复杂度都是O(1)</li>
@@ -111,7 +138,7 @@
 <li>查找————O(n)</li>
 <li>插入和删除————在找出某位置的指针后，插入和删除时间仅为O(1)<br>list是其中典型</li>
 </ul>
-<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>下面的知识很多在高中阶段就接触了，回忆一下。<br>算法的基本特性为有零个或多个输入，有一个或多个输出，有穷性，确定性，可行性；<br>设计算法要求正确性、可读性、健壮性、时间效率高和存储量低；<br>算法可以用伪代码、流程图、N-S结构图来描述<br>算法的三种基本结构：顺序结构；选择结构；循环结构。循环结构还分为当型和直到型</p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>下面的知识很多在高中阶段就接触了，回忆一下。<br>算法的基本特性为有零个或多个输入，有一个或多个输出，有穷性，确定性，可行性；<br>设计算法要求正确性、可读性、健壮性、时间效率高和存储量低；<br>算法可以用伪代码、流程图、N-S结构图来描述<br>算法的三种基本结构：顺序结构；选择结构；循环结构。循环结构还分为当型和直到型</p>
 
       
     </div>
@@ -125,17 +152,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/23/cache/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/23/CO_cache/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          缓存
+          计算机组成原理之缓存
         
       </div>
     </a>
   
   
-    <a href="/2018/08/21/developer1/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/21/Developer_lang/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">开发者的战争之语言比较</div>
     </a>
@@ -161,7 +188,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -174,23 +201,23 @@
       <ul>
         
           <li>
+            <a href="/2018/09/04/C++1/">C++常见问题之static,violate,const</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/03/CO_32or64/">计算机组成原理之32or64</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/01/designpattern2/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++5/">C++常见问题之内存布局（二）</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++4/">C++常见问题之其他</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++3/">C++常见问题之初始化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++/">C++常见问题之内存布局（一）</a>
           </li>
         
       </ul>

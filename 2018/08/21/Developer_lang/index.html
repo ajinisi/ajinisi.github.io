@@ -10,11 +10,11 @@
   <meta name="description" content="C和C++的区别C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重 C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开发者的战争之语言比较">
-<meta property="og:url" content="http://yoursite.com/2018/08/21/developer1/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/21/Developer_lang/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="C和C++的区别C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重 C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-29T02:39:38.333Z">
+<meta property="og:updated_time" content="2018-09-03T02:08:19.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开发者的战争之语言比较">
 <meta name="twitter:description" content="C和C++的区别C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重 C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类">
@@ -64,9 +64,9 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-developer1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Developer_lang" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/21/developer1/" class="article-date">
+    <a href="/2018/08/21/Developer_lang/" class="article-date">
   <time datetime="2018-08-21T02:57:59.695Z" itemprop="datePublished">2018-08-21</time>
 </a>
     
@@ -89,7 +89,13 @@
         <h3 id="C和C-的区别"><a href="#C和C-的区别" class="headerlink" title="C和C++的区别"></a>C和C++的区别</h3><p>C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重</p>
 <p>C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类的C)，随着时间推移，C++又接受了泛形编程的思想，像STL库就是一个例子。C++的语法风格不一而同，大部分人在写C++的时候还是当作带类的C来使用，其实C++可以写出像python一样现代的风格</p>
 <p>宏观角度之外，几个小的点也是体现出二者区别的地方</p>
-<h4 id="new和malloc的区别"><a href="#new和malloc的区别" class="headerlink" title="new和malloc的区别"></a>new和malloc的区别</h4><h4 id="结构体的区别"><a href="#结构体的区别" class="headerlink" title="结构体的区别"></a>结构体的区别</h4><p>C语言中的结构体只涉及到数据结构，而不涉及到算法，也就是说在C中数据结构和算法是分离的。C语言中的结构体只是一个复杂数据类型 ，只能定义成员变量，不能定义成员函数，不能用于面向对象编程<br>然而在C++中既可以定义成员变量又可以定义成员函数， C++中的结构体和类体现了数据结构和算法的结合</p>
+<h4 id="new-delete和malloc-free的区别"><a href="#new-delete和malloc-free的区别" class="headerlink" title="new/delete和malloc/free的区别"></a>new/delete和malloc/free的区别</h4><p>参数：malloc则需要显式地指出所需内存的尺寸；使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算<br>返回：malloc内存分配成功则是返回void <em> ，需要通过强制类型转换将void </em>指针转换成我们需要的类型；new返回的指针是直接带类型信息的，new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合类型安全性的操作符<br>分配失败：malloc分配内存失败时返回NULL；new内存分配失败时，会抛出bac_alloc异常</p>
+<p>位置：C语言使用malloc从堆（heap）上动态分配内存，使用free释放已分配的对应内存；new操作符从自由存储区（free store）上为对象动态分配内存空间，使用delete来释放<br>重载：C++允许重载new/delete操作符，特别的，布局new的就不需要为对象分配内存，而是指定了一个地址作为内存起始区域，new在这段内存上为对象调用构造函数完成初始化工作，并返回此地址。而malloc不允许重载</p>
+<p><strong>注意</strong>：自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区，而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配。尽管C++标准没有要求，但很多编译器的new/delete都是以malloc/free为基础来实现的，即它们是由堆实现的自由存储区。程序员也可以通过重载操作符，改用其他内存来实现自由存储区，例如全局变量做的对象池，这时自由存储区就区别于堆了</p>
+<p>根本上：malloc/free是库函数，需要头文件支持；new/delete是操作符，需要编译器支持</p>
+<h4 id="为什么有了malloc还需要new"><a href="#为什么有了malloc还需要new" class="headerlink" title="为什么有了malloc还需要new"></a>为什么有了malloc还需要new</h4><p>malloc/free是库函数，只能动态的申请和释放内存，无法强制要求其做自定义类型对象构造和析构工作。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求————对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete</p>
+<p>new 会先调用operator new函数，申请足够的内存（通常底层使用malloc实现）。然后调用类型的构造函数，初始化成员变量，最后返回自定义类型指针。delete 先调用析构函数，然后调用operator delete 函数释放内存（通常底层使用free实现）<br>new可以认为是malloc+构造函数</p>
+<h4 id="结构体的区别"><a href="#结构体的区别" class="headerlink" title="结构体的区别"></a>结构体的区别</h4><p>C语言中的结构体只涉及到数据结构，而不涉及到算法，也就是说在C中数据结构和算法是分离的。C语言中的结构体只是一个复杂数据类型 ，只能定义成员变量，不能定义成员函数，不能用于面向对象编程<br>然而在C++中既可以定义成员变量又可以定义成员函数， C++中的结构体和类体现了数据结构和算法的结合</p>
 <h3 id="Java和C-的区别"><a href="#Java和C-的区别" class="headerlink" title="Java和C++的区别"></a>Java和C++的区别</h3><ul>
 <li>数据类型：java的数据类型具有平台无关性，这使得Java语言完美的解决了C++中饱受诟病的可移植性问题</li>
 <li>字符串：Java中的字符串是不可变的；不能使用==来比较字符串（使用equals）</li>
@@ -108,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/21/developer1/" data-id="cjljcxhpv000l1guz815p3koj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/21/Developer_lang/" data-id="cjlofx6qu00093guzh6mj00ui" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +159,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -166,23 +172,23 @@
       <ul>
         
           <li>
+            <a href="/2018/09/04/C++1/">C++常见问题之static,violate,const</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/03/CO_32or64/">计算机组成原理之32or64</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/01/designpattern2/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++5/">C++常见问题之内存布局（二）</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++4/">C++常见问题之其他</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++3/">C++常见问题之初始化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/29/C++/">C++常见问题之内存布局（一）</a>
           </li>
         
       </ul>
