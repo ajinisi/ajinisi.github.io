@@ -62,6 +62,277 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Net_control" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net_control/" class="article-date">
+  <time datetime="2018-08-17T10:52:28.134Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/17/Net_control/">计算机网络复习之流量控制拥塞控制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h3><p>尽管流量控制和拥塞控制congestion control采取的动作非常相似（对发送方的遏制），</p>
+<p>拥塞控制就是防止过多的数据注入网络中，这样可以使网络中的路由器或链路不致过载。拥塞控制是一个全局性的过程，和流量控制不同，流量控制指点对点通信量的控制</p>
+<p>防止发送节点淹没另一端的接收节点，以消除发送方使接收方缓存溢出的可能性，流量控制因此是一个速度匹配服务，即发送方的发送速率与接收方应用程序的读取速率相匹配</p>
+<ul>
+<li>流量控制：控制连接的两端发送数据不要太快；</li>
+<li>拥塞控制：控制连接所经过的路由器别超负荷；</li>
+</ul>
+<p>拥塞控制代价：需要获得网络内部流量分布的信息。在实施拥塞控制之前，还需要在结点之间交换信息和各种命令，以便选择控制的策略和实施控制。这样就产生了额外的开销。拥塞控制还需要将一些资源分配给各个用户单独使用，使得网络资源不能更好地实现共享</p>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><p>TCP通过让发送方维护一个称为接收窗口（receive window）的变量来提供流量控制。接收窗口用于告诉发送方，该接收方还有多少可用的缓存空间。因为TCP是全双工通信，在连接两端的发送方都各自维护一个接收窗口</p>
+<p>发送方维持一个拥塞窗口 cwnd ( congestion window )的状态变量。拥塞窗口的大小取决于网络的拥塞程度，并且动态地在变化。发送方让自己的发送窗口等于拥塞。</p>
+<p>发送方控制拥塞窗口的原则是：只要网络没有出现拥塞，拥塞窗口就再增大一些，以便把更多的分组发送出去。但只要网络出现拥塞，拥塞窗口就减小一些，以减少注入到网络中的分组数</p>
+<h4 id="流量控制方法"><a href="#流量控制方法" class="headerlink" title="流量控制方法"></a>流量控制方法</h4><p>打开关闭窗口<br>窗口收缩<br>窗口关闭<br>糊涂窗口综合征 </p>
+<p>对端用ACK告知窗口大小。本端传递的数据量小于窗口大小。（更好的说法是告诉对端本地的窗口的大小，对端传递的数据量必须小于该窗口）</p>
+<h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><p>像可靠数据传输一样，拥塞控制也是十分重要且基础的问题。<br>拥塞控制是网络层和传输层的共同责任</p>
+<h4 id="什么是拥塞"><a href="#什么是拥塞" class="headerlink" title="什么是拥塞"></a>什么是拥塞</h4><p>即对资源的需求超过了可用的资源。若网络中许多资源同时供应不足，网络的性能就要明显变坏，整个网络的吞吐量随之负荷的增大而下降</p>
+<h4 id="拥塞发生原因"><a href="#拥塞发生原因" class="headerlink" title="拥塞发生原因"></a>拥塞发生原因</h4><p>情况1：两个发送方和一台具有无穷大缓存的路由器<br>这种情况下接收方的吞吐量等于发送方的发送速率，吞吐量上限是由两个连接之间对链路容量的共享造成的</p>
+<p>最初的延迟是固定的，表示穿过整个网络的传播延迟。随着发送速率接近链路容量，延迟逐步上升，然后骤然上升，超过后源与目的地的平均时延也会变成无穷大</p>
+<p>情况2：两个发送方和一台具有有限缓存的路由精<br>这种情况下，当分组到达一个已满的缓存时会被丢弃，同时假定每个连接都是可靠的，所以它终将被发送方重传。由于分组可以被重传，所以我们把应用程序将初始数据发送到套接字中的速率称为发送速率，运输层向网络中发送报文段（含有初始数据和重传数据）速率称为提交负载/供给载荷（offered load）</p>
+<p>当发送方仅当确定一个分组已经丢失时才重传，</p>
+<p>情况 3: 四个发送方和具在有限援存的多台路由器及多跳路径<br>当提交负载较小时，；当提交负载较大时，在极限情况下，吞吐量趋近于0</p>
+<h4 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h4><ul>
+<li><p>端到端拥塞控制</p>
+<ul>
+<li>TCP拥塞控制算法（TCP congestion control algorithm）包括三个主要部分：1. 加法递增乘法递减法则（AIMD, Additive Increase Multiplicative Decrease）；2. 慢启动；3. 对超时事件作出反应</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>网络辅助的拥塞控制</li>
+</ul>
+<p>慢启动slow start：当主机开始发送数据时，如果立即所大量数据字节注入到网络，那么就有可能引起网络拥塞，因为现在并不清楚网络的负荷情况。因此，较好的方法是 先探测一下，即由小到大逐渐增大发送窗口，也就是说，由小到大逐渐增大拥塞窗口数值。通常在刚刚开始发送报文段时，先把拥塞窗口 cwnd 设置为一个最大报文段MSS的数值。而在每收到一个对新的报文段的确认后，把拥塞窗口增加至多一个MSS的数值。用这样的方法逐步增大发送方的拥塞窗口 cwnd ，可以使分组注入到网络的速率更加合理</p>
+<p>拥塞避免congestion avoidance：感知拥塞应该是受到了ICMP抑制报文。让拥塞窗口cwnd缓慢地增大，即每经过一个往返时间RTT就把发送方的拥塞窗口cwnd加1，而不是加倍。这样拥塞窗口cwnd按线性规律缓慢增长，比慢开始算法的拥塞窗口增长速率缓慢得多<br>拥塞发生</p>
+<p>快重传fast retransmit：要求接收方每收到一个失序的报文段后就立即发出重复确认（为的是使发送方及早知道有报文段没有到达对方）而不要等到自己发送数据时才进行捎带确认</p>
+<p>快速恢复fast recovery：快恢复是与快重传配合的算法,在发生数据丢失时,发送方收到接收方发回的三个重复确认信息时,就把每次传输的数据量减为原来的一半,拥塞窗口也修改为这个值,然后又开始拥塞避免的算法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net_control/" data-id="cjljcxhpj000b1guzngsovu7u" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Net_service" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/Net_service/" class="article-date">
+  <time datetime="2018-08-17T08:51:18.860Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先，要明确，并非在一个层内完成的全部功能都称为服务。只有哪些能够被高一层实体“看得见”的功能才能称之为“服务”。不同层提供的既有相同的服务，也有不同的服务。<br>后两篇博客将详述流量控制和拥塞控制</p>
+<h3 id="面向连接服务与无连接服务"><a href="#面向连接服务与无连接服务" class="headerlink" title="面向连接服务与无连接服务"></a>面向连接服务与无连接服务</h3><p>面向连接的服务按电话系统建模；无连接服务按邮政系统建模</p>
+<p>面向连接有三个阶段：连接建立，数据传输和连接释放；无连接没有</p>
+<h3 id="面向消息和面向流"><a href="#面向消息和面向流" class="headerlink" title="面向消息和面向流"></a>面向消息和面向流</h3><p>不保留消息边界的协议通常称作“基于流的协议”</p>
+<h3 id="可靠服务和不可靠服务"><a href="#可靠服务和不可靠服务" class="headerlink" title="可靠服务和不可靠服务"></a>可靠服务和不可靠服务</h3><p>现实世界中很多的信道是不可靠的，传输过程中，可能会发生位的错误（由0变为1，或者相反），丢包（例如路由器的缓存溢出），到达的包乱序等等，我们将可靠定义为不错，不丢，不乱。</p>
+<h4 id="链路层的可靠性"><a href="#链路层的可靠性" class="headerlink" title="链路层的可靠性"></a>链路层的可靠性</h4><p>当链路层协议提供可靠交付服务时，它保证无差错地经链路层移动每个网络层数据损<br>链路层可靠交付服务通常用于易于产生高差错率的链路，例如无线链路，其目的是本地(也就是在差错发生的链路上)纠正一个差错，而不是通过运输层或应用层协议迫使进行端到端的数据重传。 然而，对于低比特差错的链路， 包括光纤、同轴电缆和许多双绞铜线链路，链路层可靠交付可能会被认为是一种不必要的开销。 由于这个原因，许多有线的链路层协议不提供可靠交付服务</p>
+<h4 id="TCP的可靠性"><a href="#TCP的可靠性" class="headerlink" title="TCP的可靠性"></a>TCP的可靠性</h4><p>TCP通过序列号、检验和、确认应答信号、（超时）重传机制、连接管理、窗口控制、流量控制、拥塞控制实现可靠性</p>
+<ul>
+<li>序列号：是指按照顺序给发送数据包中的每一个字节都标识上一个编号，接收端主机根据接收数据TCP包首部中的序列号和数据长度，来将自己下一步应该接收的序列号作为确认应答返送回去<ul>
+<li>发现丢包</li>
+<li>重新排序，保证顺序</li>
+<li>丢弃重复数据</li>
+<li>提高效率，可实现多次发送，一次确认<br>确认应答处理、重发控制以及重复处理等功能都可以通过序列号来实现</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>（超时）重传机制：当报文发出后在一定的时间内未收到接收方的确认，发送方就会进行重传。TCP含有用于动态估算客户和服务器之间的往返时间RTT的算法，以便它知道等待一个确认需要多少时间<br>报文段发出到收到应答中间有一个报文段的往返时间RTT，显然超时重传时间RTO会略大于这个RTT，TCP会根据网络情况动态的计算RTT，即RTO是不断变化的。<ul>
+<li>在Linux中，超时以500ms为单位进行控制，每次判定超时重发的超时时间都是500ms的整数倍。其规律为：如果重发一次仍得不到应答，就等待2<em>500ms后再进行重传，如果仍然得不到应答就等待4</em>500ms后重传，依次类推，以指数形式递增，重传次数累计到一定次数后，TCP认为网络或对端主机出现异常，就会强行关闭连接</li>
+<li>在Windows系统中，超时时间都是以0.5s 为单位进行控制的，因此超时时间都是0.5s 的整数倍。不过由于最初的数据包还不知道往返时间，所以最初的重发超时时间一般设置为6s 左右</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>流量控制，从而确保发送端发送的数据不会使接收缓冲区溢出：总是告知对端在任何时刻它一次能够从对端接收多少字节的数据，这称为通告窗口</li>
+</ul>
+<h3 id="有应答服务和无应答服务"><a href="#有应答服务和无应答服务" class="headerlink" title="有应答服务和无应答服务"></a>有应答服务和无应答服务</h3><h3 id="流量控制与拥塞控制"><a href="#流量控制与拥塞控制" class="headerlink" title="流量控制与拥塞控制"></a>流量控制与拥塞控制</h3><p>流量控制，flow-control-service</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/Net_service/" data-id="cjljcxhpd00081guzrbxjlus7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-OS_MMU" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/14/OS_MMU/" class="article-date">
+  <time datetime="2018-08-14T02:56:20.871Z" itemprop="datePublished">2018-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/14/OS_MMU/">CPU和MMU</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在说中央处理器CPU之前，先要了解计算机存储介质的构成。位于CPU内部的存储介质只有寄存器（CPU内有个寄存器堆，寄存器数量不多，也就20来个），寄存器是容量最小的存储介质，但是是最快的。其他的存储介质都位于CPU外部，容量由小到大分别是cache-&gt;内存-&gt;硬盘-&gt;网络（可视为无限容量）。<br>在我们运行.out文件中的一条指令时，该指令会在CPU中经历如下步骤：</p>
+<ol>
+<li>由于.out文件保存在磁盘内，由磁盘写入内存，再由内存进入cache区，CPU中的预取器，执行预取指令的工作，把这条二进制形式的指令取进CPU；</li>
+<li>预取器把取到的指令交给译码器，译码器对指令进行分析，获知指令要做的工作，以及完成指令需要使用什么寄存器（如果该指令是完成加法操作，就事先取出eax和ebx寄存器，把加数和被加数放在里面备好）；</li>
+<li>译码器了解具体的运算类型并且准备好寄存器后，有ALU算术逻辑单元完成具体的运算（算逻单元只会+和&lt;&lt;运算，所有运算都可以通过这两个基本运算完成）；</li>
+<li>ALU把计算好的结果回写到相应的寄存器，随后再由cache把哪个记录计算结果的寄存器中的内容取走。</li>
+</ol>
+<p>CPU中还有一块十分重要的单元——MMU内存管理单元。<br>MMU的作用：</p>
+<ol>
+<li>虚拟内存与物理内存的映射；</li>
+<li>设置和修改内存访问级别。<br>无论我们通过执行一个文件或者系统调用fork()函数产生一个进程，都会产生一片虚拟内存，在32位的系统上，虚拟内存是4G大小（其中0到3G是用户空间可使用的地址，3G到4G是内核空间可以使用的地址）。但是这片内存是虚拟的，并非实际存在的，切实存在的是我们的物理内存，只是我们通过这4G的虚拟内存能够更方便地管理内存空间。由于这块内存是虚拟的，看起来我们的程序相关内容都是存放在这片空间（程序中我们用户所有可以操控的内存地址都是虚拟内存的地址），但是实际还是存放在物理内存上，所以我们就要使用一个方法去把虚拟内存和物理内存之间相互映射，MMU就帮我们完成了这样的映射。在MMU把虚拟内存映射为物理内存的过程中，映射的最小单位是4K 大小（一个Page）,即便虚拟内存有一段区域只有1K大小，在把这块区域映射进物理内存，在物理内存上为它划分空间是时，也会毫不犹豫地划分出4K大小的区域。<br>MMU在完成映射的同时，还为CPU设置了对物理内存的访问级别。简单地说，访问级别最高是Ring0，是内核空间Kernel Space；最低是Ring3，是用户空间User Space。<br>例如：在程序执行一条命令printf()打印输出一些内容到屏幕上，调用printf()阶段，CPU运行在用户空间，但是printf()还需要向下作系统调用write()，此时CPU进入内核空间，对内存的访问级别发生了改变（由Ring3-&gt;Ring0）,这种级别的调整，就是MMU帮助CPU完成的。<br>MMU的工作在程序运行起来的时候就开始了，因为从cache上面取来的指令中使用的变量，数值等对应的存储位置就是虚拟内存，MMU需要把它映射到物理内存上，才能真正取出变量中的值。同样的CPU计算完把结果返回给cache也需要MMU协助把物理内存映射回虚拟内存。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/14/OS_MMU/" data-id="cjljcxhpg00091guzf1f6mysi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Developer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/12/Developer/" class="article-date">
+  <time datetime="2018-08-12T12:36:16.840Z" itemprop="datePublished">2018-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/12/Developer/">开发者的战争之语言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为一个开发者，他在开发的过程中会用到各种各样的工具，各种各样的语言，各种各样的系统等等。其中的每一个话题都会在论坛引起相关的讨论。不同的开发者会有不同的偏好，这给程序员社区带来了不少有趣的论战。我把这些主题的博客称为“开发者的战争”，因为很多时候的讨论真的有点类似宗教之间的圣战。</p>
+<h3 id="开发者战争之编辑器"><a href="#开发者战争之编辑器" class="headerlink" title="开发者战争之编辑器"></a>开发者战争之编辑器</h3><p>任何人从小接触计算机（windows）的时候，一定是从记事本Notepad，画图，扫雷开始的。深入之后会去office三件套word，ppt和excel。在没有编程之前，我一直以为记事本和word没什么区别，只不过记事本更加简陋而已。。。<br>在Liunx下，最著名的编辑器莫过于Vim了。</p>
+<p>除了编辑器之外，集成开发环境就没有太多争议了，这是因为有“宇宙第一IDE”之称的Visual Studio, VS，一骑绝尘。 </p>
+<h3 id="开发者战争之语言"><a href="#开发者战争之语言" class="headerlink" title="开发者战争之语言"></a>开发者战争之语言</h3><p>如果说编辑器只是微不足道的小不同，那语言绝对是天然的划分属性。每年都会有网站统计最受欢迎的语言排名。例如<a href="https://www.tiobe.com/tiobe-index/" target="_blank" rel="noopener">TIOBE</a></p>
+<p>对于语言之间的不同特性，很多人会用各种各样的比喻和通俗化解释，例如枪械，二次元。详情请见<a href="https://www.zhihu.com/question/25038841" target="_blank" rel="noopener">PHP、Java、Python、C、C++ 这几种编程语言都各有什么特点或优点？</a></p>
+<p>每种语言都会有一句自己的口号<br>语言 | Slogan<br>:-: | :-:<br>Ruby | Do one thing more than one way<br>Python | 约定优于配置<br>JavaScript | 凡是能用JavaScript重写的都将会被JavaScript重写<br>Java | 一次编译到处运行<br>Golang | 互联网时代的C语言</p>
+<p>如果我们从大的角度划分，语言其实可以分为：</p>
+<h4 id="机器汇编和高级"><a href="#机器汇编和高级" class="headerlink" title="机器汇编和高级"></a>机器汇编和高级</h4><p>机器语言，汇编语言和高级语言是按照等级划分的。</p>
+<h4 id="编译型和解释型的区别"><a href="#编译型和解释型的区别" class="headerlink" title="编译型和解释型的区别"></a>编译型和解释型的区别</h4><p>个人认为表面的差异，例如python的缩进，golang的错误处理，不是本质的东西。底层的编译原理才是它们的最大差别。</p>
+<p>在《编译原理》一开头，语言处理器就划分为两类——编译器和解释器interpreter</p>
+<p>源程序–编译器–&gt;目标程序<br>源程序和输入–解释器–&gt;输出</p>
+<h4 id="标记、脚本和编程语言"><a href="#标记、脚本和编程语言" class="headerlink" title="标记、脚本和编程语言"></a>标记、脚本和编程语言</h4><ul>
+<li>标记语言，是一种将文本（Text）以及文本相关的其他信息结合起来，展现出关于文档结构和数据处理细节的电脑文字编码。与文本相关的其他信息（包括例如文本的结构和表示信息等）与原来的文本结合在一起，但是使用标记（markup）进行标识。<br>我们常用的XML、JSON、HTML是标记语言，我写这篇博客用的markdown它也是标记语言。</li>
+<li>脚本语言是为了缩短传统的编写-编译-链接-运行（edit-compile-link-run）过程而创建的计算机编程语言。它的命名起源于一个脚本“screenplay”，每次运行都会使对话框逐字重复。早期的脚本语言经常被称为批量处理语言或工作控制语言。<br>Python、PHP、Ruby、Lua、JavaScript它们都是脚本语言</li>
+<li>编程语言（programming language）</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>综合以上的说明，我们可以把语言划分为<br>编程语言的代际划分也是这样的<br>代 | |类如<br>:-: | :-: | :-:<br>第一代 | 机器语言<br>第二代 | 汇编语言<br>第三代 | 面向过程语言：C、FORTHAN语言<br>第四代 | 面向对象语言：C++（编译型） Java、C#（半编译半解释）<br>第五代 | 脚本语言：Python、PHP、Ruby、Lua、JavaScript<br>第六代 | 专业性的语言：MATLAB精于数值计算，Map适合符号运算，R/sas等适合统计计算</p>
+<p>当然语言之间还有其他的一些区别，请见下篇博客“开发者的战争之静态动态问题”</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/12/Developer/" data-id="cjlofx6qp00043guzmgsneqcm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-OS_gdb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/10/OS_gdb/" class="article-date">
+  <time datetime="2018-08-10T14:38:30.156Z" itemprop="datePublished">2018-08-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/10/OS_gdb/">gdb调试的学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>首先调试之前要具备一个包含调试信息的可执行文件：<br>使用gcc    *.c    -o    app    -g命令可以获得（在讲解gcc的文章中有所介绍）。</li>
+<li>对该可执行文件app启动gdb调试：<br>使用命令：gdb    app</li>
+<li>具体的调试方法：</li>
+</ol>
+<ul>
+<li>gdb中使用l命令可以查看文件：<br><strong>命令l</strong>    文件名：行数（查看指定文件的某行）<br><strong>命令l</strong>    文件名：函数名（查看指定文件的某个函数）<br><strong>命令l</strong>    每点一次l会把文件向后滚动列出10行</li>
+<li>执行程序前先设置一般的断点：<br>命令 break    行数（在该行设置一个断点）<br>设置条件断点：<br>命令 b（或者break都可以）    行数    if    条件（在满足这个条件时候才会break停住，常用在for循环中，指定到达某次循环即循环变量i到某个指定值时让程序暂停）<br>查看断点的信息：<br>命令 i（或者info）    b</li>
+<li>设置好断点可以开始运行程序，在运行时调试：<br>命令 start（从程序开始向后执行一步）<br>命令 run（直接执行在第一个端点处）<br>命令 n（从当前位置向后执行一步，进行单步调试，在遇到函数时候，不进入函数体内，直接执行下一行）<br>命令 c（从当前位置继续执行，直到遇到条件成熟的断点停下）<br>命令 s（也是单步执行，遇到函数体会进入其中）<br>命令P    变量名（在函数体内调试是可以查看对应变量的值）<br>命令 display    变量名（可以在循环中简单追踪循环变量值的改变，实行追踪时会给这个变量分配一个临时编号，若想要去掉追踪，用命令display    变量编号，就可以除去追踪）<br>命令 u（跳出当前循环，直接跳出当前的for之类的循环向后执行程序）<br>命令 finish（跳出当前函数，但是执行finish之前首先要删掉我们打在函数外面的断点，<br>命令 d   断点编号可以删掉对应编号的断点）<br>命令 set    var    变量名=指定值（直接设置一个变量到达某个值，常让它能够满足某个条件断点的条件时使用）</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/10/OS_gdb/" data-id="cjljcxhpl000d1guzdvc455bl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-OS_gcc" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/10/OS_gcc/" class="article-date">
@@ -222,7 +493,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/09/OS_concurrent/">操作系统基本概念之并发</a>
+      <a class="article-title" href="/2018/08/09/OS_concurrent/">操作系统基本概念之并发并行</a>
     </h1>
   
 
@@ -230,7 +501,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>并发是一个多义词，它的英文单词是 concurrent ，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数/请求数，高并发指同时有很多用户对服务器进行访问；</p>
+        <h2 id="并发concurrency和并行parallellism的区别"><a href="#并发concurrency和并行parallellism的区别" class="headerlink" title="并发concurrency和并行parallellism的区别"></a>并发concurrency和并行parallellism的区别</h2><p>并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行<br>并发性是指一次处理很多事物；并行性是指同时做很多事情</p>
+<p>并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生<br>并行是在不同实体上的多个事件，并发是在同一实体上的多个事件<br>在一台处理器上“同时”处理多个任务，在多台处理器上同时处理多个任务。如hadoop分布式集群、</p>
+<p>应用程序可以是并发的，但不是并行的，这意味着它可以同时处理多个任务，但是没有两个任务在同一时刻执行。应用程序可以是并行的，但不是并发的，这意味着它同时处理多核CPU中的任务的多个子任务。一个应用程序可以即不是并行的，也不是并发的，这意味着它一次一个地处理所有任务。应用程序可以即是并行的也是并发的，这意味着它同时在多核CPU中同时处理多个任务</p>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>并发是一个多义词，意为“同时发生的”。在后台、服务器领域，并发是指同一时刻能处理的连接数/请求数，高并发指同时有很多用户对服务器进行访问；</p>
 <h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><p>吞吐率，单位时间里服务器处理的最大请求数，单位req/s<br>从服务器角度，实际并发用户数的可以理解为服务器当前维护的代表不同用户的文件描述符总数，也就是并发连接数。服务器一般会限制同时服务的最多用户数，比如apache的MaxClents参数。</p>
 <h3 id="提高并发能力的方法"><a href="#提高并发能力的方法" class="headerlink" title="提高并发能力的方法"></a>提高并发能力的方法</h3><p>提高CPU并发计算能力<br>考虑减少内存分配和释放<br>考虑使用持久连接<br>改进I/O 模型</p>
 <p>而在操作系统领域，所谓并发，有三个方面的含义</p>
@@ -402,243 +676,6 @@
 
 
   
-    <article id="post-learnDB" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/08/learnDB/" class="article-date">
-  <time datetime="2018-08-08T01:55:14.011Z" itemprop="datePublished">2018-08-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/08/learnDB/">数据库的学习之存储引擎</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。<br>打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</a>) ，好吧全英文，接下来是重点内容的翻译</p>
-<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB是一种同时兼顾高可靠性和高性能的通用存储引擎。在MySQL 8.0中，InnoDB是默认的MySQL存储引擎。其DML操作遵循 ACID 模型， 具有提交，回滚和崩溃恢复功能的事务，以保护用户数据。</p>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/08/learnDB/" data-id="cjljcxhpz000q1guzwkfcgaio" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGit2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/learnGit2/" class="article-date">
-  <time datetime="2018-08-06T12:34:29.343Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit2/">Git的使用之多人合作二</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。</p>
-<p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后如果ajinisi对项目进行了改动。那么我首先应该同步他的更新</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi git@github.com:ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>在同步之后，推送到我自己的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line">To github.com:ajininana/teachinghelper.git</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;git@github.com:ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
-<p>试了很多方法都不行，等待进一步解决<br>已解决，见前篇博客。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">To ajinina.github.com:ajininana/teachinghelper.git</span><br><span class="line">   d3a2b6b..0264198  master -&gt; master</span><br><span class="line">Branch &apos;master&apos; set up to track remote branch &apos;master&apos; from &apos;origin&apos;.</span><br></pre></td></tr></table></figure>
-<p>后面就是简单的 pull request，等待ajinisi确认是否合并，不再赘述。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit2/" data-id="cjljcxhq6000x1guz6gdi9vt3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/learnGit/" class="article-date">
-  <time datetime="2018-08-06T02:20:06.118Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。</p>
-<h2 id="SSH-keys"><a href="#SSH-keys" class="headerlink" title="SSH keys"></a>SSH keys</h2><p>首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH keys来验证你是否为合法用户。</p>
-<h3 id="怎么使用SSH-keys"><a href="#怎么使用SSH-keys" class="headerlink" title="怎么使用SSH keys"></a>怎么使用SSH keys</h3><p>在你的电脑生成了一个唯一的ssh公钥和私钥，公钥放到github上面，当你推送的时候，git就会匹配你的私钥是否跟github上面的公钥是配对的，正确就认为你是合法的，允许推送。现在来确认下你是否已经拥有SSH keys。 默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。 Windows10系统下，用户的 SSH 密钥存储在其 C:\Users\yourusername.ssh 目录下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br><span class="line">id_rsa  id_rsa.pub  known_hosts</span><br></pre></td></tr></table></figure></p>
-<p>id_rsa就是我们的私钥，id_rsa.pub就是我们的公钥。</p>
-<ul>
-<li><p>如果你没有keys（或者根本没有 .ssh 目录），又或者你不想使用已有的keys，则你可以创建一个新的SSH keys。在一台电脑上使用两个不同的账号，就是采取的此方法建立两个不同的keys。详情见下。</p>
-</li>
-<li><p>如果你有keys并且想用它连接到Github，则在ssh-agent和Github账户中添加它<br>用文本编辑器打开id_rsa.pub并复制里面的全部内容，或者执行下面命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your clipboard</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>点击你的Github头像，再依次点击 <strong>Settings</strong>-&gt;<strong>SSH and GPG keys</strong>-&gt; <strong>New SSH key</strong> 。在“Title”字段输入你想要的助记名字并在“Key”字段粘贴key即可。<br>测试设置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>OK，skr~</p>
-<h3 id="新建SSH-keys"><a href="#新建SSH-keys" class="headerlink" title="新建SSH keys"></a>新建SSH keys</h3><ol>
-<li>使用你的邮箱作为标签，创建一个新的SSH key</li>
-<li>输入文件名，用于保存刚刚生成的 SSH key 代码。不输入将使用 /c/Users/you/.ssh/id_rsa 作为默认文件（如果你是在 ~/.ssh/ 路径下操作的话）。</li>
-<li>输入密码，这个密码会在你提交项目时使用，如果为空的话推送项目时则不用输入。这个设置是防止同一台电脑上的别人私自往你的项目里推送内容。</li>
-<li>因为默认只读取id_rsa，为了让SSH识别新产生的私钥，需将其添加的ssh-agent中，这里要确保你的ssh-agent正在运行</li>
-<li>创建并配置 config 文件，还没有结束，如果现在使用 $ ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> 只会“欢迎”一个用户。我们还需要添加一个配置文件。<br><strong>！！！配置文件每行前不要以空格开头</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> # 配置ajinina(ajininana@163.com)</span><br><span class="line"></span><br><span class="line">Host ajinina.github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_liu</span><br><span class="line">    User ajinina</span><br><span class="line"></span><br><span class="line"># 配置ajinisi(ajinisi@163.com)</span><br><span class="line"></span><br><span class="line"># 每个Host要取一个别名</span><br><span class="line">Host ajinisi.github.com</span><br><span class="line"># 真实的域名地址，Github为github.com，oschina为git.oschina.net</span><br><span class="line">    HostName github.com</span><br><span class="line"># 配置登录时用什么权限认证–可设为publickey,password publickey,keyboard-interactive等 </span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line"># id_rsa的地址</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br><span class="line"># 用户名</span><br><span class="line">    User ajinisi</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>再按照上面的说明分别添加公钥到不同的GitHub账户中，测试时注意git@后面的写法，用的是config里面的Host别名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@ajinisi.github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">$ ssh -T git@ajinina.github.com</span><br><span class="line">Enter passphrase for key &apos;/c/Users/ajini/.ssh/id_rsa_liu&apos;:</span><br><span class="line">Hi ajininana! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>在以后的使用中，取消全局用户名和邮箱的设置，为不同的仓库设置局部的用户名和邮箱，同时谨记 <strong>重建origin</strong>。因为这个地方的疏忽，导致我始终 push 被拒绝。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm origin</span><br><span class="line">$ git remote add origin git@ajinisi.github.com:ajinisi/teachinghelper.git</span><br></pre></td></tr></table></figure></p>
-<p>附上建key详细的命令过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C &quot;ajininana@163.com&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/c/Users/ajini/.ssh/id_rsa): id_rsa_liu</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved in id_rsa_liu.</span><br><span class="line">Your public key has been saved in id_rsa_liu.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:t601h0H/IklcnuLXVIqEYEPPNZtG5PqBcFkdr0Y6CL0 ajininana@163.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 4096]----+</span><br><span class="line">|       .=  .*... |</span><br><span class="line">|       . * B +.. |</span><br><span class="line">|        o B B o o|</span><br><span class="line">|         + X B +.|</span><br><span class="line">|        S E X B .|</span><br><span class="line">|         . * O + |</span><br><span class="line">|          . X + o|</span><br><span class="line">|           o = . |</span><br><span class="line">|          .      |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ # 如果是msysgit</span><br><span class="line"># start the ssh-agent in the background</span><br><span class="line">eval $(ssh-agent -s)</span><br><span class="line">Agent pid 59566</span><br><span class="line"></span><br><span class="line"># 如果是git bash</span><br><span class="line">$ ssh-agent -s</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa (/c/Users/ajini/.ssh/id_rsa)</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa_liu</span><br><span class="line">Enter passphrase for /c/Users/ajini/.ssh/id_rsa_liu:</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa_liu (/c/Users/ajini/.ssh/id_rsa_liu)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit/" data-id="cjljcxhq5000w1guz87inugq5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnHexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnHexo/" class="article-date">
-  <time datetime="2018-08-05T13:54:42.523Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnHexo/">hexo中踩的坑</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hexo的介绍"><a href="#hexo的介绍" class="headerlink" title="hexo的介绍"></a>hexo的介绍</h2><p>。。。</p>
-<h2 id="hexo的部署"><a href="#hexo的部署" class="headerlink" title="hexo的部署"></a>hexo的部署</h2><p>使用命令 $ hexo g 就可以把md文件转化为博客的HTML文件，它们会出现在文件夹 public/ 下。为了避免手动地向github仓库提交，我们可以使用命令 $ hexo d -g 自动提交更新到代码库。<br>首先将 myblog/_config.yml 里 deploy 段做下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:  git</span><br><span class="line">repo:  git@github.com:ajinisi/ajinisi.github.io.git</span><br><span class="line">branch:  master</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第一个坑</strong> 出现了，这里type、repo等字段的冒号后面必须要有两个空格，否则命令 $ hexo d -g 只会产生文件而不会执行部署。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 123 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: 2018/08/05/hello-world/index.html</span><br><span class="line">INFO  Generated: archives/2018/08/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/08/05/learnGO/index.html</span><br><span class="line">INFO  6 files generated in 248 ms</span><br></pre></td></tr></table></figure>
-<p>同时字段名不要输错，如果把“repo”误入为“rep”，则出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploying: git</span><br><span class="line">You have to configure the deployment settings in _config.yml first!</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line">  deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;repository url&gt;</span><br><span class="line">    branch: [branch]</span><br><span class="line">    message: [message]</span><br><span class="line"></span><br><span class="line">    extend_dirs: [extend directory]</span><br><span class="line"></span><br><span class="line">For more help, you can check the docs: http://hexo.io/docs/deployment.html</span><br><span class="line">INFO  Deploy done: git、</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第二个坑</strong>，如果出现下面的消息，说明你的key没有设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure></p>
-<p>最终，搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">...</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnHexo/" data-id="cjljcxhq800101guz4cuyk0yl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnGO/">RESTful风格的实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
-<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
-<ul>
-<li>GET /session # 获取会话信息</li>
-<li>POST /session # 创建新的会话（登入）</li>
-<li>PUT /session # 更新会话信息</li>
-<li><p>DELETE /session # 销毁当前会话（登出）</p>
-</li>
-<li><p>GET /user/:id # 获取id用户的信息</p>
-</li>
-<li>POST /user # 创建新的用户（注册）</li>
-<li>PUT /user/:id # 更新id用户的信息</li>
-<li>DELETE /user/:id # 删除id用户（注销）</li>
-</ul>
-<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
-<p>。。。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjljcxhq3000u1guz67zknqox" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -675,23 +712,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/04/C++1/">C++常见问题之static,violate,const</a>
+            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
           </li>
         
           <li>
-            <a href="/2018/09/03/CO_32or64/">计算机组成原理之32or64</a>
+            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/designpattern2/">(no title)</a>
+            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
           </li>
         
           <li>
-            <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
+            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
           </li>
         
       </ul>

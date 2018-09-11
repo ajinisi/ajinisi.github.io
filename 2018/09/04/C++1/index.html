@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="cv （const与volatile）类型限定符const：定义类型为常    • 编译器强制实施bitwise constness，但你编写程序时应该使用conceptual constness当。。。 const应用场景合理地使用关键字const可以使编译器很自然地保护那些不希望被改变的参数，防止其被无意的代码修改  const修饰指针 const修饰函数参数：const修饰函数参数是它最广泛">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-05T00:19:52.200Z">
+<meta property="og:updated_time" content="2018-09-11T08:15:14.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++常见问题之static,violate,const">
 <meta name="twitter:description" content="cv （const与volatile）类型限定符const：定义类型为常    • 编译器强制实施bitwise constness，但你编写程序时应该使用conceptual constness当。。。 const应用场景合理地使用关键字const可以使编译器很自然地保护那些不希望被改变的参数，防止其被无意的代码修改  const修饰指针 const修饰函数参数：const修饰函数参数是它最广泛">
@@ -101,7 +101,7 @@
 <p>在设计类的时候，一个原则就是对于不改变数据成员的成员函数都要在后面加 const，而对于改变数据成员的成员函数不能加 const。所以 const 关键字对成员函数的行为作了更加明确的限定：有 const 修饰的成员函数（指 const 放在函数参数表的后面，而不是在函数前面或者参数表内），只能读取数据成员，不能改变数据成员；没有 const 修饰的成员函数，对数据成员则是可读可写的。</p>
 <p>除此之外，在类的成员函数后面加 const 还有什么好处呢？那就是常量（即 const）类对象可以调用 const 成员函数，而不能调用非const修饰的函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class AAA</span><br><span class="line">&#123;</span><br><span class="line">void func1();</span><br><span class="line">void func2() const;</span><br><span class="line">&#125;</span><br><span class="line">const AAA aObj;</span><br><span class="line">aObj.func1();//×</span><br><span class="line">aObj.func2();//正确</span><br><span class="line"> </span><br><span class="line">const AAA* aObj =new AAA();</span><br><span class="line">aObj-&gt;func1();// ×</span><br><span class="line">aObj-&gt;func2();//正确</span><br></pre></td></tr></table></figure></p>
 <p>const 、 volatile 及引用限定成员函数</p>
-<p>• 非静态成员函数可声明带有 const 、 volatile 或 const volatile 限定符（这些限定符出现在函数声明中的参数列表之后）。 cv 限定相异的函数拥有不同类型，从而可以相互重载</p>
+<p>非静态成员函数可声明带有 const 、 volatile 或 const volatile 限定符（这些限定符出现在函数声明中的参数列表之后）。 cv 限定相异的函数拥有不同类型，从而可以相互重载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">lass A</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    void f()</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;&quot;non const&quot;&lt;&lt;endl;</span><br><span class="line">     &#125; </span><br><span class="line">    void f() const</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;&quot; const&quot;&lt;&lt;endl;</span><br><span class="line">     &#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>const 对象调用f() const，非const对象调用 f()</p>
 <p>在 cv 限定的函数体内， this 指针有 cv 限定，例如 const 成员函数中，只能正常地调用其他 const 成员函数。（非 const 成员函数仍可调用，若应用 const_cast 或通过不涉及 this 的访问路径。）</p>
@@ -142,8 +142,17 @@
     
 <nav id="article-nav">
   
+    <a href="/2018/09/06/网络编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网络编程之同步和异步
+        
+      </div>
+    </a>
   
-    <a href="/2018/09/03/CO_32or64/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2018/09/03/组成原理_32or64/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">计算机组成原理之32or64</div>
     </a>
@@ -182,23 +191,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/04/C++1/">C++常见问题之static,violate,const</a>
+            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
           </li>
         
           <li>
-            <a href="/2018/09/03/CO_32or64/">计算机组成原理之32or64</a>
+            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/designpattern2/">(no title)</a>
+            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
           </li>
         
           <li>
-            <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
+            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
           </li>
         
       </ul>

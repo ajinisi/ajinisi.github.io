@@ -15,7 +15,7 @@
 <meta property="og:description" content="常用数据结构一览AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；B/B+树：用在磁盘文件组织 数据索引和数据库索引双向链表：STL的list，Redis的list单向链表：ST">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/08/20/datastruct/images/datastruct.bmp">
-<meta property="og:updated_time" content="2018-08-24T08:34:49.026Z">
+<meta property="og:updated_time" content="2018-09-11T01:49:50.098Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和算法之常用的数据结构">
 <meta name="twitter:description" content="常用数据结构一览AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；B/B+树：用在磁盘文件组织 数据索引和数据库索引双向链表：STL的list，Redis的list单向链表：ST">
@@ -90,7 +90,15 @@
       
         <h3 id="常用数据结构一览"><a href="#常用数据结构一览" class="headerlink" title="常用数据结构一览"></a>常用数据结构一览</h3><p>AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树<br>红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；<br>B/B+树：用在磁盘文件组织 数据索引和数据库索引<br>双向链表：STL的list，Redis的list<br>单向链表：STL的slist<br>链表散列：STL的hash_set，hash_map；Java的HashMap，HashTable<br>跳表：Redis的Sorted Set</p>
 <p>stack、queue默认的底层实现为deque结构<br>deque：用map管理多个size大小的连续内存块，方便头尾插入</p>
-<h3 id="红黑树和散列的比较"><a href="#红黑树和散列的比较" class="headerlink" title="红黑树和散列的比较"></a>红黑树和散列的比较</h3><p>权衡三个因素: 查找速度, 数据量, 内存使用，可扩展性。<br>总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别。但红黑树的查找速度是log(n)级别，并不一定常数就比log(n)小。hash还有hash函数的耗时。<br>所以STL的map和set用红黑树而不是hash实现</p>
+<h3 id="红黑树和散列的比较"><a href="#红黑树和散列的比较" class="headerlink" title="红黑树和散列的比较"></a>红黑树和散列的比较</h3><p>权衡三个因素: 查找速度, 数据量, 内存使用，可扩展性。</p>
+<p>hash优点：<br>总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别。记录数据量很大的时候，处理记录的速度很快，平均操作时间是一个不太大的常数</p>
+<p>hash缺点：</p>
+<ol>
+<li>好的哈希函数（good hash function）的计算成本有可能会显著高于线性表或者搜索树在查找时的内部循环成本，所以当数据量非常小的时候，哈希表是低效的      </li>
+<li>哈希表按照 key 对 value 有序枚举（ordered enumeration， 或者称有序遍历）是比较麻烦的（比如：相比于有序搜索树），需要先取出所有记录再进行额外的排序</li>
+<li>哈希表处理冲突的机制本身可能就是一个缺陷，攻击者可以通过精心构造数据，来实现处理冲突的最坏情况。即：每次都出现冲突，甚至每次都出现多次冲突（针对封闭散列的探测），以此来大幅度降低哈希表的性能。这种攻击也被称为基于哈希冲突的拒绝服务攻击（Hashtable collisions as DOS attack）</li>
+</ol>
+<p>但红黑树的查找速度是log(n)级别，首先并不一定常数就比log(n)小，此外hash还有hash函数的耗时。<br>所以STL的map和set用红黑树而不是hash实现。</p>
 <p>红黑树并不适应所有应用树的领域。如果数据基本上是静态的，那么让他们待在他们能够插入，并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，例如，做一个哈希表，性能可能会更好一些</p>
 <p>首先set，不像map那样是key-value对，它的key与value是相同的。关于set有两种说法，第一个是STL中的set，用的是红黑树；第二个是hash_set，底层用得是hash table。红黑树与hash table最大的不同是，红黑树是有序结构，而hash table不是。但不是说set就不能用hash，如果只是判断set中的元素是否存在，那么hash显然更合适，因为set 的访问操作时间复杂度是log(N)的，而使用hash底层实现的hash_set是近似O(1)的。然而，set应该更加被强调理解为“集合”，而集合所涉及的操作并、交、差等，即STL提供的如交集set_intersection()、并集set_union()、差集set_difference()和对称差集set_symmetric_difference()，都需要进行大量的比较工作，那么使用底层是有序结构的红黑树就十分恰当了，这也是其相对hash结构的优势所在</p>
 <h3 id="几个实现例子"><a href="#几个实现例子" class="headerlink" title="几个实现例子"></a>几个实现例子</h3><p>Redis的list<br>用ziplist+quicklist实现的，ziplist压缩空间，quicklist实现链表</p>
@@ -165,23 +173,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/04/C++1/">C++常见问题之static,violate,const</a>
+            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
           </li>
         
           <li>
-            <a href="/2018/09/03/CO_32or64/">计算机组成原理之32or64</a>
+            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
           </li>
         
           <li>
-            <a href="/2018/09/01/designpattern2/">(no title)</a>
+            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
           </li>
         
           <li>
-            <a href="/2018/08/29/C++6/">C++常见问题之内存布局（三）</a>
+            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
           </li>
         
       </ul>

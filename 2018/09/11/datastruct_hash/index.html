@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数据结构和算法之哈希 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="碰见很多与哈希有关的术语 散列表hash table/hash map，泛指一切 key 为 hashcode 的键值对形式的数据结构：&amp;lt; hashcode，value&amp;gt; 散列表按实现可以分为哈希序列hash list/hash sequence；和哈希树hash tree。哈希序列即我们常说的链表散列、线性开放寻址散列等 链地址法的优点与开放定址法相比，拉链法有如下几个优点：   链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构和算法之哈希">
+<meta property="og:url" content="http://yoursite.com/2018/09/11/datastruct_hash/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="碰见很多与哈希有关的术语 散列表hash table/hash map，泛指一切 key 为 hashcode 的键值对形式的数据结构：&amp;lt; hashcode，value&amp;gt; 散列表按实现可以分为哈希序列hash list/hash sequence；和哈希树hash tree。哈希序列即我们常说的链表散列、线性开放寻址散列等 链地址法的优点与开放定址法相比，拉链法有如下几个优点：   链">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-11T01:58:00.659Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构和算法之哈希">
+<meta name="twitter:description" content="碰见很多与哈希有关的术语 散列表hash table/hash map，泛指一切 key 为 hashcode 的键值对形式的数据结构：&amp;lt; hashcode，value&amp;gt; 散列表按实现可以分为哈希序列hash list/hash sequence；和哈希树hash tree。哈希序列即我们常说的链表散列、线性开放寻址散列等 链地址法的优点与开放定址法相比，拉链法有如下几个优点：   链">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-datastruct_hash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/11/datastruct_hash/" class="article-date">
+  <time datetime="2018-09-11T01:31:39.861Z" itemprop="datePublished">2018-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据结构和算法之哈希
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>碰见很多与哈希有关的术语</p>
+<p>散列表hash table/hash map，泛指一切 key 为 hashcode 的键值对形式的数据结构：&lt; hashcode，value&gt;</p>
+<p>散列表按实现可以分为哈希序列hash list/hash sequence；和哈希树hash tree。哈希序列即我们常说的链表散列、线性开放寻址散列等</p>
+<p>链地址法的优点<br>与开放定址法相比，拉链法有如下几个优点： </p>
+<ol>
+<li>链地址法处理冲突简单，且无堆积现象，即非同义词决不会发生冲突，因此平均查找长度较短； </li>
+<li>由于链地址法中各链表上的结点空间是动态申请的，故它更适合于造表前无法确定表长的情况； </li>
+<li>开放定址法为减少冲突，要求装填因子α较小，故当结点规模较大时会浪费很多空间。而链地址法中可取α≥1，且结点较大时，链地址法中增加的指针域可忽略不计，因此节省空间； </li>
+<li>在用链地址法构造的散列表中，删除结点的操作易于实现。只要简单地删去链表上相应的结点即可。而对开放地址法构造的散列表，删除结点不能简单地将被删结 点的空间置为空，否则将截断在它之后填人散列表的同义词结点的查找路径。这是因为各种开放地址法中，空地址单元(即开放地址)都是查找失败的条件。因此在 用开放地址法处理冲突的散列表上执行删除操作，只能在被删结点上做删除标记，而不能真正删除结点。</li>
+</ol>
+<p>链地址法的缺点<br>　链地址法的缺点是：指针需要额外的空间，故当结点规模较小时，开放定址法较为节省空间，而若将节省的指针空间用来扩大散列表的规模，可使装填因子变小，这又减少了开放定址法中的冲突，从而提高平均查找速度</p>
+<p>开放定址法的优点：</p>
+<ol>
+<li>记录更容易进行序列化（serialize）操作</li>
+<li>如果记录总数可以预知，可以创建完美哈希函数，此时处理数据的效率是非常高的<br>的缺点：</li>
+<li>存储记录的数目不能超过桶数组的长度，如果超过就需要扩容，而扩容会导致某次操作的时间成本飙升，这在实时或者交互式应用中可能会是一个严重的缺陷</li>
+<li>使用探测序列，有可能其计算的时间成本过高，导致哈希表的处理性能降低</li>
+<li>由于记录是存放在桶数组中的，而桶数组必然存在空槽，所以当记录本身尺寸（size）很大并且记录总数规模很大时，空槽占用的空间会导致明显的内存浪费</li>
+<li>删除记录时，比较麻烦。比如需要删除记录a，记录b是在a之后插入桶数组的，但是和记录a有冲突，是通过探测序列再次跳转找到的地址，所以如果直接删除a，a的位置变为空槽，而空槽是查询记录失败的终止条件，这样会导致记录b在a的位置重新插入数据前不可见，所以不能直接删除a，而是设置删除标记。这就需要额外的空间和操作。</li>
+</ol>
+<p>负载因子load factor<br>一个评估哈希表的关键统计数据，被定义为：load factor = n / k, n 是记录的数量，k 是桶的数量</p>
+<ol>
+<li>随着负载因子的扩大，出现冲突的概率会越来越大，所以当超过一定阈值时，需要扩容，避免哈希表因为频繁处理冲突而越来越慢</li>
+<li>随着负载因子的缩小，桶数组中空着的槽就越来越多，所以当小过一定阈值时，需要缩容，避免空槽飙升导致的内存浪费</li>
+</ol>
+<p>动态调整dynamic resizing<br>是针对封闭散列的，有两种情况：</p>
+<ol>
+<li>当插入新记录到桶数组时，计算桶数组的负载因子，如果大于一定阈值时，对桶数组的大小进行扩容</li>
+<li>当从桶数组中删除记录时，计算桶数组的负载因子，如果小于一定阈值时，对桶数组的大小进行缩容</li>
+</ol>
+<p>扩容和缩容，都需要将旧记录迁移到新的地址上，这就需要对 key 进行重新映射，这种重新映射被称为再哈希（rehash）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/11/datastruct_hash/" data-id="cjlxseda60004h0uzn4gvhyan" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/10/Net_HTTP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">计算机网络复习之HTTP</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
