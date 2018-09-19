@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-learnDB" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-datastruct1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/08/learnDB/" class="article-date">
-  <time datetime="2018-08-08T01:55:14.011Z" itemprop="datePublished">2018-08-08</time>
+    <a href="/2018/08/22/datastruct1/" class="article-date">
+  <time datetime="2018-08-22T03:28:07.029Z" itemprop="datePublished">2018-08-22</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/08/learnDB/">数据库的学习之存储引擎</a>
+      <a class="article-title" href="/2018/08/22/datastruct1/">数据结构和算法</a>
     </h1>
   
 
@@ -84,223 +84,435 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。<br>打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</a>) ，好吧全英文，接下来是重点内容的翻译</p>
-<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB是一种同时兼顾高可靠性和高性能的通用存储引擎。在MySQL 8.0中，InnoDB是默认的MySQL存储引擎。其DML操作遵循 ACID 模型， 具有提交，回滚和崩溃恢复功能的事务，以保护用户数据。</p>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/08/learnDB/" data-id="cjljcxhpz000q1guzwkfcgaio" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGit2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/learnGit2/" class="article-date">
-  <time datetime="2018-08-06T12:34:29.343Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit2/">Git的使用之多人合作二</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。</p>
-<p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后如果ajinisi对项目进行了改动。那么我首先应该同步他的更新</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi git@github.com:ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>在同步之后，推送到我自己的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line">To github.com:ajininana/teachinghelper.git</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;git@github.com:ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
-<p>试了很多方法都不行，等待进一步解决<br>已解决，见前篇博客。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">To ajinina.github.com:ajininana/teachinghelper.git</span><br><span class="line">   d3a2b6b..0264198  master -&gt; master</span><br><span class="line">Branch &apos;master&apos; set up to track remote branch &apos;master&apos; from &apos;origin&apos;.</span><br></pre></td></tr></table></figure>
-<p>后面就是简单的 pull request，等待ajinisi确认是否合并，不再赘述。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit2/" data-id="cjljcxhq6000x1guz6gdi9vt3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/learnGit/" class="article-date">
-  <time datetime="2018-08-06T02:20:06.118Z" itemprop="datePublished">2018-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。</p>
-<h2 id="SSH-keys"><a href="#SSH-keys" class="headerlink" title="SSH keys"></a>SSH keys</h2><p>首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH keys来验证你是否为合法用户。</p>
-<h3 id="怎么使用SSH-keys"><a href="#怎么使用SSH-keys" class="headerlink" title="怎么使用SSH keys"></a>怎么使用SSH keys</h3><p>在你的电脑生成了一个唯一的ssh公钥和私钥，公钥放到github上面，当你推送的时候，git就会匹配你的私钥是否跟github上面的公钥是配对的，正确就认为你是合法的，允许推送。现在来确认下你是否已经拥有SSH keys。 默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。 Windows10系统下，用户的 SSH 密钥存储在其 C:\Users\yourusername.ssh 目录下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br><span class="line">id_rsa  id_rsa.pub  known_hosts</span><br></pre></td></tr></table></figure></p>
-<p>id_rsa就是我们的私钥，id_rsa.pub就是我们的公钥。</p>
-<ul>
-<li><p>如果你没有keys（或者根本没有 .ssh 目录），又或者你不想使用已有的keys，则你可以创建一个新的SSH keys。在一台电脑上使用两个不同的账号，就是采取的此方法建立两个不同的keys。详情见下。</p>
+        <p>学习数据结构和算法很久了，以这篇文章总结下自己的想法。</p>
+<h3 id="数据结构和算法的关系"><a href="#数据结构和算法的关系" class="headerlink" title="数据结构和算法的关系"></a>数据结构和算法的关系</h3><ul>
+<li><p>首先上经典公式：程序=数据结构+算法</p>
 </li>
-<li><p>如果你有keys并且想用它连接到Github，则在ssh-agent和Github账户中添加它<br>用文本编辑器打开id_rsa.pub并复制里面的全部内容，或者执行下面命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your clipboard</span><br></pre></td></tr></table></figure>
+<li><p>其次，从哲学的角度谈：<br>数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操作，必须能够找到数据，这样就必须将它们按照一定规律组织起来。这个过程不一定是算法，但是算法可以实现这个过程。数据结构是算法得以诞生的条件，否则就是数据间的杂乱无章的运动。例如，设计a+b的程序，你总得找到a和b的值吧，a和b必须是可以互相找到的才能进行程序运算，a和b就必然要联结成一定的关系，或是线性关系，或是树型关系，或者是图型关系，你的程序才能产生，杂乱无章的数据——-就是没有数据结构的数据，是没有算法的，你试试做一个电子运动的时间和坐标对应的算法看看行不行，显然不行。因为有了数据结构，算法才能诞生。</p>
 </li>
 </ul>
-<p>点击你的Github头像，再依次点击 <strong>Settings</strong>-&gt;<strong>SSH and GPG keys</strong>-&gt; <strong>New SSH key</strong> 。在“Title”字段输入你想要的助记名字并在“Key”字段粘贴key即可。<br>测试设置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>OK，skr~</p>
-<h3 id="新建SSH-keys"><a href="#新建SSH-keys" class="headerlink" title="新建SSH keys"></a>新建SSH keys</h3><ol>
-<li>使用你的邮箱作为标签，创建一个新的SSH key</li>
-<li>输入文件名，用于保存刚刚生成的 SSH key 代码。不输入将使用 /c/Users/you/.ssh/id_rsa 作为默认文件（如果你是在 ~/.ssh/ 路径下操作的话）。</li>
-<li>输入密码，这个密码会在你提交项目时使用，如果为空的话推送项目时则不用输入。这个设置是防止同一台电脑上的别人私自往你的项目里推送内容。</li>
-<li>因为默认只读取id_rsa，为了让SSH识别新产生的私钥，需将其添加的ssh-agent中，这里要确保你的ssh-agent正在运行</li>
-<li>创建并配置 config 文件，还没有结束，如果现在使用 $ ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> 只会“欢迎”一个用户。我们还需要添加一个配置文件。<br><strong>！！！配置文件每行前不要以空格开头</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> # 配置ajinina(ajininana@163.com)</span><br><span class="line"></span><br><span class="line">Host ajinina.github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_liu</span><br><span class="line">    User ajinina</span><br><span class="line"></span><br><span class="line"># 配置ajinisi(ajinisi@163.com)</span><br><span class="line"></span><br><span class="line"># 每个Host要取一个别名</span><br><span class="line">Host ajinisi.github.com</span><br><span class="line"># 真实的域名地址，Github为github.com，oschina为git.oschina.net</span><br><span class="line">    HostName github.com</span><br><span class="line"># 配置登录时用什么权限认证–可设为publickey,password publickey,keyboard-interactive等 </span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line"># id_rsa的地址</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br><span class="line"># 用户名</span><br><span class="line">    User ajinisi</span><br></pre></td></tr></table></figure>
+<p>反过来，算法又是数据结构得以维持的一个条件，没有算法，数据根本无法有规律的打交道，也就是说数据的间只会是杂乱无章地碰撞，这样数据结构就会消灭。算法是绝对运动的，数据结构是相对静止的，二者是不可分割的关系。数据结构和算法不仅仅是计算机中才有的，计算机是后来诞生的东西，计算机的概念来源于自然界，自然界中例如一棵树的根和树叶之间的信息交流就是一个算法，是建立在根数据和树叶数据之间可以相通的关系上的算法，计算机只是自然界的一个模拟，编程语言不是程序的一个要素，因为自然界是没有语言的，但是有程序，这是唯物主义的观点。客观世界是物质的，物质是运动的，运动是有规律的，有规律的运动就是程序</p>
+<p>算法的革命的、活泼的，数据结构是反动的、迟钝的，算法的发展必然推动数据结构的发展，算法的发展必然会冲破数据结构的束缚。算法的发展要求数据结构跟着发展，否则就会阻碍算法的发展。算法的发展或迟或早必然冲破数据结构的束缚，二者必然将建立在一个新的起点继续着矛盾运动，</p>
+<ul>
+<li>从实际的角度谈，基本上可以认为一种数据结构对应一种算法。例如栈对应递归，查找树对应查找算法，图对应搜索算法。</li>
+</ul>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>数据结构从逻辑上可以分为集合结构，线性结构，树形结构，图形结构，以及不同于这些结构的字典/键值对；从物理上可以分为顺序存储结构和链式存储结构。这两类概念可以组合，成为常见的数据结构。<br>举个例子，线性结构中的栈（stack），如果用顺序存储结构，就叫顺序栈，如果用链式存储结构，就叫链栈。<br>再举个例子，在STL中，所谓 <strong>顺序</strong> 容器 (SequenceContainer) 是在 <strong>线性</strong> 排列中存储相同类型对象的容器，即它们是线性结构。</p>
+<p>顺序容器：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector</li>
+<li>deque</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p>在顺序容器中，按存储结构又可分为 <strong>顺序</strong> 存储结构和链式存储结构。<br>顺序存储结构：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector</li>
+<li>deque<br>链式存储结构：</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p><strong>顺序</strong> 存储结构又包含了连续存储结构<br>连续存储结构：</p>
+<ul>
+<li>basic_string</li>
+<li>array</li>
+<li>vector<br>顺序存储结构：</li>
+<li>deque<br>链式存储结构：</li>
+<li>forward_list</li>
+<li>list</li>
+</ul>
+<p>Note：我经常发现有人把“连续”和“顺序”混用，把“顺序存储结构”称为“连续存储结构”，包括《C++ primer》都犯了这样的错误。细究起来，“连续”是指一个挨一个，中间没有缝隙，例如vector，“顺序”是指一个接一个，但中间可能有缝隙，例如deque。总的来说，顺序包括连续。连续存储结构的容器也叫相接容器 (ContiguousContainer) ，是在相接内存位置存储对象的容器<br>vector和deque的详情请见下一篇博客</p>
+<p>因为顺序存储结构中，每个元素是在内存上是“连续”的（或者看起来是“连续的”），支持高效的随机访问和在尾端插入/删除操作，但其他位置的插入/删除操作效率低下。所以我们又叫它 <strong>随机</strong> 存取结构。</p>
+<ul>
+<li>查找————不管是哪个位置，时间复杂度都是O(1)</li>
+<li>插入和删除————需要平均移动表长一半的元素，时间为O(n)<br>vector和deque是其中，deque除了具有vector的所有功能外，还支持高效的首端插入/删除操作</li>
+</ul>
+<p>因为（双）链式存储结构，每个元素维护一对前向和后向指针，支持前向/后向遍历。支持高效的随机插入/删除操作，但随机访问效率低下，且由于需要额外维护指针，开销也比较大。所以我们又叫它 <strong>顺序</strong> 存取结构。</p>
+<p><strong>PS：为什么老用“顺序”这个词，上下文里已经出现了三次，每次的含义都不一样</strong></p>
+<ul>
+<li>查找————O(n)</li>
+<li>插入和删除————在找出某位置的指针后，插入和删除时间仅为O(1)<br>list是其中典型</li>
+</ul>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>下面的知识很多在高中阶段就接触了，回忆一下。<br>算法的基本特性为有零个或多个输入，有一个或多个输出，有穷性，确定性，可行性；<br>设计算法要求正确性、可读性、健壮性、时间效率高和存储量低；<br>算法可以用伪代码、流程图、N-S结构图来描述<br>算法的三种基本结构：顺序结构；选择结构；循环结构。循环结构还分为当型和直到型</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/22/datastruct1/" data-id="cjljcxhpo000g1guz57w4fncb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Developer_lang" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/21/Developer_lang/" class="article-date">
+  <time datetime="2018-08-21T02:57:59.695Z" itemprop="datePublished">2018-08-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/21/Developer_lang/">开发者的战争之语言比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="C和C-的区别"><a href="#C和C-的区别" class="headerlink" title="C和C++的区别"></a>C和C++的区别</h3><p>C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重</p>
+<p>C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类的C)，随着时间推移，C++又接受了泛形编程的思想，像STL库就是一个例子。C++的语法风格不一而同，大部分人在写C++的时候还是当作带类的C来使用，其实C++可以写出像python一样现代的风格</p>
+<p>宏观角度之外，几个小的点也是体现出二者区别的地方</p>
+<h4 id="new-delete和malloc-free的区别"><a href="#new-delete和malloc-free的区别" class="headerlink" title="new/delete和malloc/free的区别"></a>new/delete和malloc/free的区别</h4><p>参数：malloc则需要显式地指出所需内存的尺寸；使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算</p>
+<p>返回：malloc内存分配成功则是返回void <em> ，需要通过强制类型转换将void </em>指针转换成我们需要的类型；<br>new返回的指针是直接带类型信息的，new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合类型安全性的操作符</p>
+<p>分配失败：malloc分配内存失败时返回NULL，所以使用malloc/calloc等分配内存的函数时，一定要检查其返回值是否为“空指针”(亦即是检查分配内存的操作是否成功)，这是良好的编程习惯；<br>new内存分配失败时，会抛出bac_alloc异常，如果你想检查new是否成功，应该捕捉异常。</p>
+<p>位置：C语言使用malloc从堆（heap）上动态分配内存，使用free释放已分配的对应内存；new操作符从自由存储区（free store）上为对象动态分配内存空间，使用delete来释放<br>重载：C++允许重载new/delete操作符，特别的，布局new的就不需要为对象分配内存，而是指定了一个地址作为内存起始区域，new在这段内存上为对象调用构造函数完成初始化工作，并返回此地址。而malloc不允许重载</p>
+<p><strong>注意</strong>：自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区，而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配。尽管C++标准没有要求，但很多编译器的new/delete都是以malloc/free为基础来实现的，即它们是由堆实现的自由存储区。程序员也可以通过重载操作符，改用其他内存来实现自由存储区，例如全局变量做的对象池，这时自由存储区就区别于堆了</p>
+<p>根本上：malloc/free是库函数，需要头文件支持；new/delete是操作符，需要编译器支持</p>
+<h4 id="为什么有了malloc还需要new"><a href="#为什么有了malloc还需要new" class="headerlink" title="为什么有了malloc还需要new"></a>为什么有了malloc还需要new</h4><p>malloc/free是库函数，只能动态的申请和释放内存，无法强制要求其做自定义类型对象构造和析构工作。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求————对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete</p>
+<h4 id="结构体的区别"><a href="#结构体的区别" class="headerlink" title="结构体的区别"></a>结构体的区别</h4><p>C语言中的结构体只涉及到数据结构，而不涉及到算法，也就是说在C中数据结构和算法是分离的。C语言中的结构体只是一个复杂数据类型 ，只能定义成员变量，不能定义成员函数，不能用于面向对象编程<br>然而在C++中既可以定义成员变量又可以定义成员函数， C++中的结构体和类体现了数据结构和算法的结合</p>
+<h3 id="Java和C-的区别"><a href="#Java和C-的区别" class="headerlink" title="Java和C++的区别"></a>Java和C++的区别</h3><ul>
+<li>数据类型：java的数据类型具有平台无关性，这使得Java语言完美的解决了C++中饱受诟病的可移植性问题</li>
+<li>字符串：Java中的字符串是不可变的；不能使用==来比较字符串（使用equals）</li>
+</ul>
+<p>C++把声明和实现分别放在头文件和源文件中，而Java则不使用头文件。C++引用其他内容时需要include，而Java则用package和import</p>
+<ul>
+<li><p>垃圾回收：C++需要程序员自己回收，对内存进行良好的管理，而Java则不需要程序员自己完成这个工作，有自己的垃圾回收机制，Java中有完善的内存管理机制，能自动垃圾回收，最大可能降低内存溢 出的可能，同时提高编程效率<br>Java语言中的对象内存分配都是堆上进行，只有方法中的局部变量才在栈上分配。而C/C++的对象则有多种内存分配方式，既可能在堆上分配，也可能在栈上分配，如果可以把线程私有的对象在栈上分配，将可以减轻内存回收的压力，也不需要考虑内存屏障方面的问题。另外，C/C++中主要由用户程序代码来回收分配的内存，这就不存在无用对象筛选的过程，因此效率上（仅指运行效率，排除了开发效率）也垃圾收集机制要高</p>
 </li>
+<li><p>Java完全对象化，比如数组在Java中是一个对象，含有length这个属性; 而不像C++中数组是一个指针。所以访问数组，Java都会进行边界检查，更安全 ，但牺牲了速度。Java中没有指针这样不安全(虽然指针速度快)的概念</p>
+</li>
+<li><p>Java标准库完整的多，相比之下C++除了一个STL(而且还超级难用)就没 了</p>
+</li>
+<li>Java因为是把程序编译为字节码，运行时需要JVM把字节码再翻译为机 器码，所以他跨平台，一次编译到处运行。但这也是他慢的根本原因</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/21/Developer_lang/" data-id="cjlofx6qu00093guzh6mj00ui" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-datastruct" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/20/datastruct/" class="article-date">
+  <time datetime="2018-08-20T07:16:20.371Z" itemprop="datePublished">2018-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/20/datastruct/">数据结构和算法之常用的数据结构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常用数据结构一览"><a href="#常用数据结构一览" class="headerlink" title="常用数据结构一览"></a>常用数据结构一览</h3><p>AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树<br>红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；<br>B/B+树：用在磁盘文件组织 数据索引和数据库索引<br>双向链表：STL的list，Redis的list<br>单向链表：STL的slist<br>链表散列：STL的hash_set，hash_map；Java的HashMap，HashTable<br>跳表：Redis的Sorted Set</p>
+<p>stack、queue默认的底层实现为deque结构<br>deque：用map管理多个size大小的连续内存块，方便头尾插入</p>
+<h3 id="红黑树和散列的比较"><a href="#红黑树和散列的比较" class="headerlink" title="红黑树和散列的比较"></a>红黑树和散列的比较</h3><p>权衡三个因素: 查找速度, 数据量, 内存使用，可扩展性。</p>
+<p>hash优点：<br>总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别。记录数据量很大的时候，处理记录的速度很快，平均操作时间是一个不太大的常数</p>
+<p>hash缺点：</p>
+<ol>
+<li>好的哈希函数（good hash function）的计算成本有可能会显著高于线性表或者搜索树在查找时的内部循环成本，所以当数据量非常小的时候，哈希表是低效的      </li>
+<li>哈希表按照 key 对 value 有序枚举（ordered enumeration， 或者称有序遍历）是比较麻烦的（比如：相比于有序搜索树），需要先取出所有记录再进行额外的排序</li>
+<li>哈希表处理冲突的机制本身可能就是一个缺陷，攻击者可以通过精心构造数据，来实现处理冲突的最坏情况。即：每次都出现冲突，甚至每次都出现多次冲突（针对封闭散列的探测），以此来大幅度降低哈希表的性能。这种攻击也被称为基于哈希冲突的拒绝服务攻击（Hashtable collisions as DOS attack）</li>
 </ol>
-<p>再按照上面的说明分别添加公钥到不同的GitHub账户中，测试时注意git@后面的写法，用的是config里面的Host别名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@ajinisi.github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">$ ssh -T git@ajinina.github.com</span><br><span class="line">Enter passphrase for key &apos;/c/Users/ajini/.ssh/id_rsa_liu&apos;:</span><br><span class="line">Hi ajininana! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
-<p>在以后的使用中，取消全局用户名和邮箱的设置，为不同的仓库设置局部的用户名和邮箱，同时谨记 <strong>重建origin</strong>。因为这个地方的疏忽，导致我始终 push 被拒绝。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm origin</span><br><span class="line">$ git remote add origin git@ajinisi.github.com:ajinisi/teachinghelper.git</span><br></pre></td></tr></table></figure></p>
-<p>附上建key详细的命令过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C &quot;ajininana@163.com&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/c/Users/ajini/.ssh/id_rsa): id_rsa_liu</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved in id_rsa_liu.</span><br><span class="line">Your public key has been saved in id_rsa_liu.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:t601h0H/IklcnuLXVIqEYEPPNZtG5PqBcFkdr0Y6CL0 ajininana@163.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 4096]----+</span><br><span class="line">|       .=  .*... |</span><br><span class="line">|       . * B +.. |</span><br><span class="line">|        o B B o o|</span><br><span class="line">|         + X B +.|</span><br><span class="line">|        S E X B .|</span><br><span class="line">|         . * O + |</span><br><span class="line">|          . X + o|</span><br><span class="line">|           o = . |</span><br><span class="line">|          .      |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ # 如果是msysgit</span><br><span class="line"># start the ssh-agent in the background</span><br><span class="line">eval $(ssh-agent -s)</span><br><span class="line">Agent pid 59566</span><br><span class="line"></span><br><span class="line"># 如果是git bash</span><br><span class="line">$ ssh-agent -s</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa (/c/Users/ajini/.ssh/id_rsa)</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa_liu</span><br><span class="line">Enter passphrase for /c/Users/ajini/.ssh/id_rsa_liu:</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa_liu (/c/Users/ajini/.ssh/id_rsa_liu)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/learnGit/" data-id="cjljcxhq5000w1guz87inugq5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnHexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnHexo/" class="article-date">
-  <time datetime="2018-08-05T13:54:42.523Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnHexo/">hexo中踩的坑</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hexo的介绍"><a href="#hexo的介绍" class="headerlink" title="hexo的介绍"></a>hexo的介绍</h2><p>。。。</p>
-<h2 id="hexo的部署"><a href="#hexo的部署" class="headerlink" title="hexo的部署"></a>hexo的部署</h2><p>使用命令 $ hexo g 就可以把md文件转化为博客的HTML文件，它们会出现在文件夹 public/ 下。为了避免手动地向github仓库提交，我们可以使用命令 $ hexo d -g 自动提交更新到代码库。<br>首先将 myblog/_config.yml 里 deploy 段做下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:  git</span><br><span class="line">repo:  git@github.com:ajinisi/ajinisi.github.io.git</span><br><span class="line">branch:  master</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第一个坑</strong> 出现了，这里type、repo等字段的冒号后面必须要有两个空格，否则命令 $ hexo d -g 只会产生文件而不会执行部署。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 123 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: 2018/08/05/hello-world/index.html</span><br><span class="line">INFO  Generated: archives/2018/08/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/08/05/learnGO/index.html</span><br><span class="line">INFO  6 files generated in 248 ms</span><br></pre></td></tr></table></figure>
-<p>同时字段名不要输错，如果把“repo”误入为“rep”，则出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploying: git</span><br><span class="line">You have to configure the deployment settings in _config.yml first!</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line">  deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;repository url&gt;</span><br><span class="line">    branch: [branch]</span><br><span class="line">    message: [message]</span><br><span class="line"></span><br><span class="line">    extend_dirs: [extend directory]</span><br><span class="line"></span><br><span class="line">For more help, you can check the docs: http://hexo.io/docs/deployment.html</span><br><span class="line">INFO  Deploy done: git、</span><br></pre></td></tr></table></figure></p>
-<p><strong>！！！第二个坑</strong>，如果出现下面的消息，说明你的key没有设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure></p>
-<p>最终，搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">...</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnHexo/" data-id="cjljcxhq800101guz4cuyk0yl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/05/learnGO/" class="article-date">
-  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/learnGO/">RESTful风格的实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
-<p>（资源）表现层状态转移</p>
+<p>但红黑树的查找速度是log(n)级别，首先并不一定常数就比log(n)小，此外hash还有hash函数的耗时。<br>所以STL的map和set用红黑树而不是hash实现。</p>
+<p>红黑树并不适应所有应用树的领域。如果数据基本上是静态的，那么让他们待在他们能够插入，并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，例如，做一个哈希表，性能可能会更好一些</p>
+<p>首先set，不像map那样是key-value对，它的key与value是相同的。关于set有两种说法，第一个是STL中的set，用的是红黑树；第二个是hash_set，底层用得是hash table。红黑树与hash table最大的不同是，红黑树是有序结构，而hash table不是。但不是说set就不能用hash，如果只是判断set中的元素是否存在，那么hash显然更合适，因为set 的访问操作时间复杂度是log(N)的，而使用hash底层实现的hash_set是近似O(1)的。然而，set应该更加被强调理解为“集合”，而集合所涉及的操作并、交、差等，即STL提供的如交集set_intersection()、并集set_union()、差集set_difference()和对称差集set_symmetric_difference()，都需要进行大量的比较工作，那么使用底层是有序结构的红黑树就十分恰当了，这也是其相对hash结构的优势所在</p>
+<h3 id="几个实现例子"><a href="#几个实现例子" class="headerlink" title="几个实现例子"></a>几个实现例子</h3><p>Redis的list<br>用ziplist+quicklist实现的，ziplist压缩空间，quicklist实现链表</p>
+<p>LRU的实现<br>LRU，即最近最少使用页面/缓存替换算法，在web缓存和操作系统中经常被使用。</p>
+<p>如果用C++，则使用STL的list+map；如果用Java，则使用双向链表+HashMap；Python则使用双向链表+Dict。使用双向链表可以方便删除节点，使用map来保存每个节点的key-value</p>
 <ul>
-<li><p>资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI</p>
+<li>新数据插入到链表头部</li>
+<li>每当缓存命中（即缓存数据被访问），则将数据移到链表头部</li>
+<li>当链表满的时候，将链表尾部的数据丢弃</li>
+</ul>
+<p><img src="images/datastruct.bmp" alt="使用的数据结构"></p>
+<p>leetcode的<a href="&quot;https://leetcode.com/problems/lru-cache/description/&quot;">No.146 LRU Cache</a>是关于LRU很好的模拟题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/20/datastruct/" data-id="cjljcxhpr000i1guz4cyyx0yl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-video" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/19/video/" class="article-date">
+  <time datetime="2018-08-19T05:41:56.958Z" itemprop="datePublished">2018-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/19/video/">项目演示视频</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学生端</p>
+<iframe height="498" width="510" src="images/student.mp4" frameborder="0" allowfullscreen><br></iframe><br>老师端<br><iframe height="498" width="510" src="images/teacher.mp4" frameborder="0" allowfullscreen><br></iframe>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/19/video/" data-id="cjljcxhq7000z1guzmomcwhfc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Developer3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/19/Developer3/" class="article-date">
+  <time datetime="2018-08-19T05:26:44.863Z" itemprop="datePublished">2018-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/19/Developer3/">开发者的战争之全栈~~入门~~入坑指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。</p>
+<p>JavaScript</p>
+<h3 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h3><p>跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>Golang</p>
+<h3 id="自动垃圾回收"><a href="#自动垃圾回收" class="headerlink" title="自动垃圾回收"></a>自动垃圾回收</h3><ul>
+<li>函数多返回值<br>多值返回仅动态语言Python有此特性</li>
+<li>错误处理<br>3个重要关键字defer、panic、recover<br>  defer是函数结束后执行，呈先进后出；<br>  panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>  recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</li>
+</ul>
+<h3 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h3><p>go语言倡导使用消息传递来共享内存，引入了goroutine概念，这是一个协程，更轻量级的线程。与channel搭配使用</p>
+<p>怎么保证协程的释放</p>
+<h3 id="数组和切片"><a href="#数组和切片" class="headerlink" title="数组和切片"></a>数组和切片</h3><p>数组的大小是其类型的一部分，而切片可以具有动态大小，因为它们是围绕数组的封装</p>
+<p>类似于数组，切片是可索引的且拥有一个长度。切片 s 的长度可通过内建函数 len获取；不同于数组的是，切片可在执行过程中被改变， 其元素可通过整数（§下标） 0 到 len(s)-1 寻址。 给定元素的切片下标可能小于它在其基本数组中的下标</p>
+<p>切片一旦初始化，就总是伴随着一个包含其元素的基本数组。 因此，切片与其数组及其它本数组的切片共享存储； 与此相反，不同的数组总是表示其不同的存储</p>
+<p>切片的基本数组可扩展其切片的结尾。容量 是该扩展的量度： 它是切片的长度和切片往后数组的长度之和；长度达到其容量的切片可通过从原切片 （§Slices）‘切下’一个新的来创建。 切片 a 的容量可使用内建函数 cap(a) 获取</p>
+<p>### </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/19/Developer3/" data-id="cjlofx6qq00053guzcanw23ng" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnDB3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/18/learnDB3/" class="article-date">
+  <time datetime="2018-08-18T08:08:02.275Z" itemprop="datePublished">2018-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/18/learnDB3/">数据库的学习之非关系数据库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="关系型数据库：MySQL，SQL-Server，Oracle"><a href="#关系型数据库：MySQL，SQL-Server，Oracle" class="headerlink" title="关系型数据库：MySQL，SQL Server，Oracle"></a>关系型数据库：MySQL，SQL Server，Oracle</h3><h3 id="非关系数据库"><a href="#非关系数据库" class="headerlink" title="非关系数据库"></a>非关系数据库</h3><ul>
+<li>文档型数据库：MongoDB、CouchDB、CouchBase、MarkLogic、Clusterpoint</li>
+<li>键值存储数据库：Dynamo、FoundationDB、MemcacheDB、Redis、Riak、Aerospike</li>
+<li>图数据库：Neo4j、OrientDB、ArangoDB、MapGraph，适合社会关系，公共交通网络，地图及网络拓谱</li>
+<li>列式数据库：Cassandra、HBase、Accumulo、Druid、Vertica</li>
+<li>内存数据库：Redis、Membase，适合于数据变化快且数据库大小可遇见(适合内存容量)的应用程序</li>
+</ul>
+<h3 id="关系型和非关系型的区别"><a href="#关系型和非关系型的区别" class="headerlink" title="关系型和非关系型的区别"></a>关系型和非关系型的区别</h3><h4 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h4><p>关系型数据库是表格式的，因此存储在表的行和列中，</p>
+<h4 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h4><h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><ol>
+<li>基于内存</li>
+<li>I/O多路复用</li>
+<li>单线程</li>
+</ol>
+<p>redis为什么要使用单线程（面试官补充主要是为了原子性操作）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/18/learnDB3/" data-id="cjljcxhq1000s1guz7ty3av8s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blockchain2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/18/blockchain2/" class="article-date">
+  <time datetime="2018-08-18T05:04:12.385Z" itemprop="datePublished">2018-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/18/blockchain2/">自己动手区块链之持久化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在上一篇文章，我们实现了一个有POW的单节点区块链。由于没有用到数据库，而是在每次运行程序时，简单地将区块链存储在内存中。那么一旦程序退出，所有的内容就都消失了。我们没有办法再次使用这条链，也没有办法与其他人共享，所以我们需要一个数据库把它存储到磁盘上。</p>
+<p>不必使用MySQL这样的数据库，。。。</p>
+<p>为了简单考虑，我们会将整个区块链存储为单个文件。我们将使用两种键值对：</p>
+<ol>
+<li>32 字节的 block-hash -&gt; block 结构</li>
+<li>l -&gt; 链中最后一个块的 hash</li>
+</ol>
+<p>redis里的数据就像这样<br><img src="images/blockchain2.bmp" alt="redis数据格式"></p>
+<p>这样，我们在运行我们的区块链时，首先去数据库里检查存储了一个区块链，如果没有区块链</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/18/blockchain2/" data-id="cjljcxhpp000h1guzvverddj6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blockchain" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/18/blockchain/" class="article-date">
+  <time datetime="2018-08-18T04:58:38.476Z" itemprop="datePublished">2018-08-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/18/blockchain/">自己动手区块链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接触区块链已经有一段时间了，已经学习了比特币、区块链和以太坊这些概念，也用了solidity和truffle这些智能合约工具，自己也思考过区块链的影响与落地。但是区块链的底层技术，只是有基本的认识，没有完全的掌握。希望随着项目的不断进行，可以把区块链的相关技术好好地了解一番。</p>
+<p>本人的区块链代码放在Github上，欢迎大家指点</p>
+<h3 id="区块"><a href="#区块" class="headerlink" title="区块"></a>区块</h3><p>区块链由一个个区块（block）组成。区块很像数据库的记录，每次写入数据，就是创建一个区块。区块由区块头和区块主体组成，很像TCP/IP协议里那些报文结构。借用网上的一张图<br><img src="images/blockchain3.bmp" alt="区块"><br>区块头</p>
+<ul>
+<li><p>版本号（version）：用来标识交易版本和所参照的规则。</p>
 </li>
-<li><p>表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以只是关注的部分信息。并且，同一个资源，可以有多个表述。例如，对于一个景点，可以用jpeg照片来表示，也可以用包含位置、介绍等信息的json或xml格式来分别表示</p>
+<li><p>时间戳（Time）：记录生成这个区块的时间，精确到秒。每诞生一个新的区块，就会被盖上相应的时间戳，这样就保证整条链上的区块都按照时间顺序进行排列。</p>
 </li>
-<li><p>状态：状态其实应该分为应用状态和资源状态。<br>应用状态由客户端保存维护，例如会话状态等。客户端通过REST API返回的表述，以及表述中的URI，进行客户端应用状态的转移。<br>但REST更强调的是资源状态。资源状态存储在服务器端，客户端通过REST API，指定请求方法、资源路径和资源表述（可以包含应用状态），对资源的状态进行增删查改。通过增删查改，引起资源状态的改变，称为状态转移</p>
+<li><p>区块高度和哈希：区块高度是区块的标示符，是指该区块在区块链中的位置。区块高度并不是唯一的标识符。虽然一个单一的区块总是会有一个明确的、固定的区块高度，但反过来却并不成立，一个区块高度并不总是识别一个单一的区块。两个或两个以上的区块可能有相同的区块高度，在区块链里争夺同一位置。<br><strong>Note：我发现某些实现区块链的项目省略了区块高度这一字段，但其实它是很关键的标识符，在比特币分叉中，人们会提前说明将在比特币高度多少时进行分叉。</strong></p>
+</li>
+<li><p>哈希：哈希分为“前一区块哈希”和“默克尔根”。“前一区块哈希”通过对前一个区块的区块头数据进行哈希计算（SHA256算法）得出，区块哈希值可以唯一、明确地标识一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值，保证区块链不被篡改。“默克尔根”通过对当前区块的默克尔树进行哈希计算得出，保证区块数据/交易不被篡改。</p>
+</li>
+<li><p>难度值：区块难度是用来衡量挖出一个区块平均所需要的运算次数，反映了在一定难度下用多长时间才能挖到一定数量的区块，也是矿工挖矿时重要的参考指标。数据区块产生的难易程度是由难度值（difficulty）来衡量的，我们也可以将difficulty简单的理解为挖到数据区块所用的时间。难度值是要随着算力具体调整的，在我们的项目里，设为固定值</p>
+</li>
+<li><p>计数器（Nonce）：没人知道符合难度值的哈希值是什么，只能设置一个不断增加的计数器来不断地尝试</p>
 </li>
 </ul>
-<p>客户端通过REST API对服务器端的资源进行增删查改，引起资源的状态转移。而这种转移是体现在表述上的，所以称为表述性状态转移。</p>
-<p>还不够直观？看url就知道要什么，看http method就知道干什么，看http status code就知道结果如何</p>
-<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
+<p>区块体：<br>暂略</p>
+<p>可以只看自己感兴趣的，或者回过头再来看。</p>
+<h3 id="我的区块"><a href="#我的区块" class="headerlink" title="我的区块"></a>我的区块</h3><p>区块是区块链的基本单位，目前我的区块中定义了如下字段：</p>
 <ul>
-<li>GET /session # 获取会话信息</li>
-<li>POST /session # 创建新的会话（登入）</li>
-<li>PUT /session # 更新会话信息</li>
-<li><p>DELETE /session # 销毁当前会话（登出）</p>
-</li>
-<li><p>GET /user/:id # 获取id用户的信息</p>
-</li>
-<li>POST /user # 创建新的用户（注册）</li>
-<li>PUT /user/:id # 更新id用户的信息</li>
-<li>DELETE /user/:id # 删除id用户（注销）</li>
+<li>区块高度，</li>
+<li>时间戳，</li>
+<li>数据，</li>
+<li>哈希，</li>
+<li>上一个区块的哈希</li>
+<li>挖矿的难度值，</li>
+<li>计数器，</li>
 </ul>
-<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
-<p>。。。</p>
+<p>我的破产版区块就长这样</p>
+<p><img src="images/blockchain.bmp" alt="区块"></p>
+<p>在我的区块中，将交易简化为了数据，将上一个区块的哈希直接放入本区块，本区块的哈希通过计算其他字段获得。相比较真正的区块链，实现难度大大下降。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjljcxhq3000u1guz67zknqox" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/18/blockchain/" data-id="cjljcxhpn000f1guzq5qs9sth" class="article-share-link">Share</a>
       
       
     </footer>
@@ -310,10 +522,10 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-learnGo2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/05/hello-world/" class="article-date">
-  <time datetime="2018-08-05T12:50:07.506Z" itemprop="datePublished">2018-08-05</time>
+    <a href="/2018/08/18/learnGo2/" class="article-date">
+  <time datetime="2018-08-18T01:44:07.592Z" itemprop="datePublished">2018-08-18</time>
 </a>
     
   </div>
@@ -324,7 +536,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/hello-world/">Hello World</a>
+      <a class="article-title" href="/2018/08/18/learnGo2/">学习Golang之Redis的使用</a>
     </h1>
   
 
@@ -332,20 +544,73 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h3 id="Go用到的键值数据库"><a href="#Go用到的键值数据库" class="headerlink" title="Go用到的键值数据库"></a>Go用到的键值数据库</h3><p>现在在项目中使用键值储存（Key-Value-Stores）已经成为了开发者的标配。在Golang中，bolt是一个完全用Go实现一个低级别的键/值存储；而今天的主题是Redis</p>
+<h3 id="Go操作Redis的包"><a href="#Go操作Redis的包" class="headerlink" title="Go操作Redis的包"></a>Go操作Redis的包</h3><p>go get github.com/alphazero/Go-Redis</p>
+<p>go get github.com/simonz05/godis</p>
+<p>redigo听起来挺像“ready？go！”，哈哈哈，redigo更像一个client，执行各种操作都是通过Do函数去做的，它也是官方推荐的<br>    <a href="https://github.com/garyburd/redigo" target="_blank" rel="noopener">github地址</a><br>    <a href="http://godoc.org/github.com/garyburd/redigo/redis" target="_blank" rel="noopener">文档地址</a><br>    获取：<code>$ go get github.com/garyburd/redigo/redis</code></p>
+<p>go get github.com/gosexy/redis<br>go get cgl.tideland.biz/redis</p>
+<p><a href="https://github.com/go-redis/redis" target="_blank" rel="noopener">github地址</a><br><a href="https://godoc.org/github.com/go-redis/redis" target="_blank" rel="noopener">文档地址</a><br>获取：<code>go get -u github.com/go-redis/redis</code></p>
+<h3 id="redigo的介绍"><a href="#redigo的介绍" class="headerlink" title="redigo的介绍"></a>redigo的介绍</h3><h4 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>连接：Conn接口是使用Redis时主要的接口。应用通过调用Dial，DIalWithTimeout或者NewConn函数来创建连接<br>当使用完连接后务必调用连接Close函数来关闭<br>执行命令：Conn接口有一个执行Redis命令的通用方法，最常用的就是Do方法</p>
+<h4 id="String-操作"><a href="#String-操作" class="headerlink" title="String 操作"></a>String 操作</h4><h3 id="go-redis的介绍"><a href="#go-redis的介绍" class="headerlink" title="go-redis的介绍"></a>go-redis的介绍</h3><p>go-redis没有实际用过，这里简单介绍一下。</p>
+<h4 id="创建客户端-1"><a href="#创建客户端-1" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>通过 redis.NewClient 函数即可创建一个 redis 客户端, 这个方法接收一个 redis.Options 对象参数, 通过这个参数, 我们可以配置 redis 相关的属性, 例如 redis 服务器地址, 数据库名, 数据库密码等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">redisdb := redis.NewClient(&amp;redis.Options&#123;</span><br><span class="line">    Addr:     &quot;localhost:6379&quot;,</span><br><span class="line">    Password: &quot;&quot;, // no password set</span><br><span class="line">    DB:       0,  // use default DB</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">pong, err := redisdb.Ping().Result()</span><br><span class="line">fmt.Println(pong, err)</span><br></pre></td></tr></table></figure></p>
+<p>通过 redisdb.Ping() 来检查是否成功连接到了 redis 服务器</p>
+<h4 id="String-操作-1"><a href="#String-操作-1" class="headerlink" title="String 操作"></a>String 操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// 第三个参数是过期时间, 如果是0, 则表示没有过期时间.</span><br><span class="line">err := redisdb.Set(&quot;key&quot;, &quot;value&quot;, 0).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val, err := redisdb.Get(&quot;key&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;key:&quot;, val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 这里设置过期时间.</span><br><span class="line">err = redisdb.Set(&quot;age&quot;, &quot;20&quot;, 1 * time.Second).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Decr(&quot;age&quot;) // 自减</span><br><span class="line"></span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val) // age 的值为21</span><br><span class="line"></span><br><span class="line">// 因为 key &quot;age&quot; 的过期时间是一秒钟, 因此当一秒后, 此 key 会自动被删除了.</span><br><span class="line">time.Sleep(1 * time.Second)</span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    // 因为 key &quot;age&quot; 已经过期了, 因此会有一个 redis: nil 的错误.</span><br><span class="line">    fmt.Printf(&quot;error: %v\n&quot;, err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/hello-world/" data-id="cjljcxhq0000r1guzn2h2g3o5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/18/learnGo2/" data-id="cjljcxhq6000y1guzyv5r1qsw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnDB4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/17/learnDB4/" class="article-date">
+  <time datetime="2018-08-17T13:01:53.013Z" itemprop="datePublished">2018-08-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/17/learnDB4/">数据库的学习之Redis入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
+<ul>
+<li>纯内存操作</li>
+<li>单线程操作，避免了频繁的上下文切换</li>
+<li>采用了非阻塞I/O多路复用机制</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">版本</a><br>安装完成之后，目录下会有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── redis.windows.conf</span><br><span class="line">├── redis-benchmark.exe</span><br><span class="line">├── redis-check-aof.exe</span><br><span class="line">├── redis-cli.exe</span><br><span class="line">├── redis-server.exe</span><br><span class="line">└── Windows Service Documentation.docx</span><br></pre></td></tr></table></figure>
+<p>redis-server.exe是服务器，用来启动redis<br>redis-cli.exe是客户端，命令行工具<br>redis-benchmark.exe是基准测试工具<br>redis-check-aof.exe是AOF持久化文件检测工具和修复工具<br>redis-check-dump是RDB持久化文件检测工具和修复工具</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>安装完成之后，编辑redis.windows.conf文件，</p>
+<h1 id="启动客户端和服务器"><a href="#启动客户端和服务器" class="headerlink" title="启动客户端和服务器"></a>启动客户端和服务器</h1><p>和MySQL一样，Git bash也是不支持redis的命令的，我们可以使用cmd或者powershell。<strong>！！！注意</strong> 在没有添加环境变量时，cmd下可以直接从当前位置（C:\redis）加载命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ajini&gt;redis-cli</span><br><span class="line">&apos;redis-cli&apos; 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"></span><br><span class="line">C:\Users\ajini&gt;cd C:\redis</span><br><span class="line"></span><br><span class="line">C:\redis&gt;redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<p>但powershell不可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">redis-cli : 无法将“redis-cli”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正</span><br><span class="line">确，然后再试一次。</span><br><span class="line">所在位置 行:1 字符: 1</span><br><span class="line">+ redis-cli</span><br><span class="line">+ ~~~~~~~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (redis-cli:String) [], CommandNotFoundException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Suggestion [3,General]: 找不到命令 redis-cli，但它确实存在于当前位置。默认情况下，Windows PowerShell 不会从当前位置加载命令。如</span><br><span class="line">果信任此命令，请改为键入“.\redis-cli”。有关详细信息，请参阅 &quot;get-help about_Command_Precedence&quot;。</span><br><span class="line">PS C:\redis&gt; .\redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<p>所以为了方便，我们添加环境变量，以后就可以正常执行Redis的相关命令了。</p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>执行<code>$ redis-cli -h {host} -p {port}</code>可以让我们以交互方式连接服务器，当然，你也可以选择<code>$ redis-cli -h {host} -p {port} {command}</code>命令方式直接得到服务器的返回结果</p>
+<p>如果配置的时候设置了密码，则按照下面的方式登陆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="为Redis注册"><a href="#为Redis注册" class="headerlink" title="为Redis注册"></a>为Redis注册</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-server --service-install redis.windows.conf</span><br><span class="line">[15220] 18 Aug 09:27:37.402 # Granting read/write access to &apos;NT AUTHORITY\NetworkService&apos; on: &quot;C:\redis&quot; &quot;C:\redis\&quot;</span><br><span class="line">[15220] 18 Aug 09:27:37.403 # Redis successfully installed as a service.</span><br><span class="line"></span><br><span class="line">PS C:\redis&gt; redis-server.exe --service-start redis.windows.conf</span><br><span class="line">[26364] 18 Aug 09:34:55.243 # Redis service successfully started.</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/17/learnDB4/" data-id="cjljcxhq2000t1guzxia6p2wp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -359,7 +624,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -391,23 +656,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
           </li>
         
           <li>
-            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
           </li>
         
           <li>
-            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
           </li>
         
       </ul>

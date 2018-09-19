@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>计算机网络复习之地址 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="IP地址和MAC地址的区别1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。 　　2. 长度不同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络复习之地址">
+<meta property="og:url" content="http://yoursite.com/2018/09/16/NET_address/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="IP地址和MAC地址的区别1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。 　　2. 长度不同">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-16T07:59:45.226Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络复习之地址">
+<meta name="twitter:description" content="IP地址和MAC地址的区别1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。 　　2. 长度不同">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-NET_address" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/16/NET_address/" class="article-date">
+  <time datetime="2018-09-16T07:52:24.271Z" itemprop="datePublished">2018-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      计算机网络复习之地址
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="IP地址和MAC地址的区别"><a href="#IP地址和MAC地址的区别" class="headerlink" title="IP地址和MAC地址的区别"></a>IP地址和MAC地址的区别</h3><p>1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。</p>
+<p>　　2. 长度不同。IP地址为32位，MAC地址为48位。</p>
+<p>　　3. 分配依据不同。IP地址的分配是基于网络拓朴，MAC地址的分配是基于制造商。</p>
+<p>　　4. 寻址协议层不同。IP地址应用于OSI第三层，即网络层，而MAC地址应用在OSI第二层，即数据链路层。 数据链路层协议可以使数据从一个节点传递到相同链路的另一个节点上（通过MAC地址），而网络层协议使数据可以从一个网络传递到另一个网络上（ARP根据目的IP地址，找到中间节点的MAC地址，通过中间节点传送，从而最终到达目的网络）。</p>
+<p>IP地址基于逻辑，比较灵活，不受硬件限制，也容易记忆。MAC地址在一定程度上与硬件一致，基于物理，能够标识具体。这两种地址各有好处，使用时也因条件而采取不同的地址</p>
+<h3 id="IP地址与MAC地址在互连网中的作用"><a href="#IP地址与MAC地址在互连网中的作用" class="headerlink" title="IP地址与MAC地址在互连网中的作用"></a>IP地址与MAC地址在互连网中的作用</h3><p>既然每个以太网设备在出厂时都有一个唯一的MAC地址了，那为什么还需要为每台主机再分配一个IP地址呢？或者说为什么每台主机都分配唯一的IP地址了，为什么还要在网络设备（如网卡，集线器，路由器等）生产时内嵌一个唯一的MAC地址呢？主要原因有以下几点：（1）IP地址的分配是根据网络的拓朴结构，而不是根据谁制造了网络设置。若将高效的路由选择方案建立在设备制造商的基础上而不是网络所处的拓朴位置基础上，这种方案是不可行的。（2）当存在一个附加层的地址寻址时，设备更易于移动和维修。例如，如果一个以太网卡坏了，可以被更换，而无须取得一个新的IP地址。如果一个IP主机从一个网络移到另一个网络，可以给它一个新的IP地址，而无须换一个新的网卡。（3）无论是局域网，还是广域网中的计算机之间的通信，最终都表现为将数据包从某种形式的链路上的初始节点出发，从一个节点传递到另一个节点，最终传送到目的节点。数据包在这些节点之间的移动都是由ARP（Address Resolution Protocol：地址解析协议）负责将IP地址映射到MAC地址上来完成的。</p>
+<p>这是由组网方式决定的，如今比较流行的接入Internet的方式（也是未来发展的方向）是把主机通过局域网组织在一起，然后再通过交换机和 Internet相连接。这样一来就出现了如何区分具体用户，防止盗用的问题。由于IP只是逻辑上标识，任何人都随意修改，因此不能用来标识用户；而 MAC地址则不然，它是固化在网卡里面的。从理论上讲，除非盗来硬件（网卡），否则是没有办法冒名顶替的（注意：其实也可以盗用，后面将介绍）。<br>基于MAC地址的这种特点，局域网采用了用MAC地址来标识具体用户的方法。注意：具体实现：在交换机内部通过“表”的方式把MAC地址和IP地址一一对应，也就是所说的IP、MAC绑定。<br>具体的通信方式：接收过程，当有发给本地局域网内一台主机的数据包时，交换机接收下来，然后把数据包中的IP地址按照“表”中的对应关系映射成MAC地址，转发到对应的MAC地址的主机上，这样一来，即使某台主机盗用了这个IP地址，但由于他没有这个MAC地址，因此也不会收到数据包。发送过程和接收过程类似，限于篇幅不叙述。<br>综上可知，只有IP而没有对应的MAC地址在这种局域网内是不能上网的，于是解决了IP盗用问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/16/NET_address/" data-id="cjm8rmk3i000frguz0fk2377z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/16/OOP_bind/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++常见问题之绑定
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/16/OS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux命令运行的基本过程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

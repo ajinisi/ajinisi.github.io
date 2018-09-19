@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html) ，好吧全英文，接下来是重点内容的翻译 InnoDBInnoDB是一种">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-08T03:43:00.268Z">
+<meta property="og:updated_time" content="2018-09-18T14:18:51.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库的学习之存储引擎">
 <meta name="twitter:description" content="目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html) ，好吧全英文，接下来是重点内容的翻译 InnoDBInnoDB是一种">
@@ -88,7 +88,7 @@
       
         <p>目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。<br>打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</a>) ，好吧全英文，接下来是重点内容的翻译</p>
 <h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB是一种同时兼顾高可靠性和高性能的通用存储引擎。在MySQL 8.0中，InnoDB是默认的MySQL存储引擎。其DML操作遵循 ACID 模型， 具有提交，回滚和崩溃恢复功能的事务，以保护用户数据。</p>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
 
       
     </div>
@@ -151,23 +151,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
           </li>
         
           <li>
-            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
           </li>
         
           <li>
-            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
           </li>
         
       </ul>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-learnDB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/08/learnDB/" class="article-date">
+  <time datetime="2018-08-08T01:55:14.011Z" itemprop="datePublished">2018-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/08/learnDB/">数据库的学习之存储引擎</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目前对SQL语言的使用，对数据库的操作已经学了不少了，但是数据库的原理还是一窍不通的。<br>打开MySQL的文档第十五章 [Chapter 15 The InnoDB Storage Engine] (<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</a>) ，好吧全英文，接下来是重点内容的翻译</p>
+<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB是一种同时兼顾高可靠性和高性能的通用存储引擎。在MySQL 8.0中，InnoDB是默认的MySQL存储引擎。其DML操作遵循 ACID 模型， 具有提交，回滚和崩溃恢复功能的事务，以保护用户数据。</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>InnoDB表将数据排列在磁盘上以优化基于主键的查询 。每个 InnoDB表都有一个称为聚簇索引的主键索引 ，用于组织数据以最小化主键查找的I / O</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/08/learnDB/" data-id="cjljcxhpz000q1guzwkfcgaio" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnGit2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/06/learnGit2/" class="article-date">
+  <time datetime="2018-08-06T12:34:29.343Z" itemprop="datePublished">2018-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/learnGit2/">Git的使用之多人合作二</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先要明白github上多人合作主要有三种模式，第一种就是把你的伙伴的公钥加到你项目的公钥；第二种建一个组织organization，然后在该组织下建一个team 把你的伙伴加到team 然后把项目放到team下；第三种就是你的伙伴fork你的项目，然后给你发 pull request，由你来决定是否 merge，这是大型开源项目的用法。这里我们采用第三种。</p>
+<p>我ajinina从ajinisi那里clone了一个项目teacherhelper，在clone之后如果ajinisi对项目进行了改动。那么我首先应该同步他的更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add ajinisi git@github.com:ajinisi/teachinghelper.git</span><br><span class="line"></span><br><span class="line">$ git fetch ajinisi</span><br><span class="line">From https://github.com/ajinisi/teachinghelper</span><br><span class="line"> * [new branch]      master     -&gt; ajinisi/master</span><br><span class="line"></span><br><span class="line">$ git merge ajinisi/master</span><br><span class="line">Updating d3a2b6b..603b9ff</span><br><span class="line">Fast-forward</span><br><span class="line"> .env                            |  10 +-</span><br><span class="line"> config.json                     |   5 +</span><br><span class="line"> insert.go                       |  24 ++++-</span><br><span class="line"> main.go                         | 148 +++++++++++++++++++------</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>在同步之后，推送到我自己的远程时总是出错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">...</span><br><span class="line">To github.com:ajininana/teachinghelper.git</span><br><span class="line"> ! [remote rejected] master -&gt; master (permission denied)</span><br><span class="line">error: failed to push some refs to &apos;git@github.com:ajininana/teachinghelper.git&apos;</span><br></pre></td></tr></table></figure></p>
+<p>试了很多方法都不行，等待进一步解决<br>已解决，见前篇博客。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">To ajinina.github.com:ajininana/teachinghelper.git</span><br><span class="line">   d3a2b6b..0264198  master -&gt; master</span><br><span class="line">Branch &apos;master&apos; set up to track remote branch &apos;master&apos; from &apos;origin&apos;.</span><br></pre></td></tr></table></figure>
+<p>后面就是简单的 pull request，等待ajinisi确认是否合并，不再赘述。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/06/learnGit2/" data-id="cjljcxhq6000x1guz6gdi9vt3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnGit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/06/learnGit/" class="article-date">
+  <time datetime="2018-08-06T02:20:06.118Z" itemprop="datePublished">2018-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/learnGit/">Git的使用之多人合作一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很早就开始使用git了，但是都是一个人写，提交，推送，没有与人合作过。现在在一台电脑上模拟下该过程，即我们要在一台电脑配置多个账号，而这是通过SSH keys实现的。</p>
+<h2 id="SSH-keys"><a href="#SSH-keys" class="headerlink" title="SSH keys"></a>SSH keys</h2><p>首先是SSH，而不是SHH，“空眼”患者要注意了。什么是SSH，github有两种推送代码的方式，要么用户名和密码，要么使用SSH keys。为了省去每次访问都要输入用户名和密码的麻烦，采用SSH公钥，密钥对即SSH keys来验证你是否为合法用户。</p>
+<h3 id="怎么使用SSH-keys"><a href="#怎么使用SSH-keys" class="headerlink" title="怎么使用SSH keys"></a>怎么使用SSH keys</h3><p>在你的电脑生成了一个唯一的ssh公钥和私钥，公钥放到github上面，当你推送的时候，git就会匹配你的私钥是否跟github上面的公钥是配对的，正确就认为你是合法的，允许推送。现在来确认下你是否已经拥有SSH keys。 默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。 Windows10系统下，用户的 SSH 密钥存储在其 C:\Users\yourusername.ssh 目录下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br><span class="line">id_rsa  id_rsa.pub  known_hosts</span><br></pre></td></tr></table></figure></p>
+<p>id_rsa就是我们的私钥，id_rsa.pub就是我们的公钥。</p>
+<ul>
+<li><p>如果你没有keys（或者根本没有 .ssh 目录），又或者你不想使用已有的keys，则你可以创建一个新的SSH keys。在一台电脑上使用两个不同的账号，就是采取的此方法建立两个不同的keys。详情见下。</p>
+</li>
+<li><p>如果你有keys并且想用它连接到Github，则在ssh-agent和Github账户中添加它<br>用文本编辑器打开id_rsa.pub并复制里面的全部内容，或者执行下面命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line"># Copies the contents of the id_rsa.pub file to your clipboard</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>点击你的Github头像，再依次点击 <strong>Settings</strong>-&gt;<strong>SSH and GPG keys</strong>-&gt; <strong>New SSH key</strong> 。在“Title”字段输入你想要的助记名字并在“Key”字段粘贴key即可。<br>测试设置是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
+<p>OK，skr~</p>
+<h3 id="新建SSH-keys"><a href="#新建SSH-keys" class="headerlink" title="新建SSH keys"></a>新建SSH keys</h3><ol>
+<li>使用你的邮箱作为标签，创建一个新的SSH key</li>
+<li>输入文件名，用于保存刚刚生成的 SSH key 代码。不输入将使用 /c/Users/you/.ssh/id_rsa 作为默认文件（如果你是在 ~/.ssh/ 路径下操作的话）。</li>
+<li>输入密码，这个密码会在你提交项目时使用，如果为空的话推送项目时则不用输入。这个设置是防止同一台电脑上的别人私自往你的项目里推送内容。</li>
+<li>因为默认只读取id_rsa，为了让SSH识别新产生的私钥，需将其添加的ssh-agent中，这里要确保你的ssh-agent正在运行</li>
+<li>创建并配置 config 文件，还没有结束，如果现在使用 $ ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> 只会“欢迎”一个用户。我们还需要添加一个配置文件。<br><strong>！！！配置文件每行前不要以空格开头</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> # 配置ajinina(ajininana@163.com)</span><br><span class="line"></span><br><span class="line">Host ajinina.github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_liu</span><br><span class="line">    User ajinina</span><br><span class="line"></span><br><span class="line"># 配置ajinisi(ajinisi@163.com)</span><br><span class="line"></span><br><span class="line"># 每个Host要取一个别名</span><br><span class="line">Host ajinisi.github.com</span><br><span class="line"># 真实的域名地址，Github为github.com，oschina为git.oschina.net</span><br><span class="line">    HostName github.com</span><br><span class="line"># 配置登录时用什么权限认证–可设为publickey,password publickey,keyboard-interactive等 </span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line"># id_rsa的地址</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br><span class="line"># 用户名</span><br><span class="line">    User ajinisi</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>再按照上面的说明分别添加公钥到不同的GitHub账户中，测试时注意git@后面的写法，用的是config里面的Host别名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@ajinisi.github.com</span><br><span class="line">Hi ajinisi! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line">$ ssh -T git@ajinina.github.com</span><br><span class="line">Enter passphrase for key &apos;/c/Users/ajini/.ssh/id_rsa_liu&apos;:</span><br><span class="line">Hi ajininana! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
+<p>在以后的使用中，取消全局用户名和邮箱的设置，为不同的仓库设置局部的用户名和邮箱，同时谨记 <strong>重建origin</strong>。因为这个地方的疏忽，导致我始终 push 被拒绝。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm origin</span><br><span class="line">$ git remote add origin git@ajinisi.github.com:ajinisi/teachinghelper.git</span><br></pre></td></tr></table></figure></p>
+<p>附上建key详细的命令过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C &quot;ajininana@163.com&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/c/Users/ajini/.ssh/id_rsa): id_rsa_liu</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved in id_rsa_liu.</span><br><span class="line">Your public key has been saved in id_rsa_liu.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:t601h0H/IklcnuLXVIqEYEPPNZtG5PqBcFkdr0Y6CL0 ajininana@163.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 4096]----+</span><br><span class="line">|       .=  .*... |</span><br><span class="line">|       . * B +.. |</span><br><span class="line">|        o B B o o|</span><br><span class="line">|         + X B +.|</span><br><span class="line">|        S E X B .|</span><br><span class="line">|         . * O + |</span><br><span class="line">|          . X + o|</span><br><span class="line">|           o = . |</span><br><span class="line">|          .      |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ # 如果是msysgit</span><br><span class="line"># start the ssh-agent in the background</span><br><span class="line">eval $(ssh-agent -s)</span><br><span class="line">Agent pid 59566</span><br><span class="line"></span><br><span class="line"># 如果是git bash</span><br><span class="line">$ ssh-agent -s</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa (/c/Users/ajini/.ssh/id_rsa)</span><br><span class="line"></span><br><span class="line">$ ssh-add ~/.ssh/id_rsa_liu</span><br><span class="line">Enter passphrase for /c/Users/ajini/.ssh/id_rsa_liu:</span><br><span class="line">Identity added: /c/Users/ajini/.ssh/id_rsa_liu (/c/Users/ajini/.ssh/id_rsa_liu)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/06/learnGit/" data-id="cjljcxhq5000w1guz87inugq5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnHexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/learnHexo/" class="article-date">
+  <time datetime="2018-08-05T13:54:42.523Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/learnHexo/">hexo中踩的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="hexo的介绍"><a href="#hexo的介绍" class="headerlink" title="hexo的介绍"></a>hexo的介绍</h2><p>。。。</p>
+<h2 id="hexo的部署"><a href="#hexo的部署" class="headerlink" title="hexo的部署"></a>hexo的部署</h2><p>使用命令 $ hexo g 就可以把md文件转化为博客的HTML文件，它们会出现在文件夹 public/ 下。为了避免手动地向github仓库提交，我们可以使用命令 $ hexo d -g 自动提交更新到代码库。<br>首先将 myblog/_config.yml 里 deploy 段做下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:  git</span><br><span class="line">repo:  git@github.com:ajinisi/ajinisi.github.io.git</span><br><span class="line">branch:  master</span><br></pre></td></tr></table></figure></p>
+<p><strong>！！！第一个坑</strong> 出现了，这里type、repo等字段的冒号后面必须要有两个空格，否则命令 $ hexo d -g 只会产生文件而不会执行部署。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 123 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: 2018/08/05/hello-world/index.html</span><br><span class="line">INFO  Generated: archives/2018/08/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/08/05/learnGO/index.html</span><br><span class="line">INFO  6 files generated in 248 ms</span><br></pre></td></tr></table></figure>
+<p>同时字段名不要输错，如果把“repo”误入为“rep”，则出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploying: git</span><br><span class="line">You have to configure the deployment settings in _config.yml first!</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line">  deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;repository url&gt;</span><br><span class="line">    branch: [branch]</span><br><span class="line">    message: [message]</span><br><span class="line"></span><br><span class="line">    extend_dirs: [extend directory]</span><br><span class="line"></span><br><span class="line">For more help, you can check the docs: http://hexo.io/docs/deployment.html</span><br><span class="line">INFO  Deploy done: git、</span><br></pre></td></tr></table></figure></p>
+<p><strong>！！！第二个坑</strong>，如果出现下面的消息，说明你的key没有设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br></pre></td></tr></table></figure></p>
+<p>最终，搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">...</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/05/learnHexo/" data-id="cjljcxhq800101guz4cuyk0yl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-learnGO" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/learnGO/" class="article-date">
+  <time datetime="2018-08-05T13:09:10.983Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/learnGO/">RESTful风格的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
+<p>（资源）表现层状态转移</p>
+<ul>
+<li><p>资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI</p>
+</li>
+<li><p>表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以只是关注的部分信息。并且，同一个资源，可以有多个表述。例如，对于一个景点，可以用jpeg照片来表示，也可以用包含位置、介绍等信息的json或xml格式来分别表示</p>
+</li>
+<li><p>状态：状态其实应该分为应用状态和资源状态。<br>应用状态由客户端保存维护，例如会话状态等。客户端通过REST API返回的表述，以及表述中的URI，进行客户端应用状态的转移。<br>但REST更强调的是资源状态。资源状态存储在服务器端，客户端通过REST API，指定请求方法、资源路径和资源表述（可以包含应用状态），对资源的状态进行增删查改。通过增删查改，引起资源状态的改变，称为状态转移</p>
+</li>
+</ul>
+<p>客户端通过REST API对服务器端的资源进行增删查改，引起资源的状态转移。而这种转移是体现在表述上的，所以称为表述性状态转移。</p>
+<p>还不够直观？看url就知道要什么，看http method就知道干什么，看http status code就知道结果如何</p>
+<p>举个例子，账号的登入登出注册注销，如果按照传统的写法，/login，/logout，/register，/cancell这四个，如果按照RESTful的写法，登入登出对应的服务端资源应该是session，注册注销对应的资源是user，</p>
+<ul>
+<li>GET /session # 获取会话信息</li>
+<li>POST /session # 创建新的会话（登入）</li>
+<li>PUT /session # 更新会话信息</li>
+<li><p>DELETE /session # 销毁当前会话（登出）</p>
+</li>
+<li><p>GET /user/:id # 获取id用户的信息</p>
+</li>
+<li>POST /user # 创建新的用户（注册）</li>
+<li>PUT /user/:id # 更新id用户的信息</li>
+<li>DELETE /user/:id # 删除id用户（注销）</li>
+</ul>
+<p>包 mux 实现请求路由器和调度程序，名称 mux 代表 “HTTP request multiplexer”。其中最重要的两个类型：路由器 Router 和路由 Route 。服务器最重要的工作就是要给路由器注册路由。下面将介绍</p>
+<p>。。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/05/learnGO/" data-id="cjljcxhq3000u1guz67zknqox" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/hello-world/" class="article-date">
+  <time datetime="2018-08-05T12:50:07.506Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/05/hello-world/" data-id="cjljcxhq0000r1guzn2h2g3o5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

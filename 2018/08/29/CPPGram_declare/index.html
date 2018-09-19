@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>C++常见问题之声明定义和初始化 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="声明定义和初始化声明和定义 声明引入（或再引入）名称到 C++ 程序。每种实体的声明方式不同。定义是足以使用以该名标识的实体的声明。声明用于向程序表明变量的类型和名字。定义也是声明，声明不是定义，也不分配存储空间   变量的定义用于为变量分配存储空间，还可以为变量指定初始值。在一个程序中，变量有且仅有一个定义；  头文件定义只可以出现一次，而声明则可以出现多次。因为头文件包含在多个源文件中，所以不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++常见问题之声明定义和初始化">
+<meta property="og:url" content="http://yoursite.com/2018/08/29/CPPGram_declare/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="声明定义和初始化声明和定义 声明引入（或再引入）名称到 C++ 程序。每种实体的声明方式不同。定义是足以使用以该名标识的实体的声明。声明用于向程序表明变量的类型和名字。定义也是声明，声明不是定义，也不分配存储空间   变量的定义用于为变量分配存储空间，还可以为变量指定初始值。在一个程序中，变量有且仅有一个定义；  头文件定义只可以出现一次，而声明则可以出现多次。因为头文件包含在多个源文件中，所以不">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-13T00:57:28.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++常见问题之声明定义和初始化">
+<meta name="twitter:description" content="声明定义和初始化声明和定义 声明引入（或再引入）名称到 C++ 程序。每种实体的声明方式不同。定义是足以使用以该名标识的实体的声明。声明用于向程序表明变量的类型和名字。定义也是声明，声明不是定义，也不分配存储空间   变量的定义用于为变量分配存储空间，还可以为变量指定初始值。在一个程序中，变量有且仅有一个定义；  头文件定义只可以出现一次，而声明则可以出现多次。因为头文件包含在多个源文件中，所以不">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CPPGram_declare" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/CPPGram_declare/" class="article-date">
+  <time datetime="2018-08-29T08:09:03.726Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++常见问题之声明定义和初始化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="声明定义和初始化"><a href="#声明定义和初始化" class="headerlink" title="声明定义和初始化"></a>声明定义和初始化</h3><h4 id="声明和定义"><a href="#声明和定义" class="headerlink" title="声明和定义"></a>声明和定义</h4><ul>
+<li>声明引入（或再引入）名称到 C++ 程序。每种实体的声明方式不同。定义是足以使用以该名标识的实体的声明。声明用于向程序表明变量的类型和名字。定义也是声明，声明不是定义，也不分配存储空间</li>
+</ul>
+<ul>
+<li>变量的定义用于为变量分配存储空间，还可以为变量指定初始值。在一个程序中，变量有且仅有一个定义；</li>
+</ul>
+<h4 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h4><p>定义只可以出现一次，而声明则可以出现多次。因为头文件包含在多个源文件中，所以不应该出现定义。但有三个例外。</p>
+<ol>
+<li>头文件可以定义类、</li>
+<li>值在编译时就已知道的const对象</li>
+<li>和inline函数。<br>这些实体可在多个源文件中定义，只要每个源文件中的定义是相同的。在头文件中定义这些实体，是因为编译器需要它们的定义（不只是声明）来产生代码。例如：为了产生能定义或使用类的对象的代码，编译器需要知道组成该类型的数据成员。同样还需要知道能够在这些对象上执行的操作。类定义提供所需要的信息。在头文件中定义const对象则需要更多的解释</li>
+</ol>
+<p>回想一下，const变量默认为定义该变量的文件的局部变量。正如我们现在所看到的，这种默认的原因在于允许const变量定义在头文件中。<br>在C++中，有些地方需要放置常量表达式。例如，枚举成员的初始化式必须是常量表达式。在以后的章节中将会看到其他需要常量表达式的例子。</p>
+<p>一般来说，常量表达式是编译器在编译时就能够计算出结果的表达式。当const整型变量通过常量表达式自我初始化时，这个const整型变量就可能是常量表达式。而const变量要成为常量表达式，初始化式必须为编译器可见。为了能够让多个文件使用相同的常量值，const变量和它的初始化式必须是每个文件都可见的。而要使初始化式可见，一般都把这样的const变量定义在头文件中。那样的话，无论该const变量何时使用，编译器都能够看见其初始化式。</p>
+<p>但是，C++中的任何变量都只能定义一次。定义会分配存储空间，而所有对该变量的使用都关联到同一存储空间。因为const对象默认为定义它的文件的局部变量，所以把它们的定义放在头文件中是合法的。</p>
+<p>这种行为有一个很重要的含义：当我们在头文件中定义了const变量后，每个包含该头文件的源文件都有了自己的const变量，其名称和值都一样。</p>
+<p>当该const变量是用常量表达式初始化时，可以保证所有的变量都有相同的值。但是在实践中，大部分的编译器在编译时都会用相应的常量表达式替换这些const变量的任何使用。所以，在实践中不会有任何存储空间用于存储用常量表达式初始化的const变量。</p>
+<p>如果const变量不是用常量表达式初始化，那么它就不应该在头文件中定义。相反，和其他的变量一样，该const变量应该在一个源文件中定义并初始化。应在头文件中为它添加extern声明，以使其能被多个文件共享。</p>
+<p>在下列声明和定义中 哪些应被放到头文件中 哪些应被放到程序文本文件中 为什么<br>(a) int var;<br>(b) inline bool is_equal( const SmallInt &amp;, const SmallInt &amp; ) { }<br>(c) void putValues( int *arr, int size );<br>(d) const double pi = 3.1416;<br>(e) extern int total = 255; </p>
+<p>附加问题：一般哪些声明跟定义应被放到头文件中 哪些应被放到程序文本文件中？ </p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>声明和定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extern int i; // declares but does not define I</span><br><span class="line">int i; // declares and defines i</span><br></pre></td></tr></table></figure></p>
+<p>初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int ival(1024);</span><br><span class="line">int ival=1024;</span><br></pre></td></tr></table></figure></p>
+<p>• 给变量一个初始值几乎总是正确的，但不要求必须这样做。当我们确定变量在第一次使用时会赋一个新值，那就不需要创建初始值<br>• 每个定义都是以类型说明符开始，后面紧跟着以逗号分开的含有一个或多个说明符的列表。分号结束定义<br>非const引用必须用与该引用同类型的对象初始化</p>
+<h3 id="const变量"><a href="#const变量" class="headerlink" title="const变量"></a>const变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const std::string hi = &quot;hello!&quot;; // ok: initialized const int i, j = 0; // error: i is uninitialized const</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int i = 42; //legal for const references only const</span><br><span class="line">int &amp;r = 42;</span><br><span class="line">const int &amp;r2 = r + i;</span><br></pre></td></tr></table></figure>
+<p>因为常量在定义后就不能被修改，所以定义时必须初始化</p>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const unsigned array_size = 3;</span><br><span class="line">int ia[array_size] = &#123;0, 1, 2&#125;;</span><br></pre></td></tr></table></figure>
+<p>一个数组不能用另外一个数组初始化，也不能将一个数组赋值给另一个数组</p>
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int ival = 1024; </span><br><span class="line">int *pi = 0; // pi initialized to address no object</span><br><span class="line">int *pi2 = &amp;ival; // pi2 initialized to address of ival </span><br><span class="line">int *pi3; // ok, but dangerous, pi3 is uninitialized</span><br><span class="line">pi = pi2; // pi and pi2 address the same object,e.g. ival </span><br><span class="line">pi2 = 0; // pi2 now addresses no object</span><br></pre></td></tr></table></figure>
+<p>有效的指针必然是以下三种状态之一：保存一个特定对象的地址；指向某个对象后面的另一对象；或者是 0 值。所以对指针进行初始化或赋值只能使用以下四种类型的值</p>
+<ul>
+<li>值常量表达式</li>
+<li>类型匹配的对象的地址</li>
+<li>另一对象末的下一地址</li>
+<li>同类型的另一个有效指针</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int ival = 1024; </span><br><span class="line">int &amp;refVal = ival; // ok: refVal refers to ival </span><br><span class="line">int &amp;refVal2; // error: a reference must be initialized</span><br><span class="line">int &amp;refVal3 = 10; // error: initializer must be an object</span><br></pre></td></tr></table></figure>
+<p>• 一种引用类型都“关联到”某一其他类型。不能定义引用类型的引用，但可以定义任何其他类型的引用<br>• 因为引用只是它绑定的对象的另一名字，作用在引用上的所有操作事实上都是作用在该引用绑定的对象上<br>• 非const引用必须用与该引用同类型的对象初始化<br>• （非）const 引用是指向 （非）const 的引用，非 const 引用只能绑定到与该引用同类型的对象，const 引用则可以绑定到不同但相关的类型的对象或绑定到右值</p>
+<p>const引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i = 42; </span><br><span class="line">//legal for const references only </span><br><span class="line">const int &amp;r = 42;</span><br><span class="line">const int &amp;r2 = r + i;</span><br></pre></td></tr></table></figure></p>
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i(1024);// value of i is 1024</span><br><span class="line">int *pi = new int(1024); // object to which pi points is 1024 </span><br><span class="line">string s(10, &apos;9&apos;); // value of s is &quot;9999999999&quot;</span><br><span class="line">string *ps = new string(10, &apos;9&apos;); // *ps is &quot;9999999999&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h4><p>• 只需指定类型和数组长度，不必为数组对象命名，new 表达式返回指向新分配数组的第一个元素的指针<br>• 动态分配数组时，如果数组元素具有类类型，将使用该类的默认构造函数实现初始化；如果数组元素是内置类型，则无初始化<br>• 对于动态分配的数组，其元素只能初始化为元素类型的默认值， 而不能像数组变量一样，用初始化列表为数组元素提供各不相同的初值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string *psa = new string[10]; // array of 10 empty strings </span><br><span class="line">int *pia = new int[10]; // array of 10 uninitialized ints</span><br><span class="line">int *pia2 = new int[10](); // array of 10 initialized ints</span><br></pre></td></tr></table></figure></p>
+<p>const 对象的动态数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ok: array of 100 empty strings </span><br><span class="line">const string *pcs = new const string[100];</span><br><span class="line"></span><br><span class="line">唯一方法是对数组做值初始化</span><br><span class="line"></span><br><span class="line">// error: uninitialized const array </span><br><span class="line">const int *pci_bad = new const int[100]; // ok: value-initialized const array</span><br><span class="line">const int *pci_ok = new const int[100]();</span><br></pre></td></tr></table></figure>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><p>new 关键字创建对象时，对于内置类型：加括号会初始化，不加括号不初始化；<br>对于自定义类型，<br>    对于有构造函数的类，不论有没有括号，都用构造函数进行初始化，加不加括号没区别；<br>    对于没有构造函数的类，则不加括号的new只分配内存空间，不进行内存的初始化，而加了括号的new会在分配内存的同时初始化为0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    A():a(10)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line">main函数中使用语句：</span><br><span class="line">    A *b=new A;</span><br><span class="line">    cout&lt;&lt;b-&gt;a&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    A *b=new A();</span><br><span class="line">    cout&lt;&lt;b-&gt;a&lt;&lt;endl;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果都是10，可见都进行了初始化。<br>但是，如果把A的构造函数删掉，则两个语句输出的结果分别是：随机数，0</p>
+<p>注意一下几种形式的区别</p>
+<ol>
+<li>在栈上创建 MyClass a：表示使用不带参数的构造函数，或者有默认参数值的构造函数</li>
+<li>MyClass a()：声明了一个返回值为MyClass类型的无参函数</li>
+<li>MyClass a(1)：调用参数为int的构造函数</li>
+<li>在堆上创建之加括号 MyClass *a= new MyClass(); </li>
+<li>在堆上创建之不加括号 MyClass *a = new MyClass; </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;  </span><br><span class="line">class MyClass  </span><br><span class="line">&#123;  </span><br><span class="line">public:  </span><br><span class="line">    MyClass()   </span><br><span class="line">    &#123;   </span><br><span class="line">        std::cout &lt;&lt; &quot;Hello MyClass!&quot; &lt;&lt; std::endl;   </span><br><span class="line">    &#125;  </span><br><span class="line">    MyClass(int i):num(i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        std::cout &lt;&lt; &quot;Hello MyClass!------int&quot; &lt;&lt; std::endl;   </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    void MyMethod()   </span><br><span class="line">    &#123;   </span><br><span class="line">        std::cout &lt;&lt; &quot;输出成员num: &quot; &lt;&lt;num &lt;&lt; std::endl;   </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">private:  </span><br><span class="line">    int num;  </span><br><span class="line">&#125;;  </span><br><span class="line">int main()  </span><br><span class="line">&#123;  </span><br><span class="line">    //---------------对于调用构造函数  </span><br><span class="line">    MyClass c1;//表示使用不带参数的构造函数，或者有默认参数值的构造函数。  </span><br><span class="line">    MyClass c2();//不会调用无参构造函数,各种情况下该处是声明一个返回值为MyClass类型的函数而已  </span><br><span class="line">    MyClass c3(1);//调用参数为int的构造函数  </span><br><span class="line">    /*---------------对于new关键字加括号和不加括号的区别--- </span><br><span class="line">    1.对于自定义类型来说没有区别，都是使用默认构造函数 </span><br><span class="line">    2.对于内置类型来说加括号会初始化 </span><br><span class="line">    */  </span><br><span class="line">    std::cout&lt;&lt;std::endl;  </span><br><span class="line">    MyClass *c4 = new MyClass();  </span><br><span class="line">    c4-&gt;MyMethod();  </span><br><span class="line">    MyClass *c5 = new MyClass(1);  </span><br><span class="line">    c5-&gt;MyMethod();  </span><br><span class="line">    MyClass *c6 = new MyClass;  </span><br><span class="line">    c6-&gt;MyMethod();  </span><br><span class="line"></span><br><span class="line">    //内置类型  </span><br><span class="line">    std::cout&lt;&lt;std::endl;  </span><br><span class="line">    int *pint1 = new int(1);  </span><br><span class="line">    int *pint2 = new int();  </span><br><span class="line">    int *pint3 = new int;  </span><br><span class="line"></span><br><span class="line">    std::cout&lt;&lt;*pint1&lt;&lt;&quot; &quot;&lt;&lt;*pint2&lt;&lt;&quot; &quot;&lt;&lt;*pint3&lt;&lt;std::endl;  </span><br><span class="line">    return 0;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//默认地，第一个枚举成员赋值为 0，后面的每个枚举成员赋的值比前面的大1</span><br><span class="line">enum open_modes&#123;input, output, append&#125;;</span><br><span class="line"></span><br><span class="line">// point2d is 2, point2w is 3, point3d is 3, point3w is 4 </span><br><span class="line">enum Points &#123; point2d = 2, point2w,point3d = 3,point3w &#125;;</span><br><span class="line">Points pt3d = point3d; // ok: point3d is a Points enumerator Points pt2w = 3; pt2w = polygon; pt2w = pt3d;</span><br><span class="line">// //</span><br><span class="line">// error: pt2w initialized with int error: polygon is not a Points enumerator</span><br><span class="line">ok: both are objects of Points enum type</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/CPPGram_declare/" data-id="cjm8rmk2x0002rguz78k7v4iz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/29/CPPGram/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++常见问题之其他
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/29/OOP_model3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">面向对象之对象模型（三）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

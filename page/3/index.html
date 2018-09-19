@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-datastruct1" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-datastruct_hash" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/22/datastruct1/" class="article-date">
-  <time datetime="2018-08-22T03:28:07.029Z" itemprop="datePublished">2018-08-22</time>
+    <a href="/2018/09/11/datastruct_hash/" class="article-date">
+  <time datetime="2018-09-11T01:31:39.861Z" itemprop="datePublished">2018-09-11</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/22/datastruct1/">数据结构和算法</a>
+      <a class="article-title" href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
     </h1>
   
 
@@ -84,360 +84,42 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>学习数据结构和算法很久了，以这篇文章总结下自己的想法。</p>
-<h3 id="数据结构和算法的关系"><a href="#数据结构和算法的关系" class="headerlink" title="数据结构和算法的关系"></a>数据结构和算法的关系</h3><ul>
-<li><p>首先上经典公式：程序=数据结构+算法</p>
-</li>
-<li><p>其次，从哲学的角度谈：<br>数据结构是数据间的有机关系，算法是对数据的操作步骤。这两个概念间的逻辑关系贯穿了整个程序世界，首先二者表现为不可分割的关系。没有数据间的有机关系，程序根本无法设计，没有一定组织关系的数据，算法就无法产生。你不可能对一堆杂乱无章的数据编写算法，你要想对数据进行操作，必须能够找到数据，这样就必须将它们按照一定规律组织起来。这个过程不一定是算法，但是算法可以实现这个过程。数据结构是算法得以诞生的条件，否则就是数据间的杂乱无章的运动。例如，设计a+b的程序，你总得找到a和b的值吧，a和b必须是可以互相找到的才能进行程序运算，a和b就必然要联结成一定的关系，或是线性关系，或是树型关系，或者是图型关系，你的程序才能产生，杂乱无章的数据——-就是没有数据结构的数据，是没有算法的，你试试做一个电子运动的时间和坐标对应的算法看看行不行，显然不行。因为有了数据结构，算法才能诞生。</p>
-</li>
-</ul>
-<p>反过来，算法又是数据结构得以维持的一个条件，没有算法，数据根本无法有规律的打交道，也就是说数据的间只会是杂乱无章地碰撞，这样数据结构就会消灭。算法是绝对运动的，数据结构是相对静止的，二者是不可分割的关系。数据结构和算法不仅仅是计算机中才有的，计算机是后来诞生的东西，计算机的概念来源于自然界，自然界中例如一棵树的根和树叶之间的信息交流就是一个算法，是建立在根数据和树叶数据之间可以相通的关系上的算法，计算机只是自然界的一个模拟，编程语言不是程序的一个要素，因为自然界是没有语言的，但是有程序，这是唯物主义的观点。客观世界是物质的，物质是运动的，运动是有规律的，有规律的运动就是程序</p>
-<p>算法的革命的、活泼的，数据结构是反动的、迟钝的，算法的发展必然推动数据结构的发展，算法的发展必然会冲破数据结构的束缚。算法的发展要求数据结构跟着发展，否则就会阻碍算法的发展。算法的发展或迟或早必然冲破数据结构的束缚，二者必然将建立在一个新的起点继续着矛盾运动，</p>
-<ul>
-<li>从实际的角度谈，基本上可以认为一种数据结构对应一种算法。例如栈对应递归，查找树对应查找算法，图对应搜索算法。</li>
-</ul>
-<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>数据结构从逻辑上可以分为集合结构，线性结构，树形结构，图形结构，以及不同于这些结构的字典/键值对；从物理上可以分为顺序存储结构和链式存储结构。这两类概念可以组合，成为常见的数据结构。<br>举个例子，线性结构中的栈（stack），如果用顺序存储结构，就叫顺序栈，如果用链式存储结构，就叫链栈。<br>再举个例子，在STL中，所谓 <strong>顺序</strong> 容器 (SequenceContainer) 是在 <strong>线性</strong> 排列中存储相同类型对象的容器，即它们是线性结构。</p>
-<p>顺序容器：</p>
-<ul>
-<li>basic_string</li>
-<li>array</li>
-<li>vector</li>
-<li>deque</li>
-<li>forward_list</li>
-<li>list</li>
-</ul>
-<p>在顺序容器中，按存储结构又可分为 <strong>顺序</strong> 存储结构和链式存储结构。<br>顺序存储结构：</p>
-<ul>
-<li>basic_string</li>
-<li>array</li>
-<li>vector</li>
-<li>deque<br>链式存储结构：</li>
-<li>forward_list</li>
-<li>list</li>
-</ul>
-<p><strong>顺序</strong> 存储结构又包含了连续存储结构<br>连续存储结构：</p>
-<ul>
-<li>basic_string</li>
-<li>array</li>
-<li>vector<br>顺序存储结构：</li>
-<li>deque<br>链式存储结构：</li>
-<li>forward_list</li>
-<li>list</li>
-</ul>
-<p>Note：我经常发现有人把“连续”和“顺序”混用，把“顺序存储结构”称为“连续存储结构”，包括《C++ primer》都犯了这样的错误。细究起来，“连续”是指一个挨一个，中间没有缝隙，例如vector，“顺序”是指一个接一个，但中间可能有缝隙，例如deque。总的来说，顺序包括连续。连续存储结构的容器也叫相接容器 (ContiguousContainer) ，是在相接内存位置存储对象的容器<br>vector和deque的详情请见下一篇博客</p>
-<p>因为顺序存储结构中，每个元素是在内存上是“连续”的（或者看起来是“连续的”），支持高效的随机访问和在尾端插入/删除操作，但其他位置的插入/删除操作效率低下。所以我们又叫它 <strong>随机</strong> 存取结构。</p>
-<ul>
-<li>查找————不管是哪个位置，时间复杂度都是O(1)</li>
-<li>插入和删除————需要平均移动表长一半的元素，时间为O(n)<br>vector和deque是其中，deque除了具有vector的所有功能外，还支持高效的首端插入/删除操作</li>
-</ul>
-<p>因为（双）链式存储结构，每个元素维护一对前向和后向指针，支持前向/后向遍历。支持高效的随机插入/删除操作，但随机访问效率低下，且由于需要额外维护指针，开销也比较大。所以我们又叫它 <strong>顺序</strong> 存取结构。</p>
-<p><strong>PS：为什么老用“顺序”这个词，上下文里已经出现了三次，每次的含义都不一样</strong></p>
-<ul>
-<li>查找————O(n)</li>
-<li>插入和删除————在找出某位置的指针后，插入和删除时间仅为O(1)<br>list是其中典型</li>
-</ul>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>下面的知识很多在高中阶段就接触了，回忆一下。<br>算法的基本特性为有零个或多个输入，有一个或多个输出，有穷性，确定性，可行性；<br>设计算法要求正确性、可读性、健壮性、时间效率高和存储量低；<br>算法可以用伪代码、流程图、N-S结构图来描述<br>算法的三种基本结构：顺序结构；选择结构；循环结构。循环结构还分为当型和直到型</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/22/datastruct1/" data-id="cjljcxhpo000g1guz57w4fncb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Developer_lang" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/21/Developer_lang/" class="article-date">
-  <time datetime="2018-08-21T02:57:59.695Z" itemprop="datePublished">2018-08-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/21/Developer_lang/">开发者的战争之语言比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="C和C-的区别"><a href="#C和C-的区别" class="headerlink" title="C和C++的区别"></a>C和C++的区别</h3><p>C是几种语言中最古老的。C是C++的子集，C++是C的超集。C的最初出现是为了代替运行效率高但是开发效率低下的汇编语言。C语言现在多应用于操作系统编程，或者驱动开发。比如著名的Linux系统就是使用C语言开发的。C++也可以开发操作系统但是太过于笨重</p>
-<p>C++是多范式编程语言。它不仅支持传统的面向过程编程，也支持面向对象编程，最初C++发明的时候就叫做C with class (带类的C)，随着时间推移，C++又接受了泛形编程的思想，像STL库就是一个例子。C++的语法风格不一而同，大部分人在写C++的时候还是当作带类的C来使用，其实C++可以写出像python一样现代的风格</p>
-<p>宏观角度之外，几个小的点也是体现出二者区别的地方</p>
-<h4 id="new-delete和malloc-free的区别"><a href="#new-delete和malloc-free的区别" class="headerlink" title="new/delete和malloc/free的区别"></a>new/delete和malloc/free的区别</h4><p>参数：malloc则需要显式地指出所需内存的尺寸；使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算<br>返回：malloc内存分配成功则是返回void <em> ，需要通过强制类型转换将void </em>指针转换成我们需要的类型；new返回的指针是直接带类型信息的，new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合类型安全性的操作符<br>分配失败：malloc分配内存失败时返回NULL；new内存分配失败时，会抛出bac_alloc异常</p>
-<p>位置：C语言使用malloc从堆（heap）上动态分配内存，使用free释放已分配的对应内存；new操作符从自由存储区（free store）上为对象动态分配内存空间，使用delete来释放<br>重载：C++允许重载new/delete操作符，特别的，布局new的就不需要为对象分配内存，而是指定了一个地址作为内存起始区域，new在这段内存上为对象调用构造函数完成初始化工作，并返回此地址。而malloc不允许重载</p>
-<p><strong>注意</strong>：自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区，而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配。尽管C++标准没有要求，但很多编译器的new/delete都是以malloc/free为基础来实现的，即它们是由堆实现的自由存储区。程序员也可以通过重载操作符，改用其他内存来实现自由存储区，例如全局变量做的对象池，这时自由存储区就区别于堆了</p>
-<p>根本上：malloc/free是库函数，需要头文件支持；new/delete是操作符，需要编译器支持</p>
-<h4 id="为什么有了malloc还需要new"><a href="#为什么有了malloc还需要new" class="headerlink" title="为什么有了malloc还需要new"></a>为什么有了malloc还需要new</h4><p>malloc/free是库函数，只能动态的申请和释放内存，无法强制要求其做自定义类型对象构造和析构工作。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求————对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete</p>
-<p>new 会先调用operator new函数，申请足够的内存（通常底层使用malloc实现）。然后调用类型的构造函数，初始化成员变量，最后返回自定义类型指针。delete 先调用析构函数，然后调用operator delete 函数释放内存（通常底层使用free实现）<br>new可以认为是malloc+构造函数</p>
-<h4 id="结构体的区别"><a href="#结构体的区别" class="headerlink" title="结构体的区别"></a>结构体的区别</h4><p>C语言中的结构体只涉及到数据结构，而不涉及到算法，也就是说在C中数据结构和算法是分离的。C语言中的结构体只是一个复杂数据类型 ，只能定义成员变量，不能定义成员函数，不能用于面向对象编程<br>然而在C++中既可以定义成员变量又可以定义成员函数， C++中的结构体和类体现了数据结构和算法的结合</p>
-<h3 id="Java和C-的区别"><a href="#Java和C-的区别" class="headerlink" title="Java和C++的区别"></a>Java和C++的区别</h3><ul>
-<li>数据类型：java的数据类型具有平台无关性，这使得Java语言完美的解决了C++中饱受诟病的可移植性问题</li>
-<li>字符串：Java中的字符串是不可变的；不能使用==来比较字符串（使用equals）</li>
-</ul>
-<p>C++把声明和实现分别放在头文件和源文件中，而Java则不使用头文件。C++引用其他内容时需要include，而Java则用package和import</p>
-<ul>
-<li><p>垃圾回收：C++需要程序员自己回收，对内存进行良好的管理，而Java则不需要程序员自己完成这个工作，有自己的垃圾回收机制，Java中有完善的内存管理机制，能自动垃圾回收，最大可能降低内存溢 出的可能，同时提高编程效率<br>Java语言中的对象内存分配都是堆上进行，只有方法中的局部变量才在栈上分配。而C/C++的对象则有多种内存分配方式，既可能在堆上分配，也可能在栈上分配，如果可以把线程私有的对象在栈上分配，将可以减轻内存回收的压力，也不需要考虑内存屏障方面的问题。另外，C/C++中主要由用户程序代码来回收分配的内存，这就不存在无用对象筛选的过程，因此效率上（仅指运行效率，排除了开发效率）也垃圾收集机制要高</p>
-</li>
-<li><p>Java完全对象化，比如数组在Java中是一个对象，含有length这个属性; 而不像C++中数组是一个指针。所以访问数组，Java都会进行边界检查，更安全 ，但牺牲了速度。Java中没有指针这样不安全(虽然指针速度快)的概念</p>
-</li>
-<li><p>Java标准库完整的多，相比之下C++除了一个STL(而且还超级难用)就没 了</p>
-</li>
-<li>Java因为是把程序编译为字节码，运行时需要JVM把字节码再翻译为机 器码，所以他跨平台，一次编译到处运行。但这也是他慢的根本原因</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/21/Developer_lang/" data-id="cjlofx6qu00093guzh6mj00ui" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-datastruct" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/20/datastruct/" class="article-date">
-  <time datetime="2018-08-20T07:16:20.371Z" itemprop="datePublished">2018-08-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/20/datastruct/">数据结构和算法之常用的数据结构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常用数据结构一览"><a href="#常用数据结构一览" class="headerlink" title="常用数据结构一览"></a>常用数据结构一览</h3><p>AVL树：应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树<br>红黑树：广泛用在C++的STL中，如map和set都是用红黑树实现的；Java用它来实现TreeMap；Linux内核在管理vm_area_struct时就是采用了红黑树来维护内存块的；<br>B/B+树：用在磁盘文件组织 数据索引和数据库索引<br>双向链表：STL的list，Redis的list<br>单向链表：STL的slist<br>链表散列：STL的hash_set，hash_map；Java的HashMap，HashTable<br>跳表：Redis的Sorted Set</p>
-<p>stack、queue默认的底层实现为deque结构<br>deque：用map管理多个size大小的连续内存块，方便头尾插入</p>
-<h3 id="红黑树和散列的比较"><a href="#红黑树和散列的比较" class="headerlink" title="红黑树和散列的比较"></a>红黑树和散列的比较</h3><p>权衡三个因素: 查找速度, 数据量, 内存使用，可扩展性。</p>
-<p>hash优点：<br>总体来说，hash查找速度会比红黑树快，而且查找速度基本和数据量大小无关，属于常数级别。记录数据量很大的时候，处理记录的速度很快，平均操作时间是一个不太大的常数</p>
-<p>hash缺点：</p>
+        <p>碰见很多与哈希有关的术语</p>
+<p>散列表hash table/hash map，泛指一切 key 为 hashcode 的键值对形式的数据结构：&lt; hashcode，value&gt;</p>
+<p>散列表按实现可以分为哈希序列hash list/hash sequence；和哈希树hash tree。哈希序列即我们常说的链表散列、线性开放寻址散列等</p>
+<p>链地址法的优点<br>与开放定址法相比，拉链法有如下几个优点： </p>
 <ol>
-<li>好的哈希函数（good hash function）的计算成本有可能会显著高于线性表或者搜索树在查找时的内部循环成本，所以当数据量非常小的时候，哈希表是低效的      </li>
-<li>哈希表按照 key 对 value 有序枚举（ordered enumeration， 或者称有序遍历）是比较麻烦的（比如：相比于有序搜索树），需要先取出所有记录再进行额外的排序</li>
-<li>哈希表处理冲突的机制本身可能就是一个缺陷，攻击者可以通过精心构造数据，来实现处理冲突的最坏情况。即：每次都出现冲突，甚至每次都出现多次冲突（针对封闭散列的探测），以此来大幅度降低哈希表的性能。这种攻击也被称为基于哈希冲突的拒绝服务攻击（Hashtable collisions as DOS attack）</li>
+<li>链地址法处理冲突简单，且无堆积现象，即非同义词决不会发生冲突，因此平均查找长度较短； </li>
+<li>由于链地址法中各链表上的结点空间是动态申请的，故它更适合于造表前无法确定表长的情况； </li>
+<li>开放定址法为减少冲突，要求装填因子α较小，故当结点规模较大时会浪费很多空间。而链地址法中可取α≥1，且结点较大时，链地址法中增加的指针域可忽略不计，因此节省空间； </li>
+<li>在用链地址法构造的散列表中，删除结点的操作易于实现。只要简单地删去链表上相应的结点即可。而对开放地址法构造的散列表，删除结点不能简单地将被删结 点的空间置为空，否则将截断在它之后填人散列表的同义词结点的查找路径。这是因为各种开放地址法中，空地址单元(即开放地址)都是查找失败的条件。因此在 用开放地址法处理冲突的散列表上执行删除操作，只能在被删结点上做删除标记，而不能真正删除结点。</li>
 </ol>
-<p>但红黑树的查找速度是log(n)级别，首先并不一定常数就比log(n)小，此外hash还有hash函数的耗时。<br>所以STL的map和set用红黑树而不是hash实现。</p>
-<p>红黑树并不适应所有应用树的领域。如果数据基本上是静态的，那么让他们待在他们能够插入，并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，例如，做一个哈希表，性能可能会更好一些</p>
-<p>首先set，不像map那样是key-value对，它的key与value是相同的。关于set有两种说法，第一个是STL中的set，用的是红黑树；第二个是hash_set，底层用得是hash table。红黑树与hash table最大的不同是，红黑树是有序结构，而hash table不是。但不是说set就不能用hash，如果只是判断set中的元素是否存在，那么hash显然更合适，因为set 的访问操作时间复杂度是log(N)的，而使用hash底层实现的hash_set是近似O(1)的。然而，set应该更加被强调理解为“集合”，而集合所涉及的操作并、交、差等，即STL提供的如交集set_intersection()、并集set_union()、差集set_difference()和对称差集set_symmetric_difference()，都需要进行大量的比较工作，那么使用底层是有序结构的红黑树就十分恰当了，这也是其相对hash结构的优势所在</p>
-<h3 id="几个实现例子"><a href="#几个实现例子" class="headerlink" title="几个实现例子"></a>几个实现例子</h3><p>Redis的list<br>用ziplist+quicklist实现的，ziplist压缩空间，quicklist实现链表</p>
-<p>LRU的实现<br>LRU，即最近最少使用页面/缓存替换算法，在web缓存和操作系统中经常被使用。</p>
-<p>如果用C++，则使用STL的list+map；如果用Java，则使用双向链表+HashMap；Python则使用双向链表+Dict。使用双向链表可以方便删除节点，使用map来保存每个节点的key-value</p>
-<ul>
-<li>新数据插入到链表头部</li>
-<li>每当缓存命中（即缓存数据被访问），则将数据移到链表头部</li>
-<li>当链表满的时候，将链表尾部的数据丢弃</li>
-</ul>
-<p><img src="images/datastruct.bmp" alt="使用的数据结构"></p>
-<p>leetcode的<a href="&quot;https://leetcode.com/problems/lru-cache/description/&quot;">No.146 LRU Cache</a>是关于LRU很好的模拟题。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/20/datastruct/" data-id="cjljcxhpr000i1guz4cyyx0yl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-video" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/19/video/" class="article-date">
-  <time datetime="2018-08-19T05:41:56.958Z" itemprop="datePublished">2018-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/19/video/">项目演示视频</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学生端</p>
-<iframe height="498" width="510" src="images/student.mp4" frameborder="0" allowfullscreen><br></iframe><br>老师端<br><iframe height="498" width="510" src="images/teacher.mp4" frameborder="0" allowfullscreen><br></iframe>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/19/video/" data-id="cjljcxhq7000z1guzmomcwhfc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Developer3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/19/Developer3/" class="article-date">
-  <time datetime="2018-08-19T05:26:44.863Z" itemprop="datePublished">2018-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/19/Developer3/">开发者的战争之全栈~~入门~~入坑指南</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网络上对全栈工程师和立志做全栈的工程师不太友好，也许全栈工程师就是啥都会啥都不精的代名词。</p>
-<p>JavaScript</p>
-<h3 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h3><p>跨域问题决定是我上手前端遇到的第一个问题。虽然当时通过查资料的方式解决了它，但是一直不明白它是为什么</p>
-<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><h3 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h3><p>Golang</p>
-<h3 id="自动垃圾回收"><a href="#自动垃圾回收" class="headerlink" title="自动垃圾回收"></a>自动垃圾回收</h3><ul>
-<li>函数多返回值<br>多值返回仅动态语言Python有此特性</li>
-<li>错误处理<br>3个重要关键字defer、panic、recover<br>  defer是函数结束后执行，呈先进后出；<br>  panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>  recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</li>
-</ul>
-<h3 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h3><p>go语言倡导使用消息传递来共享内存，引入了goroutine概念，这是一个协程，更轻量级的线程。与channel搭配使用</p>
-<p>怎么保证协程的释放</p>
-<h3 id="数组和切片"><a href="#数组和切片" class="headerlink" title="数组和切片"></a>数组和切片</h3><p>数组的大小是其类型的一部分，而切片可以具有动态大小，因为它们是围绕数组的封装</p>
-<p>类似于数组，切片是可索引的且拥有一个长度。切片 s 的长度可通过内建函数 len获取；不同于数组的是，切片可在执行过程中被改变， 其元素可通过整数（§下标） 0 到 len(s)-1 寻址。 给定元素的切片下标可能小于它在其基本数组中的下标</p>
-<p>切片一旦初始化，就总是伴随着一个包含其元素的基本数组。 因此，切片与其数组及其它本数组的切片共享存储； 与此相反，不同的数组总是表示其不同的存储</p>
-<p>切片的基本数组可扩展其切片的结尾。容量 是该扩展的量度： 它是切片的长度和切片往后数组的长度之和；长度达到其容量的切片可通过从原切片 （§Slices）‘切下’一个新的来创建。 切片 a 的容量可使用内建函数 cap(a) 获取</p>
-<p>### </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/19/Developer3/" data-id="cjlofx6qq00053guzcanw23ng" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-learnDB3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/18/learnDB3/" class="article-date">
-  <time datetime="2018-08-18T08:08:02.275Z" itemprop="datePublished">2018-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/18/learnDB3/">数据库的学习之非关系数据库</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关系型数据库：MySQL，SQL-Server，Oracle"><a href="#关系型数据库：MySQL，SQL-Server，Oracle" class="headerlink" title="关系型数据库：MySQL，SQL Server，Oracle"></a>关系型数据库：MySQL，SQL Server，Oracle</h1><h1 id="非关系数据库"><a href="#非关系数据库" class="headerlink" title="非关系数据库"></a>非关系数据库</h1><ul>
-<li>文档型数据库：MongoDB、CouchDB、CouchBase、MarkLogic、Clusterpoint</li>
-<li>键值存储数据库：Dynamo、FoundationDB、MemcacheDB、Redis、Riak、Aerospike</li>
-<li>图数据库：Neo4j、OrientDB、ArangoDB、MapGraph，适合社会关系，公共交通网络，地图及网络拓谱</li>
-<li>列式数据库：Cassandra、HBase、Accumulo、Druid、Vertica</li>
-<li>内存数据库：Redis、Membase，适合于数据变化快且数据库大小可遇见(适合内存容量)的应用程序</li>
-</ul>
-<h1 id="关系型和非关系型的区别"><a href="#关系型和非关系型的区别" class="headerlink" title="关系型和非关系型的区别"></a>关系型和非关系型的区别</h1><h2 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h2><p>关系型数据库是表格式的，因此存储在表的行和列中，</p>
-<h2 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/18/learnDB3/" data-id="cjljcxhq1000s1guz7ty3av8s" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-blockchain2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/18/blockchain2/" class="article-date">
-  <time datetime="2018-08-18T05:04:12.385Z" itemprop="datePublished">2018-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/18/blockchain2/">自己动手区块链之持久化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在上一篇文章，我们实现了一个有POW的单节点区块链。由于没有用到数据库，而是在每次运行程序时，简单地将区块链存储在内存中。那么一旦程序退出，所有的内容就都消失了。我们没有办法再次使用这条链，也没有办法与其他人共享，所以我们需要一个数据库把它存储到磁盘上。</p>
-<p>不必使用MySQL这样的数据库，。。。</p>
-<p>为了简单考虑，我们会将整个区块链存储为单个文件。我们将使用两种键值对：</p>
+<p>链地址法的缺点<br>　链地址法的缺点是：指针需要额外的空间，故当结点规模较小时，开放定址法较为节省空间，而若将节省的指针空间用来扩大散列表的规模，可使装填因子变小，这又减少了开放定址法中的冲突，从而提高平均查找速度</p>
+<p>开放定址法的优点：</p>
 <ol>
-<li>32 字节的 block-hash -&gt; block 结构</li>
-<li>l -&gt; 链中最后一个块的 hash</li>
+<li>记录更容易进行序列化（serialize）操作</li>
+<li>如果记录总数可以预知，可以创建完美哈希函数，此时处理数据的效率是非常高的<br>的缺点：</li>
+<li>存储记录的数目不能超过桶数组的长度，如果超过就需要扩容，而扩容会导致某次操作的时间成本飙升，这在实时或者交互式应用中可能会是一个严重的缺陷</li>
+<li>使用探测序列，有可能其计算的时间成本过高，导致哈希表的处理性能降低</li>
+<li>由于记录是存放在桶数组中的，而桶数组必然存在空槽，所以当记录本身尺寸（size）很大并且记录总数规模很大时，空槽占用的空间会导致明显的内存浪费</li>
+<li>删除记录时，比较麻烦。比如需要删除记录a，记录b是在a之后插入桶数组的，但是和记录a有冲突，是通过探测序列再次跳转找到的地址，所以如果直接删除a，a的位置变为空槽，而空槽是查询记录失败的终止条件，这样会导致记录b在a的位置重新插入数据前不可见，所以不能直接删除a，而是设置删除标记。这就需要额外的空间和操作。</li>
 </ol>
-<p>redis里的数据就像这样<br><img src="images/blockchain2.bmp" alt="redis数据格式"></p>
-<p>这样，我们在运行我们的区块链时，首先去数据库里检查存储了一个区块链，如果没有区块链</p>
+<p>负载因子load factor<br>一个评估哈希表的关键统计数据，它反映哈希表的装满程度。被定义为：α = n / k, n 是记录的数量，k 是桶的数量</p>
+<ol>
+<li>随着负载因子的扩大，出现冲突的概率会越来越大，所以当超过一定阈值时，需要扩容，避免哈希表因为频繁处理冲突而越来越慢</li>
+<li>随着负载因子的缩小，桶数组中空着的槽就越来越多，所以当小过一定阈值时，需要缩容，避免空槽飙升导致的内存浪费</li>
+</ol>
+<p>动态调整dynamic resizing<br>是针对封闭散列的，有两种情况：</p>
+<ol>
+<li>当插入新记录到桶数组时，计算桶数组的负载因子，如果大于一定阈值时，对桶数组的大小进行扩容</li>
+<li>当从桶数组中删除记录时，计算桶数组的负载因子，如果小于一定阈值时，对桶数组的大小进行缩容</li>
+</ol>
+<p>扩容和缩容，都需要将旧记录迁移到新的地址上，这就需要对 key 进行重新映射，这种重新映射被称为再哈希（rehash）</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/18/blockchain2/" data-id="cjljcxhpp000h1guzvverddj6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/11/datastruct_hash/" data-id="cjlxseda60004h0uzn4gvhyan" class="article-share-link">Share</a>
       
       
     </footer>
@@ -447,10 +129,10 @@
 
 
   
-    <article id="post-blockchain" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-NET_HTTP" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/18/blockchain/" class="article-date">
-  <time datetime="2018-08-18T04:58:38.476Z" itemprop="datePublished">2018-08-18</time>
+    <a href="/2018/09/10/NET_HTTP/" class="article-date">
+  <time datetime="2018-09-10T01:28:20.888Z" itemprop="datePublished">2018-09-10</time>
 </a>
     
   </div>
@@ -461,7 +143,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/18/blockchain/">自己动手区块链</a>
+      <a class="article-title" href="/2018/09/10/NET_HTTP/">计算机网络复习之HTTP</a>
     </h1>
   
 
@@ -469,43 +151,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>接触区块链已经有一段时间了，已经学习了比特币、区块链和以太坊这些概念，也用了solidity和truffle这些智能合约工具，自己也思考过区块链的影响与落地。但是区块链的底层技术，只是有基本的认识，没有完全的掌握。希望随着项目的不断进行，可以把区块链的相关技术好好地了解一番。</p>
-<p>本人的区块链代码放在Github上，欢迎大家指点</p>
-<h3 id="区块"><a href="#区块" class="headerlink" title="区块"></a>区块</h3><p>区块链由一个个区块（block）组成。区块很像数据库的记录，每次写入数据，就是创建一个区块。区块由区块头和区块主体组成，很像TCP/IP协议里那些报文结构。借用网上的一张图<br><img src="images/blockchain3.bmp" alt="区块"><br>区块头</p>
-<ul>
-<li><p>版本号（version）：用来标识交易版本和所参照的规则。</p>
-</li>
-<li><p>时间戳（Time）：记录生成这个区块的时间，精确到秒。每诞生一个新的区块，就会被盖上相应的时间戳，这样就保证整条链上的区块都按照时间顺序进行排列。</p>
-</li>
-<li><p>区块高度和哈希：区块高度是区块的标示符，是指该区块在区块链中的位置。区块高度并不是唯一的标识符。虽然一个单一的区块总是会有一个明确的、固定的区块高度，但反过来却并不成立，一个区块高度并不总是识别一个单一的区块。两个或两个以上的区块可能有相同的区块高度，在区块链里争夺同一位置。<br><strong>Note：我发现某些实现区块链的项目省略了区块高度这一字段，但其实它是很关键的标识符，在比特币分叉中，人们会提前说明将在比特币高度多少时进行分叉。</strong></p>
-</li>
-<li><p>哈希：哈希分为“前一区块哈希”和“默克尔根”。“前一区块哈希”通过对前一个区块的区块头数据进行哈希计算（SHA256算法）得出，区块哈希值可以唯一、明确地标识一个区块，并且任何节点通过简单地对区块头进行哈希计算都可以独立地获取该区块哈希值，保证区块链不被篡改。“默克尔根”通过对当前区块的默克尔树进行哈希计算得出，保证区块数据/交易不被篡改。</p>
-</li>
-<li><p>难度值：区块难度是用来衡量挖出一个区块平均所需要的运算次数，反映了在一定难度下用多长时间才能挖到一定数量的区块，也是矿工挖矿时重要的参考指标。数据区块产生的难易程度是由难度值（difficulty）来衡量的，我们也可以将difficulty简单的理解为挖到数据区块所用的时间。难度值是要随着算力具体调整的，在我们的项目里，设为固定值</p>
-</li>
-<li><p>计数器（Nonce）：每人知道符合难度值的哈希值是什么，只能设置一个不断增加的计数器来不断地尝试</p>
-</li>
-</ul>
-<p>区块体：<br>暂略</p>
-<p>可以只看自己感兴趣的，或者回过头再来看。</p>
-<h3 id="我的区块"><a href="#我的区块" class="headerlink" title="我的区块"></a>我的区块</h3><p>区块是区块链的基本单位，目前我的区块中定义了如下字段：</p>
-<ul>
-<li>区块高度，</li>
-<li>时间戳，</li>
-<li>数据，</li>
-<li>哈希，</li>
-<li>上一个区块的哈希</li>
-<li>挖矿的难度值，</li>
-<li>计数器，</li>
-</ul>
-<p>我的破产版区块就长这样</p>
-<p><img src="images/blockchain.bmp" alt="区块"></p>
-<p>在我的区块中，将交易简化为了数据，将上一个区块的哈希直接放入本区块，本区块的哈希通过计算其他字段获得。相比较真正的区块链，实现难度大大下降。</p>
-
+        <h3 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h3><p>真的神烦这类只会在面试中较真的问题了</p>
+<p>数据发送的位置不同：可以用GET提交表单数据，数据作为URL的一部分向服务器发送特定浏览器对URL长度有限制；POST将表单数据放在HTTP包的body部分不限数据量，但实际中服务器会对大小限制</p>
+<p>GET从环境变量取值，POST从标准输入流读取；</p>
+<p>1、GET只用于获取信息，不修改信息不会影响资源状态，不产生副作用，GET在浏览器回退时是无害的，而POST会再次提交请求。<br>2、GET产生的URL地址可以被Bookmark，而POST不可以。<br>3、GET请求会被浏览器主动cache，而POST不会，除非手动设置。<br>4、GET请求的参数会完整的被保存在历史记录里，POST不会。<br>6、GET请求只能进行url编码，POST请求支持多种编码方式。<br>7、对于参数类型，GET只接受ASCII字符，而POST没有限制。<br>8、GET请求在URL中传递的参数是有长度限制的，而POST没有。<br>9、GET比POST更不安全，因为参数直接暴露在URL中，所以不能传递敏感信息。POST安全性好于GET</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /hello/index.html HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Host: localhost:8000</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Cookie: JSESSIONID=BBBA54D519F7A320A54211F0107F5EA6</span><br></pre></td></tr></table></figure>
+<p>GET产生一个TCP数据包；POST产生两个TCP数据包</p>
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。<br>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。<br>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑！跳入需谨慎。为什么？<br>GET与POST都有自己的语义，不能随便混用。<br>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。<br>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次</p>
+<h3 id="cookie和session的区别"><a href="#cookie和session的区别" class="headerlink" title="cookie和session的区别"></a>cookie和session的区别</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/18/blockchain/" data-id="cjljcxhpn000f1guzq5qs9sth" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/10/NET_HTTP/" data-id="cjm8rmk3g000erguzinsez3v3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -515,10 +172,10 @@
 
 
   
-    <article id="post-learnGo2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-datastruct4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/18/learnGo2/" class="article-date">
-  <time datetime="2018-08-18T01:44:07.592Z" itemprop="datePublished">2018-08-18</time>
+    <a href="/2018/09/08/datastruct4/" class="article-date">
+  <time datetime="2018-09-08T06:46:34.645Z" itemprop="datePublished">2018-09-08</time>
 </a>
     
   </div>
@@ -529,7 +186,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/18/learnGo2/">学习Golang之Redis的使用</a>
+      <a class="article-title" href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
     </h1>
   
 
@@ -537,22 +194,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Go用到的键值数据库"><a href="#Go用到的键值数据库" class="headerlink" title="Go用到的键值数据库"></a>Go用到的键值数据库</h3><p>现在在项目中使用键值储存（Key-Value-Stores）已经成为了开发者的标配。在Golang中，bolt是一个完全用Go实现一个低级别的键/值存储；而今天的主题是Redis</p>
-<h3 id="Go操作Redis的包"><a href="#Go操作Redis的包" class="headerlink" title="Go操作Redis的包"></a>Go操作Redis的包</h3><p>go get github.com/alphazero/Go-Redis</p>
-<p>go get github.com/simonz05/godis</p>
-<p>redigo听起来挺像“ready？go！”，哈哈哈，redigo更像一个client，执行各种操作都是通过Do函数去做的，它也是官方推荐的<br>    <a href="https://github.com/garyburd/redigo" target="_blank" rel="noopener">github地址</a><br>    <a href="http://godoc.org/github.com/garyburd/redigo/redis" target="_blank" rel="noopener">文档地址</a><br>    获取：<code>$ go get github.com/garyburd/redigo/redis</code></p>
-<p>go get github.com/gosexy/redis<br>go get cgl.tideland.biz/redis</p>
-<p><a href="https://github.com/go-redis/redis" target="_blank" rel="noopener">github地址</a><br><a href="https://godoc.org/github.com/go-redis/redis" target="_blank" rel="noopener">文档地址</a><br>获取：<code>go get -u github.com/go-redis/redis</code></p>
-<h3 id="redigo的介绍"><a href="#redigo的介绍" class="headerlink" title="redigo的介绍"></a>redigo的介绍</h3><h4 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>连接：Conn接口是使用Redis时主要的接口。应用通过调用Dial，DIalWithTimeout或者NewConn函数来创建连接<br>当使用完连接后务必调用连接Close函数来关闭<br>执行命令：Conn接口有一个执行Redis命令的通用方法，最常用的就是Do方法</p>
-<h4 id="String-操作"><a href="#String-操作" class="headerlink" title="String 操作"></a>String 操作</h4><h3 id="go-redis的介绍"><a href="#go-redis的介绍" class="headerlink" title="go-redis的介绍"></a>go-redis的介绍</h3><p>go-redis没有实际用过，这里简单介绍一下。</p>
-<h4 id="创建客户端-1"><a href="#创建客户端-1" class="headerlink" title="创建客户端"></a>创建客户端</h4><p>通过 redis.NewClient 函数即可创建一个 redis 客户端, 这个方法接收一个 redis.Options 对象参数, 通过这个参数, 我们可以配置 redis 相关的属性, 例如 redis 服务器地址, 数据库名, 数据库密码等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">redisdb := redis.NewClient(&amp;redis.Options&#123;</span><br><span class="line">    Addr:     &quot;localhost:6379&quot;,</span><br><span class="line">    Password: &quot;&quot;, // no password set</span><br><span class="line">    DB:       0,  // use default DB</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">pong, err := redisdb.Ping().Result()</span><br><span class="line">fmt.Println(pong, err)</span><br></pre></td></tr></table></figure></p>
-<p>通过 redisdb.Ping() 来检查是否成功连接到了 redis 服务器</p>
-<h4 id="String-操作-1"><a href="#String-操作-1" class="headerlink" title="String 操作"></a>String 操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// 第三个参数是过期时间, 如果是0, 则表示没有过期时间.</span><br><span class="line">err := redisdb.Set(&quot;key&quot;, &quot;value&quot;, 0).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val, err := redisdb.Get(&quot;key&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;key:&quot;, val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 这里设置过期时间.</span><br><span class="line">err = redisdb.Set(&quot;age&quot;, &quot;20&quot;, 1 * time.Second).Err()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Incr(&quot;age&quot;) // 自增</span><br><span class="line">redisdb.Decr(&quot;age&quot;) // 自减</span><br><span class="line"></span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    panic(err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val) // age 的值为21</span><br><span class="line"></span><br><span class="line">// 因为 key &quot;age&quot; 的过期时间是一秒钟, 因此当一秒后, 此 key 会自动被删除了.</span><br><span class="line">time.Sleep(1 * time.Second)</span><br><span class="line">val, err = redisdb.Get(&quot;age&quot;).Result()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">    // 因为 key &quot;age&quot; 已经过期了, 因此会有一个 redis: nil 的错误.</span><br><span class="line">    fmt.Printf(&quot;error: %v\n&quot;, err)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(&quot;age&quot;, val)</span><br></pre></td></tr></table></figure>
-
+        <p>图是一个复杂又不直观的数据结构</p>
+<p>我们知道图有加权无权、有向无向、链表和矩阵之分，为了尽可能复用代码，我们会用多个继承层次来实现</p>
+<p><img src="images/datastruct4.bmp" alt="图]"></p>
+<p>但是这里就从高到低一一实现它们了，我们挑一个最具代表性的无权无向邻接链表来实现，每个节点没有名字，只有从1开始的一个编号</p>
+<h3 id="结构的定义"><a href="#结构的定义" class="headerlink" title="结构的定义"></a>结构的定义</h3><h4 id="表节点的结构"><a href="#表节点的结构" class="headerlink" title="表节点的结构"></a>表节点的结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct&#123; //存储表节点信息的结构体</span><br><span class="line">    int index; // 存储与该边相连的另一个节点的索引</span><br><span class="line">	Node *next; // 指向其他表节点的指针</span><br><span class="line">&#125;Node;</span><br></pre></td></tr></table></figure>
+<h4 id="图的结构"><a href="#图的结构" class="headerlink" title="图的结构"></a>图的结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct&#123;</span><br><span class="line">	Node* h[100];// 存储头节点的数组</span><br><span class="line">	int n,e; // 当前图的顶点数和边数</span><br><span class="line">&#125;Graph;</span><br></pre></td></tr></table></figure>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 创建图</span><br><span class="line"></span><br><span class="line">void CreateG(Graph &amp;G)&#123;</span><br><span class="line"></span><br><span class="line">	cin&gt;&gt;G.n; //输入图的顶点数量</span><br><span class="line">	cin&gt;&gt;G.e; //输入图的弧（边）的数量</span><br><span class="line"></span><br><span class="line">	for(k=0;k&lt;G.e;k++) // 创建边，并连接头结点</span><br><span class="line">	&#123;</span><br><span class="line">		cin&gt;&gt;i&gt;&gt;j;</span><br><span class="line"></span><br><span class="line">		// 头插法</span><br><span class="line">	    Node *newnode = new Node();</span><br><span class="line">	    newnode-&gt;index = j;</span><br><span class="line">	    newnode-&gt;next = h[i];</span><br><span class="line">        h[i] = newnode;</span><br><span class="line">        </span><br><span class="line">        Node *newnode = new LNode();</span><br><span class="line">	    newnode-&gt;index = i;</span><br><span class="line">	    newnode-&gt;next = h[j];</span><br><span class="line">        h[j] = newnode;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void printG(Node* h[], int n)&#123;</span><br><span class="line">    for(int i=1; i&lt;=n; i++)&#123;</span><br><span class="line">        cout&lt;&lt;i;</span><br><span class="line">    	for(Node* ptr = h[i]; ptr; ptr=ptr-&gt;next)</span><br><span class="line">            cout&lt;&lt;ptr-&gt;dst;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="遍历函数"><a href="#遍历函数" class="headerlink" title="遍历函数"></a>遍历函数</h4><h4 id="搜索函数"><a href="#搜索函数" class="headerlink" title="搜索函数"></a>搜索函数</h4><p>总的程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">typedef struct Node&#123; //存储表节点信息的结构体</span><br><span class="line">    int index; // 存储与该边相连的另一个节点的索引</span><br><span class="line">	Node *next; // 指向其他表节点的指针</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Graph&#123;</span><br><span class="line">public:</span><br><span class="line">    Graph():h&#123;NULL&#125;&#123;&#125;</span><br><span class="line">    void CreateG();</span><br><span class="line">    void printG();</span><br><span class="line">    void insertE(int i,int j)&#123; // 头插法</span><br><span class="line">        Node *newnode = new Node;</span><br><span class="line">	    newnode-&gt;index = j;</span><br><span class="line">	    newnode-&gt;next = h[i];</span><br><span class="line">        h[i] = newnode;</span><br><span class="line">    &#125;</span><br><span class="line">    void DFS(int v,int* visited,int label);</span><br><span class="line">    void LabelComponents(int* visited);</span><br><span class="line">    void findPath(int v,int w,int* visited,vector&lt;int&gt;&amp; res);</span><br><span class="line">public:</span><br><span class="line">	Node* h[100]; // 存储头节点的数组</span><br><span class="line">	int n,e; // 当前图的顶点数和边数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 创建图</span><br><span class="line">void Graph::CreateG()&#123;</span><br><span class="line"></span><br><span class="line">	cin&gt;&gt;n; //输入图的顶点数量</span><br><span class="line">	cin&gt;&gt;e; //输入图的弧（边）的数量</span><br><span class="line">    </span><br><span class="line">	for(int k=0;k&lt;e;k++) // 创建边，并连接头结点</span><br><span class="line">	&#123;</span><br><span class="line">	    int i,j;</span><br><span class="line">		cin&gt;&gt;i&gt;&gt;j;</span><br><span class="line">		// 头插法</span><br><span class="line">        insertE(i,j);</span><br><span class="line">        insertE(j,i);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 打印图</span><br><span class="line">void Graph::printG()&#123;</span><br><span class="line">    for(int i=1; i&lt;=n; i++)&#123;</span><br><span class="line">        cout&lt;&lt;i;</span><br><span class="line">    	for(Node* ptr = h[i]; ptr; ptr=ptr-&gt;next)</span><br><span class="line">            cout&lt;&lt;ptr-&gt;index;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 深度优先搜索</span><br><span class="line">void Graph::DFS(int v,int* visited,int label)&#123;</span><br><span class="line">    visited[v]=label;</span><br><span class="line">    for(Node* ptr=h[v];ptr;ptr=ptr-&gt;next)&#123;</span><br><span class="line">        if(visited[ptr-&gt;index]!=label)&#123;</span><br><span class="line">            DFS(ptr-&gt;index,visited,label);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 构件标识</span><br><span class="line">void Graph::LabelComponents(int* visited)&#123;</span><br><span class="line">    int label=0;</span><br><span class="line">    for(int i=1;i&lt;=n;i++)&#123;</span><br><span class="line">        if(!visited[i])&#123;</span><br><span class="line">            label++;</span><br><span class="line">            DFS(i,visited,label);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 寻找一条路径</span><br><span class="line">void Graph::findPath(int v,int w,int* visited,vector&lt;int&gt;&amp; res)&#123;</span><br><span class="line">    res.push_back(v);</span><br><span class="line">    if(v==w)</span><br><span class="line">        return;</span><br><span class="line">    visited[v]=1;</span><br><span class="line">    for(Node* ptr=h[v];ptr;ptr=ptr-&gt;next)&#123;</span><br><span class="line">        if(visited[ptr-&gt;index]!=1)&#123;</span><br><span class="line">            findPath(ptr-&gt;index,w,visited,res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">   Graph G;</span><br><span class="line">   G.CreateG();</span><br><span class="line">   G.printG();</span><br><span class="line">   </span><br><span class="line">   int *visited=new int[G.n +1];</span><br><span class="line"></span><br><span class="line">    // 找路径</span><br><span class="line">    for(int i=1;i&lt;=G.n;i++)</span><br><span class="line">        visited[i]=0;</span><br><span class="line">   vector&lt;int&gt; res;</span><br><span class="line">   G.findPath(1,3,visited,res);</span><br><span class="line">    for(int i=0;i&lt;res.size();i++)</span><br><span class="line">        cout&lt;&lt;res[i];</span><br><span class="line">   </span><br><span class="line">   // 构建标识</span><br><span class="line">    for(int i=1;i&lt;=G.n;i++)</span><br><span class="line">        visited[i]=0;</span><br><span class="line">   G.LabelComponents(visited);</span><br><span class="line">    for(int i=1;i&lt;=G.n;i++)</span><br><span class="line">        cout&lt;&lt;visited[i];</span><br><span class="line">   </span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此时图的数据结构：</p>
+<p><img src="images/datastruct41.bmp" alt="图]"></p>
+<h3 id="图的应用"><a href="#图的应用" class="headerlink" title="图的应用"></a>图的应用</h3><h4 id="寻找路径"><a href="#寻找路径" class="headerlink" title="寻找路径"></a>寻找路径</h4><h4 id="连通图及其构件"><a href="#连通图及其构件" class="headerlink" title="连通图及其构件"></a>连通图及其构件</h4><h4 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/18/learnGo2/" data-id="cjljcxhq6000y1guzyv5r1qsw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/08/datastruct4/" data-id="cjlxseda60005h0uz7tp4giz4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -562,10 +220,10 @@
 
 
   
-    <article id="post-learnDB4" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CPPGram_i++" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/17/learnDB4/" class="article-date">
-  <time datetime="2018-08-17T13:01:53.013Z" itemprop="datePublished">2018-08-17</time>
+    <a href="/2018/09/06/CPPGram_i++/" class="article-date">
+  <time datetime="2018-09-06T08:40:26.953Z" itemprop="datePublished">2018-09-06</time>
 </a>
     
   </div>
@@ -576,7 +234,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/17/learnDB4/">数据库的学习之Redis入门</a>
+      <a class="article-title" href="/2018/09/06/CPPGram_i++/">C++常见问题之i++</a>
     </h1>
   
 
@@ -584,26 +242,392 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
-<ul>
-<li>纯内存操作</li>
-<li>单线程操作，避免了频繁的上下文切换</li>
-<li>采用了非阻塞I/O多路复用机制</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">版本</a><br>安装完成之后，目录下会有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── redis.windows.conf</span><br><span class="line">├── redis-benchmark.exe</span><br><span class="line">├── redis-check-aof.exe</span><br><span class="line">├── redis-cli.exe</span><br><span class="line">├── redis-server.exe</span><br><span class="line">└── Windows Service Documentation.docx</span><br></pre></td></tr></table></figure>
-<p>redis-server.exe是服务器，用来启动redis<br>redis-cli.exe是客户端，命令行工具<br>redis-benchmark.exe是基准测试工具<br>redis-check-aof.exe是AOF持久化文件检测工具和修复工具<br>redis-check-dump是RDB持久化文件检测工具和修复工具</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>安装完成之后，编辑redis.windows.conf文件，</p>
-<h1 id="启动客户端和服务器"><a href="#启动客户端和服务器" class="headerlink" title="启动客户端和服务器"></a>启动客户端和服务器</h1><p>和MySQL一样，Git bash也是不支持redis的命令的，我们可以使用cmd或者powershell。<strong>！！！注意</strong> 在没有添加环境变量时，cmd下可以直接从当前位置（C:\redis）加载命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ajini&gt;redis-cli</span><br><span class="line">&apos;redis-cli&apos; 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"></span><br><span class="line">C:\Users\ajini&gt;cd C:\redis</span><br><span class="line"></span><br><span class="line">C:\redis&gt;redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
-<p>但powershell不可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">redis-cli : 无法将“redis-cli”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正</span><br><span class="line">确，然后再试一次。</span><br><span class="line">所在位置 行:1 字符: 1</span><br><span class="line">+ redis-cli</span><br><span class="line">+ ~~~~~~~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (redis-cli:String) [], CommandNotFoundException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Suggestion [3,General]: 找不到命令 redis-cli，但它确实存在于当前位置。默认情况下，Windows PowerShell 不会从当前位置加载命令。如</span><br><span class="line">果信任此命令，请改为键入“.\redis-cli”。有关详细信息，请参阅 &quot;get-help about_Command_Precedence&quot;。</span><br><span class="line">PS C:\redis&gt; .\redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
-<p>所以为了方便，我们添加环境变量，以后就可以正常执行Redis的相关命令了。</p>
-<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>执行<code>$ redis-cli -h {host} -p {port}</code>可以让我们以交互方式连接服务器，当然，你也可以选择<code>$ redis-cli -h {host} -p {port} {command}</code>命令方式直接得到服务器的返回结果</p>
-<p>如果配置的时候设置了密码，则按照下面的方式登陆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
-<h1 id="为Redis注册"><a href="#为Redis注册" class="headerlink" title="为Redis注册"></a>为Redis注册</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-server --service-install redis.windows.conf</span><br><span class="line">[15220] 18 Aug 09:27:37.402 # Granting read/write access to &apos;NT AUTHORITY\NetworkService&apos; on: &quot;C:\redis&quot; &quot;C:\redis\&quot;</span><br><span class="line">[15220] 18 Aug 09:27:37.403 # Redis successfully installed as a service.</span><br><span class="line"></span><br><span class="line">PS C:\redis&gt; redis-server.exe --service-start redis.windows.conf</span><br><span class="line">[26364] 18 Aug 09:34:55.243 # Redis service successfully started.</span><br></pre></td></tr></table></figure>
+        <h3 id="x-x-1和x-1的区别"><a href="#x-x-1和x-1的区别" class="headerlink" title="x=x+1和x+=1的区别"></a>x=x+1和x+=1的区别</h3><p>x=x+1<br>读取右x的地址；<br>x+1；<br>读取左x的地址；<br>将右值传给左边的x（编译器并不认为左右x的地址相同）</p>
+<p>x+=1<br>读取x的地址；<br>x+1；<br>将得到的值传给x（因为x的地址已经读出）。</p>
+<h3 id="x-和-x的区别"><a href="#x-和-x的区别" class="headerlink" title="x++和++x的区别"></a>x++和++x的区别</h3><h4 id="x"><a href="#x" class="headerlink" title="x++"></a>x++</h4><p>后自增与后自减创建对象的副本，自增或自减对象的值，并返回自增或自减前的副本<br>i++的值存在内存中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//后缀形式: </span><br><span class="line">const int int::operator++(int) //函数返回值是一个非左值型的，与前缀形式的差别所在。 </span><br><span class="line">&#123;//函数带参，说明有另外的空间开辟 </span><br><span class="line">	int oldValue = *this; // 取回值 </span><br><span class="line">	++(*this); // 增加 </span><br><span class="line">	return oldValue; // 返回被取回的值 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的oldValue为一个临时变量,是一个右值,对它赋值毫无意义</p>
+<h4 id="左值右值的问题"><a href="#左值右值的问题" class="headerlink" title="左值右值的问题"></a>左值右值的问题</h4><p> (a++) += (a++)；错误<br> (++a) += (a++)；正确</p>
+<h4 id="x-1"><a href="#x-1" class="headerlink" title="++x"></a>++x</h4><p>前自增与前自减运算符自增或自减对象的值，并返回到结果的引用<br>++i是将i+1的值存在寄存器</p>
+<p>内建运算符的前缀版本返回引用而后缀版本返回值，而典型的用户定义重载遵循该模式，从而能以同内建版本的方式使用用户定义运算符。然而，用户定义重载中，能以任何类型为返回类型（包含 void ） </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 前缀形式： </span><br><span class="line">int&amp; int::operator++() //这里返回的是一个引用形式，就是说函数返回值也可以作为一个左值使用 </span><br><span class="line">&#123;//函数本身无参，意味着是在自身空间内增加1的 </span><br><span class="line">	*this += 1; // 增加 </span><br><span class="line">	return *this; // 取回值 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例题1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int a=4;</span><br><span class="line">cout&lt;&lt;(++a)+=(a++)&lt;&lt; endl;// 结果为10</span><br><span class="line">cout&lt;&lt; a&lt;&lt; endl; // 结果为11</span><br><span class="line"></span><br><span class="line">int a=4; //a == 4</span><br><span class="line">++a; //a == 5</span><br><span class="line">a+=a; //a == 10</span><br><span class="line">cout &lt;&lt; a &lt;&lt; endl;</span><br><span class="line">a++; //a == 11</span><br><span class="line">cout &lt;&lt; a &lt;&lt; endl;</span><br></pre></td></tr></table></figure></p>
+<p>例题2<br>i = 5;a = (++i)–; // a为5，i为5</p>
+<p>我唯一懵逼的地方，后来他告诉我++i返回的是一个引用</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/17/learnDB4/" data-id="cjljcxhq2000t1guzxia6p2wp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/CPPGram_i++/" data-id="cjm8rmk320006rguzszc47bog" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-网络编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/06/网络编程/" class="article-date">
+  <time datetime="2018-09-06T08:33:19.944Z" itemprop="datePublished">2018-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>同步交互：指发送一个请求,需要等待返回,然后才能够发送下一个请求，有个等待过程；<br>异步交互：指发送一个请求,不需要等待返回,随时可以再发送下一个请求，即不需要等待。 区别：一个需要等待，一个不需要等待，在部分情况下，我们的项目开发中都会优先选择不需要等待的异步交互方式。<br>哪些情况建议使用同步交互呢？比如银行的转账系统，对数据库的保存操作等等，都会使用同步交互操作，其余情况都优先使用异步交互。</p>
+<p>同步可以避免出现死锁，读脏数据的发生，一般共享某一资源的时候用，如果每个人都有修改权限，同时修改一个文件，有可能使一个人读取另一个人已经删除的内容，就会出错，同步就会按顺序来修改。<br>异步则是可以提高效率了，现在cpu都是双核，四核，异步处理的话可以同时做多项工作，当然必须保证是可以并发处理的。<br>这些都是对的。<br>同步和异步最大的区别就在于。一个需要等待，一个不需要等待。<br>比如广播，就是一个异步例子。发起者不关心接收者的状态。不需要等待接收者的返回信息<br>电话，就是一个同步例子。发起者需要等待接收者，接通电话后，通信才开始。需要等待接收者的返回信息 </p>
+<p>在进行网络编程时，我们通常会看到同步、异步、阻塞、非阻塞四种调用方式以及他们的组合。<br>其中同步方式、异步方式主要是由客户端（client）控制的，具体如下：<br>同步（Sync）<br>所谓同步，就是发出一个功能调用时，在没有得到结果之前，该调用就不返回或继续执行后续操作。<br>根据这个定义，Java中所有方法都是同步调用，应为必须要等到结果后才会继续执行。我们在说同步、异步的时候，一般而言是特指那些需要其他端协作或者需要一定时间完成的任务。<br>简单来说，同步就是必须一件一件事做，等前一件做完了才能做下一件事。<br>例如：B/S模式中的表单提交，具体过程是：客户端提交请求-&gt;等待服务器处理-&gt;处理完毕返回，在这个过程中客户端（浏览器）不能做其他事。<br>异步（Async）<br>异步与同步相对，当一个异步过程调用发出后，调用者在没有得到结果之前，就可以继续执行后续操作。当这个调用完成后，一般通过状态、通知和回调来通知调用者。对于异步调用，调用的返回并不受调用者控制。<br>对于通知调用者的三种方式，具体如下：<br>状态<br>即监听被调用者的状态（轮询），调用者需要每隔一定时间检查一次，效率会很低。<br>通知<br>当被调用者执行完成后，发出通知告知调用者，无需消耗太多性能。<br>回调<br>与通知类似，当被调用者执行完成后，会调用调用者提供的回调函数。<br>例如：B/S模式中的ajax请求，具体过程是：客户端发出ajax请求-&gt;服务端处理-&gt;处理完毕执行客户端回调，在客户端（浏览器）发出请求后，仍然可以做其他的事。<br>总结来说，同步和异步的区别：请求发出后，是否需要等待结果，才能继续执行其他操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/06/网络编程/" data-id="cjlxseda80007h0uz9kq48fl9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CPPGram_cv" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/04/CPPGram_cv/" class="article-date">
+  <time datetime="2018-09-04T01:20:55.001Z" itemprop="datePublished">2018-09-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/04/CPPGram_cv/">C++常见问题之static,violate,const</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="cv-（const与volatile）类型限定符"><a href="#cv-（const与volatile）类型限定符" class="headerlink" title="cv （const与volatile）类型限定符"></a>cv （const与volatile）类型限定符</h3><p>const：定义类型为常<br>    • 编译器强制实施bitwise constness，但你编写程序时应该使用conceptual constness<br>当。。。</p>
+<h4 id="const应用场景"><a href="#const应用场景" class="headerlink" title="const应用场景"></a>const应用场景</h4><p>合理地使用关键字const可以使编译器很自然地保护那些不希望被改变的参数，防止其被无意的代码修改</p>
+<ul>
+<li>const修饰指针</li>
+<li><p>const修饰函数参数：const修饰函数参数是它最广泛的一种用途，它表示函数体中不能修改参数的值(包括参数本身的值或者参数其中包含的值)</p>
+</li>
+<li><p>const修饰类对象：表示该对象为常量对象，其中的任何成员都不能被修改，所以该类对象只能调用 const 成员函数</p>
+</li>
+<li><p>const修饰成员变量：const修饰类的成员变量，表示成员常量不能被修改，同时它只能在初始化列表中赋值</p>
+</li>
+<li>const修饰成员函数：const修饰类的成员函数，则该成员函数不能修改类中任何非静态数据成员。一般写在函数的最后来修饰</li>
+</ul>
+<p>在设计类的时候，一个原则就是对于不改变数据成员的成员函数都要在后面加 const，而对于改变数据成员的成员函数不能加 const。所以 const 关键字对成员函数的行为作了更加明确的限定：有 const 修饰的成员函数（指 const 放在函数参数表的后面，而不是在函数前面或者参数表内），只能读取数据成员，不能改变数据成员；没有 const 修饰的成员函数，对数据成员则是可读可写的。</p>
+<p>除此之外，在类的成员函数后面加 const 还有什么好处呢？那就是常量（即 const）类对象可以调用 const 成员函数，而不能调用非const修饰的函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class AAA</span><br><span class="line">&#123;</span><br><span class="line">void func1();</span><br><span class="line">void func2() const;</span><br><span class="line">&#125;</span><br><span class="line">const AAA aObj;</span><br><span class="line">aObj.func1();//×</span><br><span class="line">aObj.func2();//正确</span><br><span class="line"> </span><br><span class="line">const AAA* aObj =new AAA();</span><br><span class="line">aObj-&gt;func1();// ×</span><br><span class="line">aObj-&gt;func2();//正确</span><br></pre></td></tr></table></figure></p>
+<p>const 、 volatile 及引用限定成员函数</p>
+<p>非静态成员函数可声明带有 const 、 volatile 或 const volatile 限定符（这些限定符出现在函数声明中的参数列表之后）。 cv 限定相异的函数拥有不同类型，从而可以相互重载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">lass A</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    void f()</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;&quot;non const&quot;&lt;&lt;endl;</span><br><span class="line">     &#125; </span><br><span class="line">    void f() const</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;&quot; const&quot;&lt;&lt;endl;</span><br><span class="line">     &#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>const 对象调用f() const，非const对象调用 f()</p>
+<p>在 cv 限定的函数体内， this 指针有 cv 限定，例如 const 成员函数中，只能正常地调用其他 const 成员函数。（非 const 成员函数仍可调用，若应用 const_cast 或通过不涉及 this 的访问路径。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;vector&gt;</span><br><span class="line">struct Array &#123;</span><br><span class="line">    std::vector&lt;int&gt; data;</span><br><span class="line">    Array(int sz) : data(sz) &#123;&#125;</span><br><span class="line">    // const 成员函数</span><br><span class="line">    int operator[](int idx) const &#123;</span><br><span class="line">                          // this 拥有类型 const Array*</span><br><span class="line">        return data[idx]; // 变为 (*this).data[idx];</span><br><span class="line">    &#125;</span><br><span class="line">    // non-const member function</span><br><span class="line">    int&amp; operator[](int idx) &#123;</span><br><span class="line">                          // this 拥有类型 Array*</span><br><span class="line">        return data[idx]; // 变为 (*this).data[idx]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    Array a(10);</span><br><span class="line">    a[1] = 1; // OK ： a[1] 的类型是 int&amp;</span><br><span class="line">    const Array ca(10);</span><br><span class="line">    ca[1] = 2; // 错误： ca[1] 的类型是 int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="const常量与define宏定义"><a href="#const常量与define宏定义" class="headerlink" title="const常量与define宏定义"></a>const常量与define宏定义</h4><ol>
+<li>编译器处理方式不同<br> define宏是在预处理阶段展开；const常量是编译运行阶段使用。</li>
+<li>类型和安全检查不同<br> define宏没有类型，不做任何类型检查，仅仅是展开；const常量有具体的类型，在编译阶段会执行类型检查。</li>
+<li>存储方式不同<br> define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存；const常量会在内存中分配(可以是堆中也可以是栈中)。</li>
+</ol>
+<p>相比const，volatile关键字的发展（变化）较少，从C到C++的演变中，一直保持着它的语义</p>
+<p>volatile：定义类型为易变</p>
+<p>volatile影响编译器编译的结果,指volatile 变量是随时可能发生变化的，与volatile变量有关的运算，不要进行编译优化，以免出错</p>
+<p>每次都必须从内存中读取。</p>
+<h4 id="volatile应用场景"><a href="#volatile应用场景" class="headerlink" title="volatile应用场景"></a>volatile应用场景</h4><p>在 多线程 中，有些变量是要用volatile关键字声明的。当两个线程都要用到某一个变量且该变量的值会被改变时，应该用volatile声明，该关键字的作用是防止优化编译器把变量从内存装入CPU寄存器中。如果变量被装入寄存器，那么两个线程有可能一个使用内存中的变量，一个使用寄存器中的变量，这会造成程序的错误执行。volatile的意思是让编译器每次操作该变量时一定要从内存中真正取出，而不是使用已经存在寄存器中的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volatile int i=10; </span><br><span class="line">int j = i; </span><br><span class="line">... </span><br><span class="line">int k = i;</span><br></pre></td></tr></table></figure>
+<p>volatile 告诉编译器i是随时可能发生变化的，每次使用它的时候必须从i的地址中读取，因而编译器生成的可执行码会重新从i的地址读取数据放在k中。而优化做法是，由于编译器发现两次从i读数据的代码之间的代码没有对i进行过操作，它会自动把上次读的数据放在k中。而不是重新从i里面读。这样一来，如果i是一个寄存器变量或者表示一个端口数据就容易出错，所以说volatile可以保证对特殊地址的稳定访问，不会出错</p>
+<h4 id="volatile和const是否矛盾"><a href="#volatile和const是否矛盾" class="headerlink" title="volatile和const是否矛盾"></a>volatile和const是否矛盾</h4><p>因为const和volatile这两个类型限定符并不矛盾。const表示（运行时）常量语义：被const修饰的对象在所在的作用域无法进行修改操作，编译器对于试图直接修改const对象的表达式会产生编译错误。volatile表示“易变的”，即在运行期对象可能在当前程序上下文的控制流以外被修改（例如多线程中被其它线程修改；对象所在的存储器可能被多个硬件设备随机修改等情况）：被volatile修饰的对象，编译器不会对这个对象的操作进行优化。一个对象可以同时被const和volatile修饰，表明这个对象体现常量语义，但同时可能被当前对象所在程序上下文意外的情况修改</p>
+<p> const和volatile是可以同时修饰一个变量的  const只是表示变量只读 不能出现在赋值号左边  防止程序“意外”修改   并且编译器一定会做优化 不会每次去内存取值 这个时候如果外部事件 如中断服务程序 改了这个变量的内存值  那么由于编译器优化就不会出有反应 这样会导致错误 加上volatile就告诉编译器 不要做任何优化  并且每次都去内存取值  而且这个变量不可以当左值使用</p>
+<p>例如硬件时钟一般设定为不能由程序改变，这一点使它成为const;但它被程序以外的代理改变，这使它成为volatile的</p>
+<p>如果一个变量不会被本程序改变，通常可能给它加上const，但如果该变量可能被其他程序改变而本程序又在检测这个变量的值，就需要给它加上volatile，于是变量就同时有volatile和const了，这个时候具有const和volatile的双重属性。变量不可以在编译过程中被程序代码修改，同时编译器不得对变量进行优化编译。</p>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><h4 id="static应用场景"><a href="#static应用场景" class="headerlink" title="static应用场景"></a>static应用场景</h4><ul>
+<li>用于类成员时，它声明静态成员。</li>
+<li>用于对象声明时，它指定静态存储期（除非为 thread_local 所伴随）</li>
+<li>用于声明函数体内的变量为静态局部变量，存储在静态数据存储区，在函数被调用过程中维持其值保持不变</li>
+<li>用于命名空间作用域的声明时，它指定内部链接</li>
+<li>在文件内,被声明为静态的函数只可被文件内的其他函数调用，但不能被其他文件的函数调用</li>
+</ul>
+<p>（9）    const和static在类中使用的注意事项（定义、初始化和使用）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/04/CPPGram_cv/" data-id="cjm8rmk2y0003rguzkrmtabwm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-组成原理_32or64" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/03/组成原理_32or64/" class="article-date">
+  <time datetime="2018-09-03T05:51:57.867Z" itemprop="datePublished">2018-09-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/03/组成原理_32or64/">计算机组成原理之32or64</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>欢迎收看不整理不知道，一整理吓一跳系列</p>
+<p>学计算机的人都知道32位，64位，在不同上下文中它们是不一样的</p>
+<h3 id="处理器"><a href="#处理器" class="headerlink" title="处理器"></a>处理器</h3><p>因此，对于处理器来说，32位处理器，其寄存器、地址总线或数据总线的字长为4字节（即32bits）的处理器。与之对应，64位处理器指的是其寄存器、地址总线或数据总线的字长为8字节（即64bits）的处理器</p>
+<p>首先要介绍下“字长”这个单位，计算机最基本的是位，单位是比特bit，然后是块chunk，或者叫（8位）字节，单位是字节Byte，1字节8比特，1B = 8bit，最后是字word，单位是字长word size。在32位机器上，1个字长32位，1W = 4B = 32bit；64位机器，1个字长64位，1W = 8B = 64bit</p>
+<p>每个计算机都有一个字长，字长代表着</p>
+<ul>
+<li>总线的宽度</li>
+<li>寄存器的大小</li>
+<li>决定虚拟地址的空间的最大大小，1个字长w位的机器，虚拟地址范围为0~2^(w-1)，程序最多访问2^w个字节。即32位机器，最多访问2^32=4GB；64位机器，最多访问2^64=4GB*4GB，当然受限于其他限制肯定是达不到的</li>
+<li>整数int和指针数据*int的标称大小</li>
+</ul>
+<p>处理器的内部硬件结构决定了它是32-bit还是64-bit。64-bit的地址总线是32-bit的两倍，因此可寻址空间更大，使应用程序具有更大的虚拟地址空间；64-bit每次能够处理的字长比32-bit更大，因而在一些对性能要求高的场合更有优势</p>
+<p>数据模型<br>每个实现关于基础类型大小所做的选择被统称为数据模型。有四个数据模型广为接受：<br>32 位系统：<br>    • LP32 或 2/4/4 （ int 为 16 位， long 和指针为 32 位）<br>        ○ Win16 API<br>    • ILP32 或 4/4/4 （ int 、 long 和指针为 32 位）<br>        ○ Win32 API<br>        ○ Unix 和类 Unix 系统（ Linux 、 Mac OS X ）<br>64 位系统：<br>    • LLP64 或 4/4/8 （ int 和 long 为 32 位，指针为 64 位）<br>        ○ Win64 API<br>    • LP64 或 4/8/8 （ int 为 32 位， long 和指针为 64 位）<br>        ○ Unix 和类 Unix 系统（ Linux 、 Mac OS X ）<br>其他数据模型很罕见。例如， ILP64 （ 8/8/8 ： int 、 long 和指针为 64 位）只出现于某些早期 64 位 Unix 系统（例如 Unicos on Cray ）</p>
+<p>在这些数据模型中，char 8位，float 32位，double 64位，pointer 32位机器32位，64位机器64位</p>
+<h3 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h3><p>有一些软件在下载的时候会提示选择“x86”还是“x86-64”版本。这里的“x86”和“x86-64”其实是指令集架构的名称。<br>指令集也有32位和64位的说法，x86是32位的，x64是64位的</p>
+<p>x64名字的由来：</p>
+<ul>
+<li>amd64，AMD最先提出</li>
+<li>x86-64，这种写法无偏向性</li>
+<li>也有写成x86_64的（这也是这种写法的一个缺点），这个一般是因为大多数编程语言的变量名不能包括减号只能写成x86_64，然后输出的字符串和文档为了统一也干脆这么写</li>
+<li>微软市场部另外又发明了x64这种写法</li>
+</ul>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>因为操作系统是构建在处理器等硬件之上的，因此也相应地分为32-bit和64-bit的系统</p>
+<p>现在的大部分处理器都是64-bit的，支持64-bit操作系统；同时，这些处理器也完全兼容32-bit操作系统。但是，32-bit的处理器则不能安装64-bit的操作系统，因为它只支持32-bit的指令集。<br>应用程序利用操作系统提供的服务来完成特定的任务。64-bit操作系统通常能同时支持32-bit和64-bit的应用程序，但是32-bit的操作系统则不支持64-bit的应用程序（除非通过某些虚拟化来实现）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/03/组成原理_32or64/" data-id="cjlxseda90008h0uz127v5z39" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-datastruct3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/01/datastruct3/" class="article-date">
+  <time datetime="2018-09-01T13:43:27.623Z" itemprop="datePublished">2018-09-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/01/datastruct3/">数据结构和算法之海量数据处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在处理海量数据问题时，首先要仔细分析问题，明白问题需要解决那些关键问题，明白需要达到怎样的存储、性能要求，在这之前，应充分理解业务数据的分布、数据粒度、数据服务的质量要求、数据的动态性、数据的关联性等真实数据、业务熟悉。通常我认为，处理海量数据问题时，心中要有一些基本概念：</p>
+<ol>
+<li>现有的开源的优秀工具那些是处理海量数据的；</li>
+<li>海量数据就因为数据大吗，可以考虑对海量数据进行分区操作；</li>
+<li>加快海量数据的访问，数据索引必不可是；</li>
+<li>内存总是有限的，内存的速度是最好的，建立缓存机制是十分必要的；</li>
+<li>海量数据来源多样，数据格式也不相同，最好是统一为字符串处理，逻辑处理交给上层应用；</li>
+<li>海量数据离不开集群、分布式，分布式的出错处理、负载均衡就必然要有一套可行的机制；</li>
+<li>所有底层的问题或者说存储的问题解决了，未来方便上层应用或者夸大底层支持的业务，对外应该有一个明朗的逻辑视图；</li>
+<li>系统设计和结构，会因为不同的语言、操作性在实现难以上不同，这也需要考虑；</li>
+<li>海量数据的一个应用就是数据挖掘服务，多域数据来源统一管理下，数据仓库和相关计算也应该了解一二；</li>
+<li>尽管说存储不是问题，如果能对数据进行压缩处理，又可以接受的性能，这何乐而不为呢。<br>在参考前人博客、文摘加上个人一点理解，汇总以下一些基础概念已帮助和我一样面临就业的学生，应对未来公司的面试考核。当然，有实际工作经验的大牛门来说，下面的问题早已不是问题，他们都在某个问题上是专家了。欢迎大牛指导！</li>
+</ol>
+<p>具有通用性的数据结构和算法思路汇总有：</p>
+<ol>
+<li>Bloom filter</li>
+<li>Hashing：海量数据处理离不开hash，hash取模是一种等价映射</li>
+<li>bit-map：位图法比较适合于这种情况，它的做法是按照集合中最大元素max创建一个长度为max+1的新数组，然后再次扫描原数组，遇到几就给新数组的第几位置上1，如遇到5就给新数组的第六个元素置1，这样下次再遇到5想置位时发现新数组的第六个元素已经是1了，这说明这次的数据肯定和以前的数据存在着重复。这种给新数组初始化时置零其后置一的做法类似于位图的处理方法故称位图法。它的运算次数最坏的情况为2N。如果已知数组的最大值即能事先给新数组定长的话效率还能提高一倍</li>
+<li>堆</li>
+<li>双层桶划分，可以理解为多级索引</li>
+<li>数据库索引</li>
+<li>倒排索引(Inverted index)</li>
+<li>外排序</li>
+<li>trie树</li>
+<li>分布式处理：MapReduce</li>
+</ol>
+<p>问题：<br>有两亿用户，可以获得每个用户的登录和退出时间，保存在文件中。。要求统计每一秒有多少在线用户</p>
+<p>解答：<br>一天总共有 3600*24 = 86400秒<br>定义一个长度为86400的整数数组int delta[86400]，每个整数对应这一秒的人数变化值，可能为正也可能为负。开始时将数组元素都初始化为0。</p>
+<p>然后依次读入每个用户的登录时间和退出时间。扫描整个日志，如果这一秒用户处于登录时间，则将dalta[i]整数值加1，将与退出时间对应的整数值减1。从而记录下这一天中第i秒时有多少在线用户。（可能登陆用户多余退出用户，或者相反）。</p>
+<p>再定义一个长度为86400的整数数组int online_num[86400]，每个整数对应这一秒的论坛在线人数。</p>
+<p>假设一天开始时论坛在线人数为0，则第1秒的人数<br>online_num[0] = delta[0]<br>第n+1秒的人数<br>online_num[n] = online_num[n-1] + delta[n]</p>
+<h3 id="找出重复问题"><a href="#找出重复问题" class="headerlink" title="找出重复问题"></a>找出重复问题</h3><p>在海量数据中查找出重复出现的元素或者去除重复出现的元素也是常考的问题</p>
+<p>问题：给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？<br>    分析：每个url64字节，每个文件50亿url，则每个文件5G*64Byte=320GB，远超内存4G，所以不能将其全部加载到内存中来进行处理，需要采用分而治之的方法进行处理<br>    分治：逐行读取文件a，采用hash函数，Hash(url)%1000将url分割到1000个小文件中，文件即为f1_1,f1_2,f1_3,…,f1_1000，每个小文件中模1000的余数相同，那么理想情况下每个小文件的大小大约为300M左右。再以相同的方法对大文件b进行相同的操作再得到1000个小文件，记为： f2_1,f2_2,f2_3,…,f2_1000</p>
+<pre><code>查找：现在，相同的url都分割到了这2组小文件中下标相同的两个文件中，f1_1&amp;  f2_1，  f1_2&amp;  ,f2_2,  f1_3&amp;  f2_3,...,  f1_1000&amp; f2_1000，在每对小文件中，将较小的文件中的url放入HashSet中，然后遍历对应这个小文件中的另一个文件，看其中的url是否存在刚刚构建的HashSet中，如果存在说明是一样的url，将这url直接存到结果文件就ok了。
+
+
+如果允许有一定的错误率，可以使用Bloom filter，使用位数组，4G内存大概可以表示340亿bit。将其中一个文件中的url使用Bloom filter映射为这340亿bit，然后挨个读取另外一个文件的url，检查是否在Bloom filter中。如果是，那么该url应该是共同的url（注意会有一定的错误率）
+</code></pre><p>问题：有10亿个URL，每个URL对应一个非常大的网页，怎样检测重复的网页？</p>
+<pre><code>分析：不同的URL可能对应相同的网页，所以要对网页求Hash。10G个URL+哈希值，总量为几十G，单机内存无法处理
+分治：根据Hash(URL)%1000，将URL和网页的哈希值分割到1000个小文件中，注意：重复的网页必定在同一个小文件中
+查找：顺序读取每个文件，将Hash值加入HashSet，如果已存在则为重复网页，把对应的URL提取出来
+</code></pre><p>问题：在2.5亿个整数中找出 <strong>不重复</strong> 的整数</p>
+<pre><code>使用bloomFilter, bloomFilter判断不重复是100%准确的. 因此时间, 空间效率都很可靠
+
+使用2-Bitmap，每个数分配2bit，00表示无, 01表示出现一次, 10表示出现多次，11表示无意义。共需内存2^32 * 2bit=1 GB内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。扫描完事后，查看bitmap，把对应位是01的整数输出即可
+</code></pre><h3 id="Top-K海量数据部分"><a href="#Top-K海量数据部分" class="headerlink" title="Top-K海量数据部分"></a>Top-K海量数据部分</h3><p>以下三个题目几乎是一回事，第一题只要找出最大的，第二题要找出最大的100个，第三题要排序</p>
+<p>问题：海量日志数据，提取出某日访问次数最多的那个IP</p>
+<pre><code>分析：每个IP32bit，世界上所有IP最多2^32=1GB
+分治：Hash(IP)%1024
+统计频数：逐个读小文件，对于每一个小文件构建一个IP为key，出现次数为value的HashMap，维护一个变量，找出最大值即可
+</code></pre><p>问题：有一个1G大小的一个文件，里面每一行是一个词word，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词</p>
+<pre><code>分治：对每个词取Hash(word)%1024，按照该值存到1024个小文件中，如果有文件超过了1M则继续分割
+统计频数：字符串用Trie树最好
+排序：用容量100的最小堆，依次读文件-
+</code></pre><p>问题：有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复。要求你按照query的频度排序</p>
+<pre><code>分治：当前10个文件的query是散乱分布的, 需要先重新对10个文件做一次hash分流, 生成新的10个文件
+统计频数：HashMap
+排序：利用快速/堆/归并排序对文件进行排序，再对这10个文件进行归并排序（内排序与外排序相结合）
+</code></pre><p>问题：从海量数据中找出最大的前k个数</p>
+<p>hash：如果这1亿个数里面有很多重复的数，先通过Hash法，把这1亿个数字去重复</p>
+<p>分治法：将1亿个数据分成100份，每份100万个数据，找到每份数据中最大的10000个，最后在剩下的100*10000个数据里面找出最大的10000个。如果100万数据选择足够理想，那么可以过滤掉1亿数据里面99%的数据</p>
+<h3 id="bit海量数据部分"><a href="#bit海量数据部分" class="headerlink" title="bit海量数据部分"></a>bit海量数据部分</h3><p>问题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？<br>解答1：<br>使用Bitmap：申请512M内存，一个bit位代表一个unsigned int值，读40亿个数，设置相应bit位，读入要查询的数，查看bit是否为1，若为1表示存在否则表示不存在，时间复杂度O(n)<br>解答2：<br>我们把40亿个数中的每一个用32位的二进制来表示。假设这40亿个数开始放在一个文件中，然后将这40亿个数分成两类：</p>
+<ol>
+<li>最高位为0    </li>
+<li>最高位为1<br>并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=20亿，而另一个&gt;=20亿（这相当于折半了）；与要查找的数的最高位比较并接着进入相应的文件再查找。再然后把这个文件为又分成两类:</li>
+<li>次最高位为0</li>
+<li>次最高位为1<br>并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=10亿，而另一个&gt;=10亿（相当于折半）；与要查找的数的次最高位比较并接着进入相应的文件再查找。<br>……<br>以此类推，就可以找到了,而且时间复杂度为O(logn)</li>
+</ol>
+<p>有200亿条数据，每条数据的大小在1K~1M不等，每条数据有一个唯一的u_int64的id。<br>请设计一个读取数据系统，能根据id获取数据。要求：<br>A.        内存有限制，16G<br>B.        尽可能利用内存资源<br>C.        尽可能高效的获取数据<br>D.        可以利用磁盘，磁盘容量不受限制</p>
+<p>分区表，按 id % 1000 分区 </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/01/datastruct3/" data-id="cjlofx6qu000a3guzcnv6775p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-设计模式2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/01/设计模式2/" class="article-date">
+  <time datetime="2018-09-01T13:43:14.672Z" itemprop="datePublished">2018-09-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/01/设计模式2/" data-id="cjm8rmk250000rguzehv7dlhm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-OOP_model1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/29/OOP_model1/" class="article-date">
+  <time datetime="2018-08-29T12:54:16.863Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/29/OOP_model1/">面向对象之对象模型（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在参加各大公司笔试的时候，经常会出现这类的题，计算内存大小</p>
+<p>由于C++基于C，所以C++也“基本上”兼容C。特别地，C++规范在“结构”上使用了和C相同的、简单的内存布局原则。我们首先看C语言中的内存布局</p>
+<h4 id="结构体struct"><a href="#结构体struct" class="headerlink" title="结构体struct"></a>结构体struct</h4><p>结构体的所有组成部分都存放在存储器中一段连续的区域内，而指向结构的指针就是结构第一个字节的地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 地址以声明顺序递增</span><br><span class="line">// 可能插入填充字节</span><br><span class="line">struct A &#123; </span><br><span class="line">    char a; </span><br><span class="line">    double b; </span><br><span class="line">    char c;</span><br><span class="line">&#125;;</span><br><span class="line">printf(&quot;offset of char a = %zu\noffset of double b = %zu\noffset of char c = %zu\n&quot;</span><br><span class="line">           &quot;sizeof(struct A)=%zu\n&quot;, offsetof(struct A, a), offsetof(struct A, b),</span><br><span class="line">           offsetof(struct A, c), sizeof(struct A));</span><br><span class="line">    </span><br><span class="line">struct B &#123; </span><br><span class="line">    char a; </span><br><span class="line">    char b; </span><br><span class="line">    double c;</span><br><span class="line">&#125;;</span><br><span class="line">printf(&quot;offset of char a = %zu\noffset of char b = %zu\noffset of double c = %zu\n&quot;</span><br><span class="line">           &quot;sizeof(struct B)=%zu\n&quot;, offsetof(struct B, a), offsetof(struct B, b),</span><br><span class="line">           offsetof(struct B, c), sizeof(struct B));</span><br></pre></td></tr></table></figure></p>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">offset of char a = 0</span><br><span class="line">offset of double b = 8</span><br><span class="line">offset of char c = 16</span><br><span class="line">sizeof(struct A)=24</span><br><span class="line"></span><br><span class="line">offset of char a = 0</span><br><span class="line">offset of char b = 1</span><br><span class="line">offset of double c = 8</span><br><span class="line">sizeof(struct B)=16</span><br></pre></td></tr></table></figure></p>
+<p>A的内存布局<br>|char|—-|—-|—-|—-|—-|—-|—-|<br>|—————-double—————–|<br>|char|—-|—-|—-|—-|—-|—-|—-|</p>
+<p>B的内存布局<br>|char|char|—-|—-|—————–|<br>|—————-double—————|</p>
+<h4 id="联合union"><a href="#联合union" class="headerlink" title="联合union"></a>联合union</h4><p>联合体只大到足以保有其最大成员（亦可能添加额外的尾随填充字节）。其他成员被分配同该最大成员一部分的字节中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdint.h&gt;</span><br><span class="line">#include &lt;assert.h&gt;</span><br><span class="line"> </span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">    union S &#123;</span><br><span class="line">        uint32_t u32;</span><br><span class="line">        uint16_t u16[2];</span><br><span class="line">        uint8_t  u8;</span><br><span class="line">    &#125; s = &#123;0x12345678&#125;; // s.u32 现为活跃成员</span><br><span class="line">    printf(&quot;Union S has size %zu and holds %x\n&quot;, sizeof s, s.u32);</span><br><span class="line">    s.u16[0] = 0x0011;  // s.u16 现为活跃成员</span><br><span class="line">    // 从 s.u32 或 s.u8 的读取转译对象表示</span><br><span class="line">//  printf(&quot;s.u8 is now %x\n&quot;, s.u8); // 未指定，典型结果是 11 或 00</span><br><span class="line">//  printf(&quot;s.u32 is now %x\n&quot;, s.u32); // 未指定，典型结果是 12340011 或 00115678</span><br><span class="line"> </span><br><span class="line">    // 指向联合体所有成员的指针彼此间比较相等，也与指向联合体的指针比较相等</span><br><span class="line">    assert((uint8_t*)&amp;s == &amp;s.u8);</span><br><span class="line"> </span><br><span class="line">    // 此联合体拥有尾随的 3 个填充字节</span><br><span class="line">    union pad &#123;</span><br><span class="line">       char  c[5];   // 占据 5 字节</span><br><span class="line">       float f;      // 占据 4 字节，隐含对齐 4</span><br><span class="line">    &#125; p = &#123;.f = 1.23&#125;; // 大小为 8 以满足 float 的对齐</span><br><span class="line">    printf(&quot;size of union of char[5] and float is %zu\n&quot;, sizeof p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>union分别大端小端</p>
+<h4 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h4><h5 id="内存对齐的原因"><a href="#内存对齐的原因" class="headerlink" title="内存对齐的原因"></a>内存对齐的原因</h5><p>在参加360秋招二面的时候，面试官问我“知道内存对齐吗”，“为什么要内存对齐”，我一下子就懵了</p>
+<p>对于内存对齐，主要是为了提高程序的性能，数据结构，特别是栈，应尽可能在自然边界上对齐，经过对齐后，cpu的内存访问速度大大提升</p>
+<p>1、平台原因(移植原因)<br>    A   不是所有的硬件平台都能访问任意地址上的任意数据的；<br>    B    某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。<br>2、性能原因：<br>    A   数据结构(尤其是栈)应该尽可能地在自然边界上对齐。<br>    B   原因在于，为了访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。 </p>
+<p>普通程序员心中的内存印象，由一个个字节组成，但是CPU却不是这么看待的。cpu把内存当成是一块一块的，块的大小可以是2,4,8,16 个字节，因此CPU在读取内存的时候是一块一块进行读取的，块的大小称为（memory granularity）内存读取粒度</p>
+<p>许多实际的计算机系统对基本类型数据在内存中存放的位置有限制，它们要求这些数据的首地址的值是某个数M（通常是4或8）<br>Windows中默认对齐数为8，Linux中默认对齐数为4；</p>
+<p>假设CPU要读取一个4字节大小的数据到寄存器中（假设内存读取粒度是4），分两种情况讨论：</p>
+<ol>
+<li><p>数据从0字节开始<br>当数据从0字节开始的时候，直接将0-3四个字节完全读取到寄存器，就算完成了</p>
+</li>
+<li><p>数据从1字节开始<br>当数据从1字节开始的时候，问题很复杂，首先先将前4个字节读到寄存器，并再次读取4-7字节的数据进寄存器，接着把0字节，4,6,7字节的数据剔除，最后合并1,2,3,4字节的数据进寄存器，对一个内存未对齐的寄存器进行了这么多额外操作，大大降低了CPU的性能</p>
+</li>
+</ol>
+<h5 id="内存对齐的规则"><a href="#内存对齐的规则" class="headerlink" title="内存对齐的规则"></a>内存对齐的规则</h5><p>1.对于结构的各个成员，第一个成员位于偏移为0的位置，以后的每个数据成员的偏移量必须是  min(#pragma pack()指定的数,这个数据成员的自身长度)的倍数<br>2.在所有的数据成员完成各自对齐之后，结构或联合体本身也要进行对齐，对齐将按照 #pragram pack 指定的数值和结构或者联合体最大数据成员长度中比较小的那个  也就是  min(#pragram pack() , 长度最长的数据成员)；<br>   /#pragram pack(n)  表示的是设置n字节对齐，vc6默认的是8</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/29/OOP_model1/" data-id="cjm8rmk3o000mrguz71zg23j8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -617,7 +641,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -649,23 +673,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/11/datastruct_hash/">数据结构和算法之哈希</a>
+            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
           </li>
         
           <li>
-            <a href="/2018/09/10/Net_HTTP/">计算机网络复习之HTTP</a>
+            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
           </li>
         
           <li>
-            <a href="/2018/09/08/datastruct4/">数据结构和算法之图</a>
+            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/C++_i/">C++常见问题之i++</a>
+            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
           </li>
         
           <li>
-            <a href="/2018/09/06/网络编程/">网络编程之同步和异步</a>
+            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
           </li>
         
       </ul>
