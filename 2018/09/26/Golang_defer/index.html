@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>学习Golang之defer | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Defer, Panic, and Recovergo有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover 3个重要关键字defer、panic、recover    defer是函数结束后执行，呈先进后出；    panic是程序出现无法修复">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习Golang之defer">
+<meta property="og:url" content="http://yoursite.com/2018/09/26/Golang_defer/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Defer, Panic, and Recovergo有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover 3个重要关键字defer、panic、recover    defer是函数结束后执行，呈先进后出；    panic是程序出现无法修复">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-27T12:26:39.736Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习Golang之defer">
+<meta name="twitter:description" content="Defer, Panic, and Recovergo有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover 3个重要关键字defer、panic、recover    defer是函数结束后执行，呈先进后出；    panic是程序出现无法修复">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Golang_defer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/26/Golang_defer/" class="article-date">
+  <time datetime="2018-09-26T11:27:59.582Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      学习Golang之defer
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Defer-Panic-and-Recover"><a href="#Defer-Panic-and-Recover" class="headerlink" title="Defer, Panic, and Recover"></a>Defer, Panic, and Recover</h3><p>go有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover</p>
+<p>3个重要关键字defer、panic、recover<br>    defer是函数结束后执行，呈先进后出；<br>    panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>    recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</p>
+<p>“defer”语句调用的函数将被推迟到其外围函数返回时执行，不论是因为该外围函数执行了 return 语句，到达了其函数体的末尾， 还是因为其对应的Go程进入了恐慌过程</p>
+<p> 任何被 F 推迟的函数会在 F 返回给其调用者前执行</p>
+<h3 id="Defer、Return之间执行顺序"><a href="#Defer、Return之间执行顺序" class="headerlink" title="Defer、Return之间执行顺序"></a>Defer、Return之间执行顺序</h3><p>京东一面（0926）真题，一脸懵逼</p>
+<p>接下来是三个例题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (result int) &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">        result++</span><br><span class="line">    &#125;()</span><br><span class="line">    return 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里，若被推迟的函数为函数字面，即defer后面的函数，而其外围函数在其作用域中的函数字面内拥有 已命名结果形参，即result，则被推迟的函数可在该结果形参被返回前访问并更改。 若被推迟函数拥有任何返回值，则它们会在该函数完成时丢弃</p>
+</blockquote>
+<p>要理解上面这段话，就要了解defer的实现方式，大致就是在defer出现的地方，插入指令CALL runtime.deferproc，然后在函数返回之前的地方，插入指令CALL runtime.deferreturn。再就是明确go返回值的方式跟C是不一样的，为了支持多值返回，go是用栈返回值的，而C是用寄存器。<br>最最重要的一点就是： <em>return xxx这一条语句并不是一条原子指令!</em><br>整个return过程，没有defer之前，先在栈中写一个值，这个值会被当作返回值，然后再调用RET指令返回。return xxx语句汇编后是先给返回值赋值，再做一个空的return，( 赋值指令 ＋ RET指令)。defer的执行是被插入到return指令之前的，有了defer之后，就变成了(赋值指令 + CALL defer指令 + RET指令)。而在CALL defer函数中，有可能将最终的返回值改写了…也有可能没改写。总之，如果改写了，那么看上去就像defer是在return xxx之后执行的~</p>
+<p>于是我们有如下改写规则<br>改写规则是将return语句分开成两句写，return xxx会被改写成:<br>返回值 = xxx<br>调用defer函数<br>空的return</p>
+<p>当然，这是在已命令结果形参下，如果不是，则不会发生修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (result int) &#123;</span><br><span class="line">     result = 0  //return语句不是一条原子调用，return xxx其实是赋值＋RET指令</span><br><span class="line">     func() &#123; //defer被插入到return之前执行，也就是赋返回值和RET指令之间</span><br><span class="line">         result++</span><br><span class="line">     &#125;()</span><br><span class="line">     return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看两个例题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     defer func() &#123;</span><br><span class="line">       t = t + 5</span><br><span class="line">     &#125;()</span><br><span class="line">     return t</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     r = t //赋值指令</span><br><span class="line">     func() &#123;        //defer被插入到赋值与返回之间执行，这个例子中返回值r没被修改过</span><br><span class="line">         t = t + 5</span><br><span class="line">     &#125;</span><br><span class="line">     return        //空的return指令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">    defer func(r int) &#123;</span><br><span class="line">          r = r + 5</span><br><span class="line">    &#125;(r)</span><br><span class="line">    return 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     r = 1  //给返回值赋值</span><br><span class="line">     func(r int) &#123;        //这里改的r是传值传进去的r，不会改变要返回的那个r值</span><br><span class="line">          r = r + 5</span><br><span class="line">     &#125;(r)</span><br><span class="line">     return        //空的return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/26/Golang_defer/" data-id="cjmkoxr680002g4uz4f6o59h1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/26/Redis4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Redis之事务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/25/Redis3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis之应用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

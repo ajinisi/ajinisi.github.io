@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Redis之事务 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="事务可以一次执行多个命令， 并且带有以下两个重要的保证：  事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。 事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。  京东一面问及Redis的原子性，没答上来。。。 redis原子性操作的实现原理在于redis底层使用单线程操作 Redis事务的实现原理：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis之事务">
+<meta property="og:url" content="http://yoursite.com/2018/09/26/Redis4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="事务可以一次执行多个命令， 并且带有以下两个重要的保证：  事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。 事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。  京东一面问及Redis的原子性，没答上来。。。 redis原子性操作的实现原理在于redis底层使用单线程操作 Redis事务的实现原理：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-26T14:13:30.023Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis之事务">
+<meta name="twitter:description" content="事务可以一次执行多个命令， 并且带有以下两个重要的保证：  事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。 事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。  京东一面问及Redis的原子性，没答上来。。。 redis原子性操作的实现原理在于redis底层使用单线程操作 Redis事务的实现原理：">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Redis4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/26/Redis4/" class="article-date">
+  <time datetime="2018-09-26T14:06:38.457Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis之事务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>事务可以一次执行多个命令， 并且带有以下两个重要的保证：</p>
+<ul>
+<li>事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+<li>事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。</li>
+</ul>
+<p>京东一面问及Redis的原子性，没答上来。。。</p>
+<p>redis原子性操作的实现原理在于redis底层使用单线程操作</p>
+<p>Redis事务的实现原理：</p>
+<ol>
+<li>批量操作在发送 EXEC 命令前被放入队列缓存</li>
+<li>收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令都不会被执行</li>
+<li>在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/26/Redis4/" data-id="cjmkoxr6f000cg4uznboh7gw4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/26/Golang_practice/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          学习Golang之实战
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/26/Golang_defer/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">学习Golang之defer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

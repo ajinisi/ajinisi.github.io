@@ -7,17 +7,17 @@
   
   <title>C++常见问题之memcpy | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） 实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789#includ">
+  <meta name="description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） memcpy的实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++常见问题之memcpy">
 <meta property="og:url" content="http://yoursite.com/2018/09/15/CPPGram_memcpy/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） 实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789#includ">
+<meta property="og:description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） memcpy的实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-15T14:45:48.435Z">
+<meta property="og:updated_time" content="2018-09-23T12:02:09.586Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++常见问题之memcpy">
-<meta name="twitter:description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） 实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789#includ">
+<meta name="twitter:description" content="memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右） memcpy的实现首先确定函数原型1void *memcpy(void *dest, const void *src, size_t count); 源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。 开始复制123456789">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,21 +87,26 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右）</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>首先确定函数原型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void *memcpy(void *dest, const void *src, size_t count);</span><br></pre></td></tr></table></figure></p>
+<h3 id="memcpy的实现"><a href="#memcpy的实现" class="headerlink" title="memcpy的实现"></a>memcpy的实现</h3><p>首先确定函数原型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void *memcpy(void *dest, const void *src, size_t count);</span><br></pre></td></tr></table></figure></p>
 <p>源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。</p>
 <p>开始复制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">void *memcpy(void *dest, const void *src, size_t count)&#123;</span><br><span class="line">if (NULL == dest || NULL == src || count &lt;= 0)</span><br><span class="line">    return NULL;</span><br><span class="line">void* ptr=dest;</span><br><span class="line">while (count--)</span><br><span class="line">    *dest++ = *src++;</span><br><span class="line">return ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面这段代码在Linux中使用gcc编译是没错的,但是会有警告，因为C里要访存必须指定一个具体的类型，告诉编译器要访问多大的空间，对指向空的指针void*进行解引用是非法的。</p>
+<p>上面这段代码在Linux中使用gcc编译是没错的,但是会有警告，因为C里要访问内存必须指定一个具体的类型，告诉编译器要访问多大的空间，对指向空的指针void*进行解引用是非法的。</p>
+<p>按照ANSI(American National Standards Institute)标准，也不能对void指针进行算法操作，即不能对void指针进行如p++的操作,所以需要转换为具体的类型指针来操作,例如char *</p>
 <p>所以我们可以采取的是逐字节复制的方法，使用char <em>来访问，另外用char </em>比较简便，使用int *来访问的话，你无法保证要复制的大小是偶数，这样还得加个判断</p>
 <p>同时，size_t是无符号类型的,size_t的定义为：typedef unsigned int size_t;<br>所以count&lt;=0,只会判断==0的情况。如果你传入-1,会产生一个很大的无符号整型，是可以通过判断的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void* memcpy(void *dest, const void* src, size_t count)&#123;</span><br><span class="line">	int size=count;</span><br><span class="line">    if(dest == NULL || src == NULL || size &lt;= 0)</span><br><span class="line">		return dest;</span><br><span class="line">	char* dest_pos = (char *)dest;</span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line">	while(size--)</span><br><span class="line">		*dest_pos++ = *src_pos++;</span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="内存重叠"><a href="#内存重叠" class="headerlink" title="内存重叠"></a>内存重叠</h4><p>兼容向前拷贝和向后拷贝、不同BUF拷贝的情况，也近似C函数库的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void* my_memcpy(void *dst, const void* src, size_t size)&#123;</span><br><span class="line">	if(dst == NULL || src == NULL || size &lt;= 0)</span><br><span class="line"></span><br><span class="line">		return dst;</span><br><span class="line"></span><br><span class="line">	char* dst_pos = (char *)dst;</span><br><span class="line"></span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line"></span><br><span class="line">	if(dst_pos &lt; src_pos + size &amp;&amp; dst &gt; src)&#123; //DOWN COPY，向前拷贝</span><br><span class="line"></span><br><span class="line">		dst_pos = dst_pos + size;</span><br><span class="line"></span><br><span class="line">		src_pos = src_pos + size;</span><br><span class="line"></span><br><span class="line">		while(size &gt; 0)&#123;</span><br><span class="line"></span><br><span class="line">			*dst_pos-- = *src_pos--;</span><br><span class="line"></span><br><span class="line">			size --;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	else &#123; //UP COPY,向后拷贝</span><br><span class="line">		while(size &gt; 0)&#123;</span><br><span class="line">			*dst_pos++ = *src_pos++;</span><br><span class="line">			size --;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return dst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在修改代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void* memcpy(void *dest, const void* src, size_t count)&#123;</span><br><span class="line">	int size=count;</span><br><span class="line">    if(dest == NULL || src == NULL || size &lt;= 0)</span><br><span class="line">		return dest;</span><br><span class="line">	char* dest_pos = (char *)dest;</span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line">	while(size--)</span><br><span class="line">		*dest_pos++ = *src_pos++;</span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果嫌弃一个一个字节地复制太慢，可以采用下面的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void * memcpy(void *dest,const void *src,size_t num)&#123;</span><br><span class="line">	int nchunks = num/sizeof(dest);   /*按CPU位宽拷贝*/</span><br><span class="line">	int slice = num%sizeof(dest);   /*剩余的按字节拷贝*/</span><br><span class="line"></span><br><span class="line">	unsigned long * s = (unsigned long *)src;</span><br><span class="line">	unsigned long * d = (unsigned long *)dest;</span><br><span class="line"></span><br><span class="line">	while(nchunks--)</span><br><span class="line">	    *d++ = *s++;</span><br><span class="line">	while (slice--)</span><br><span class="line">	    *((char *)d++) =*((char *)s++);</span><br><span class="line"></span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="memmove的实现"><a href="#memmove的实现" class="headerlink" title="memmove的实现"></a>memmove的实现</h3><p>内存重叠问题是指目的地址的内存空间的首地址，包含在源内存空间中，这两段内存空间有了交集，因而在使用memcpy进行内存复制操作时，这段重叠的内存空间会被破坏。<br>现在要考虑内存重叠的情况，我们要兼容向前拷贝和向后拷贝、不同BUF拷贝的情况，也近似C函数库的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">void* memmove(void *dest, const void* src, size_t count)&#123;</span><br><span class="line">	int size=count;</span><br><span class="line">	if(dest == NULL || src == NULL || size &lt;= 0)</span><br><span class="line">		return dest;</span><br><span class="line">	char* dest_pos = (char *)dest;</span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line"></span><br><span class="line">	if(dest_pos &lt; src_pos + size &amp;&amp; dest &gt; src)&#123; // DOWN COPY，从后向前拷贝</span><br><span class="line">		dest_pos = dest_pos + size - 1;</span><br><span class="line">		src_pos = src_pos + size - 1;</span><br><span class="line">		while(size--)</span><br><span class="line">			*(dest_pos--) = *(src_pos--);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	else &#123; // UP COPY，从前向后拷贝</span><br><span class="line">		while(size--)</span><br><span class="line">			*(dest_pos++) = *(src_pos++);</span><br><span class="line">	&#125;</span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h3><ol>
 <li>如果复制的字节数n超出了dest的空间容量，或者n超出src的容量，这个函数是不会进行判断的，这样就会很危险。需要程序员自己检查是否有溢出的情况出现。</li>
 <li>这个函数不会检查参数dest与参数src所指向的数组（或其他类型）是否具有同样的空间。</li>
 <li>memcpy, memset等函数都是对内存操作的函数，效率很高，当然也很容易出现问题；如果出现src -&gt; dest的大小出现问题，src地址大于dest地址，就会存在dest无法存取完整数据，造成src数据丢下。memcpy本身是有bug的，并没有解决覆盖问题，可以选用memmove代替。</li>
 </ol>
-<p>在C++中，我们把传统C风格的数据类型叫做POD（Plain Old Data）对象，即一种古老的纯数据。在C的世界里根本没有POD这一概念，因为C的所有对象都是POD。一般来说，POD对象应该满足如下特性：其二进制内容是可以随意复制的，无论在什么地方，只要其二进制内容存在，我们就能准确无误地还原出POD对象。正是由于这个原因，对于任何POD对象，我们都可以放心大胆地使用memset()、memcpy()、memcmp()等函数对对象的内存数据进行操作。然而在C++中，每个人都要十二分的注意了。因为C++的对象可能并不是一个POD，所以我们无法像在C中那样获得该对象直观简洁的内存模型。对于POD对象，我们可以通过对象的基地址和数据成员的偏移量获得数据成员的地址。但是C++标准并未对非POD对象的内存布局做任何定义，对于不同的编译器，其对象布局是不同的。而在C语言中，对象布局仅仅会受到底层硬件系统差异的影响。针对非POD对象，其序列化会遇到一定的障碍：由于对象的不同部分可能存在于不同的地方，因而无法直接复制，只能通过手工加入序列化操作代码来处理对象数据，很麻烦。但是针对POD对象，这一切将变得不再困难：从基地址开始，直接按对象的大小复制数据，或传输，或存储，随意处理。</p>
+<p>注意：memmove这个函数名称中有”move”这个单词,而实际上src处的数据仍然还在,并没有真的被”移动”了!这个函数名称有它的历史原因,是因为有了memcpy函数后,发现这个函数有问题,又发明了另一个没有问题的memcpy函数,但为了兼容性依然保留了memcpy函数,而将新版本的memcpy函数改名为memmove函数.</p>
+<ol start="4">
+<li>在C++中，我们把传统C风格的数据类型叫做POD（Plain Old Data）对象，即一种古老的纯数据。在C的世界里根本没有POD这一概念，因为C的所有对象都是POD。一般来说，POD对象应该满足如下特性：其二进制内容是可以随意复制的，无论在什么地方，只要其二进制内容存在，我们就能准确无误地还原出POD对象。正是由于这个原因，对于任何POD对象，我们都可以放心大胆地使用memset()、memcpy()、memcmp()等函数对对象的内存数据进行操作。然而在C++中，每个人都要十二分的注意了。因为C++的对象可能并不是一个POD，所以我们无法像在C中那样获得该对象直观简洁的内存模型。对于POD对象，我们可以通过对象的基地址和数据成员的偏移量获得数据成员的地址。但是C++标准并未对非POD对象的内存布局做任何定义，对于不同的编译器，其对象布局是不同的。而在C语言中，对象布局仅仅会受到底层硬件系统差异的影响。针对非POD对象，其序列化会遇到一定的障碍：由于对象的不同部分可能存在于不同的地方，因而无法直接复制，只能通过手工加入序列化操作代码来处理对象数据，很麻烦。但是针对POD对象，这一切将变得不再困难：从基地址开始，直接按对象的大小复制数据，或传输，或存储，随意处理。</li>
+</ol>
 
       
     </div>
@@ -164,23 +169,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
+            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
+            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
+            <a href="/2018/09/26/Redis4/">Redis之事务</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
+            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
           </li>
         
           <li>
-            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
+            <a href="/2018/09/25/Redis3/">Redis之应用</a>
           </li>
         
       </ul>

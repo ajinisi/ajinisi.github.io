@@ -5,19 +5,19 @@
   
 
   
-  <title>数据库的学习之Redis入门 | Hexo</title>
+  <title>Redis之安装 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非阻塞I/O多路复用机制  安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 12345">
+  <meta name="description" content="安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 1234567.├── redis.windows.conf├── redis-benchmark.exe├── redis-check-aof.exe├── redis-cli.exe├── redis-server">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库的学习之Redis入门">
-<meta property="og:url" content="http://yoursite.com/2018/08/17/learnDB4/index.html">
+<meta property="og:title" content="Redis之安装">
+<meta property="og:url" content="http://yoursite.com/2018/08/17/Redis1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非阻塞I/O多路复用机制  安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 12345">
+<meta property="og:description" content="安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 1234567.├── redis.windows.conf├── redis-benchmark.exe├── redis-check-aof.exe├── redis-cli.exe├── redis-server">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-24T12:08:09.486Z">
+<meta property="og:updated_time" content="2018-09-26T14:04:45.542Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库的学习之Redis入门">
-<meta name="twitter:description" content="现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非阻塞I/O多路复用机制  安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 12345">
+<meta name="twitter:title" content="Redis之安装">
+<meta name="twitter:description" content="安装Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的版本安装完成之后，目录下会有 1234567.├── redis.windows.conf├── redis-benchmark.exe├── redis-check-aof.exe├── redis-cli.exe├── redis-server">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,9 +64,9 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-learnDB4" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Redis1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/17/learnDB4/" class="article-date">
+    <a href="/2018/08/17/Redis1/" class="article-date">
   <time datetime="2018-08-17T13:01:53.013Z" itemprop="datePublished">2018-08-17</time>
 </a>
     
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      数据库的学习之Redis入门
+      Redis之安装
     </h1>
   
 
@@ -86,26 +86,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
-<ul>
-<li>纯内存操作</li>
-<li>单线程操作，避免了频繁的上下文切换</li>
-<li>采用了非阻塞I/O多路复用机制</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">版本</a><br>安装完成之后，目录下会有</p>
+        <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Redis 没有官方的Windows版本，但是微软开源技术团队（Microsoft Open Tech group）开发和维护着这个 Win64 的<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank" rel="noopener">版本</a><br>安装完成之后，目录下会有</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── redis.windows.conf</span><br><span class="line">├── redis-benchmark.exe</span><br><span class="line">├── redis-check-aof.exe</span><br><span class="line">├── redis-cli.exe</span><br><span class="line">├── redis-server.exe</span><br><span class="line">└── Windows Service Documentation.docx</span><br></pre></td></tr></table></figure>
 <p>redis-server.exe是服务器，用来启动redis<br>redis-cli.exe是客户端，命令行工具<br>redis-benchmark.exe是基准测试工具<br>redis-check-aof.exe是AOF持久化文件检测工具和修复工具<br>redis-check-dump是RDB持久化文件检测工具和修复工具</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>安装完成之后，编辑redis.windows.conf文件，</p>
-<h1 id="启动客户端和服务器"><a href="#启动客户端和服务器" class="headerlink" title="启动客户端和服务器"></a>启动客户端和服务器</h1><p>和MySQL一样，Git bash也是不支持redis的命令的，我们可以使用cmd或者powershell。<strong>！！！注意</strong> 在没有添加环境变量时，cmd下可以直接从当前位置（C:\redis）加载命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ajini&gt;redis-cli</span><br><span class="line">&apos;redis-cli&apos; 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"></span><br><span class="line">C:\Users\ajini&gt;cd C:\redis</span><br><span class="line"></span><br><span class="line">C:\redis&gt;redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>安装完成之后，编辑redis.windows.conf文件，</p>
+<h3 id="启动客户端和服务器"><a href="#启动客户端和服务器" class="headerlink" title="启动客户端和服务器"></a>启动客户端和服务器</h3><p>和MySQL一样，Git bash也是不支持redis的命令的，我们可以使用cmd或者powershell。<strong>！！！注意</strong> 在没有添加环境变量时，cmd下可以直接从当前位置（C:\redis）加载命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ajini&gt;redis-cli</span><br><span class="line">&apos;redis-cli&apos; 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"></span><br><span class="line">C:\Users\ajini&gt;cd C:\redis</span><br><span class="line"></span><br><span class="line">C:\redis&gt;redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
 <p>但powershell不可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">redis-cli : 无法将“redis-cli”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正</span><br><span class="line">确，然后再试一次。</span><br><span class="line">所在位置 行:1 字符: 1</span><br><span class="line">+ redis-cli</span><br><span class="line">+ ~~~~~~~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (redis-cli:String) [], CommandNotFoundException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Suggestion [3,General]: 找不到命令 redis-cli，但它确实存在于当前位置。默认情况下，Windows PowerShell 不会从当前位置加载命令。如</span><br><span class="line">果信任此命令，请改为键入“.\redis-cli”。有关详细信息，请参阅 &quot;get-help about_Command_Precedence&quot;。</span><br><span class="line">PS C:\redis&gt; .\redis-cli</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
 <p>所以为了方便，我们添加环境变量，以后就可以正常执行Redis的相关命令了。</p>
 <h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>执行<code>$ redis-cli -h {host} -p {port}</code>可以让我们以交互方式连接服务器，当然，你也可以选择<code>$ redis-cli -h {host} -p {port} {command}</code>命令方式直接得到服务器的返回结果</p>
 <p>如果配置的时候设置了密码，则按照下面的方式登陆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure></p>
-<h1 id="为Redis注册"><a href="#为Redis注册" class="headerlink" title="为Redis注册"></a>为Redis注册</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-server --service-install redis.windows.conf</span><br><span class="line">[15220] 18 Aug 09:27:37.402 # Granting read/write access to &apos;NT AUTHORITY\NetworkService&apos; on: &quot;C:\redis&quot; &quot;C:\redis\&quot;</span><br><span class="line">[15220] 18 Aug 09:27:37.403 # Redis successfully installed as a service.</span><br><span class="line"></span><br><span class="line">PS C:\redis&gt; redis-server.exe --service-start redis.windows.conf</span><br><span class="line">[26364] 18 Aug 09:34:55.243 # Redis service successfully started.</span><br></pre></td></tr></table></figure>
+<h3 id="为Redis注册"><a href="#为Redis注册" class="headerlink" title="为Redis注册"></a>为Redis注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\redis&gt; redis-server --service-install redis.windows.conf</span><br><span class="line">[15220] 18 Aug 09:27:37.402 # Granting read/write access to &apos;NT AUTHORITY\NetworkService&apos; on: &quot;C:\redis&quot; &quot;C:\redis\&quot;</span><br><span class="line">[15220] 18 Aug 09:27:37.403 # Redis successfully installed as a service.</span><br><span class="line"></span><br><span class="line">PS C:\redis&gt; redis-server.exe --service-start redis.windows.conf</span><br><span class="line">[26364] 18 Aug 09:34:55.243 # Redis service successfully started.</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/17/learnDB4/" data-id="cjljcxhq2000t1guzxia6p2wp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/17/Redis1/" data-id="cjmkoxr6d0009g4uzxok1enw8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,7 +108,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/18/learnGo2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/18/Golang2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -163,23 +157,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/18/learnDB_index1/">数据库的学习之索引（二）</a>
+            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/OOP_cons/">面向对象之构造函数析构函数</a>
+            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
+            <a href="/2018/09/26/Redis4/">Redis之事务</a>
           </li>
         
           <li>
-            <a href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
+            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
           </li>
         
           <li>
-            <a href="/2018/09/17/NET_comp/">计算机网络复习之综合</a>
+            <a href="/2018/09/25/Redis3/">Redis之应用</a>
           </li>
         
       </ul>
