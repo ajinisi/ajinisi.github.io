@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>自己动手区块链之手写数据库 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Go用到的键值数据库现在在项目中使用嵌入式键值储存（Key-Value-Stores）的数据库已经成为了开发者的标配。有很多嵌入式数据库都是C写的，然而对于我来说，更希望使用纯粹的Golang的解决方案。 虽然已经有了BoltDB这样优秀的数据库，但是如果不使用现成的数据库，而是能够自己手写一个键值对存储并支持持久化的轮子呢？ 本项目受到What is a NoSQL Database? Lear">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己动手区块链之手写数据库">
+<meta property="og:url" content="http://yoursite.com/2018/10/11/blockchain3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Go用到的键值数据库现在在项目中使用嵌入式键值储存（Key-Value-Stores）的数据库已经成为了开发者的标配。有很多嵌入式数据库都是C写的，然而对于我来说，更希望使用纯粹的Golang的解决方案。 虽然已经有了BoltDB这样优秀的数据库，但是如果不使用现成的数据库，而是能够自己手写一个键值对存储并支持持久化的轮子呢？ 本项目受到What is a NoSQL Database? Lear">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-06T12:57:45.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己动手区块链之手写数据库">
+<meta name="twitter:description" content="Go用到的键值数据库现在在项目中使用嵌入式键值储存（Key-Value-Stores）的数据库已经成为了开发者的标配。有很多嵌入式数据库都是C写的，然而对于我来说，更希望使用纯粹的Golang的解决方案。 虽然已经有了BoltDB这样优秀的数据库，但是如果不使用现成的数据库，而是能够自己手写一个键值对存储并支持持久化的轮子呢？ 本项目受到What is a NoSQL Database? Lear">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-blockchain3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/11/blockchain3/" class="article-date">
+  <time datetime="2018-10-11T12:12:39.650Z" itemprop="datePublished">2018-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自己动手区块链之手写数据库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Go用到的键值数据库"><a href="#Go用到的键值数据库" class="headerlink" title="Go用到的键值数据库"></a>Go用到的键值数据库</h3><p>现在在项目中使用嵌入式键值储存（Key-Value-Stores）的数据库已经成为了开发者的标配。有很多嵌入式数据库都是C写的，然而对于我来说，更希望使用纯粹的Golang的解决方案。</p>
+<p>虽然已经有了BoltDB这样优秀的数据库，但是如果不使用现成的数据库，而是能够自己手写一个键值对存储并支持持久化的轮子呢？</p>
+<p>本项目受到<a href="https://jeffknupp.com/blog/2014/09/01/what-is-a-nosql-database-learn-by-writing-one-in-python/" target="_blank" rel="noopener">What is a NoSQL Database? Learn By Writing One In Python</a>启发，虽然它是用python写的。它的译文可参考<a href="https://zhuanlan.zhihu.com/p/31536828" target="_blank" rel="noopener">用 Python 写一个 NoSQL 数据库</a></p>
+<p>### </p>
+<p>首先是简单的设计方案</p>
+<ol>
+<li>一个 Python 的 dict 作为主要的数据存储</li>
+<li>仅支持 string 类型作为键 (key)</li>
+<li>支持存储 integer, string 和 list类型作为值（value）</li>
+<li>一个使用 ASCLL string 的简单 TCP/IP 服务器用来传递消息：有一个基于 ASCII 的 TCP/IP 接口的数据存储有一个好处， 那就是我们使用简单的 telnet 程序即可与服务器进行交互, 并不需要特殊的客户端</li>
+<li>一些像 INCREMENT, DELETE , APPEND 和 STATS 这样的高级命令 (command)：<ul>
+<li>PUT<br>参数： Key, Value<br>目的： 向数据库中插入一条新的条目 (entry)</li>
+<li>GET<br>参数： Key<br>目的： 从数据库中检索一个已存储的值</li>
+<li>PUTLIST<br>参数： Key, Value<br>目的： 向数据库中插入一个新的列表条目</li>
+<li>APPEND<br>参数： Key, Value<br>目的： 向数据库中一个已有的列表添加一个新的元素</li>
+<li>INCREMENT<br>参数： key<br>目的： 增长数据库的中一个整型值</li>
+<li>DELETE<br>参数： Key<br>目的： 从数据库中删除一个条目</li>
+<li>STATS<br>参数： 无 (N/A)<br>目的： 请求每个执行命令的 成功/失败 的统计信息</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/11/blockchain3/" data-id="cjtv5ghzk0010m0uz6wpgi9y7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/23/shortcuts/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          快捷键
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/30/OS1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">操作系统基本概念之进程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/04/math/">数学</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

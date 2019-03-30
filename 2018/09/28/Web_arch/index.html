@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Web之微服务 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Web发展历史 客户/服务器方式C/S方式  客户和服务器都是指通信中所涉及的两个应用进程（process），客户是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C/S结构的软件需要针对不同的操作系统系统开发不同版本的软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web之微服务">
+<meta property="og:url" content="http://yoursite.com/2018/09/28/Web_arch/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Web发展历史 客户/服务器方式C/S方式  客户和服务器都是指通信中所涉及的两个应用进程（process），客户是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C/S结构的软件需要针对不同的操作系统系统开发不同版本的软件">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-30T01:34:04.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web之微服务">
+<meta name="twitter:description" content="Web发展历史 客户/服务器方式C/S方式  客户和服务器都是指通信中所涉及的两个应用进程（process），客户是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C/S结构的软件需要针对不同的操作系统系统开发不同版本的软件">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Web_arch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/28/Web_arch/" class="article-date">
+  <time datetime="2018-09-28T14:34:51.910Z" itemprop="datePublished">2018-09-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Web之微服务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Web发展历史"><a href="#Web发展历史" class="headerlink" title="Web发展历史"></a>Web发展历史</h3><ul>
+<li>客户/服务器方式<br>C/S方式</li>
+</ul>
+<p>客户和服务器都是指通信中所涉及的两个应用进程（process），客户是<br>交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C/S结构的软件需要针对不同的操作系统系统开发不同版本的软件，加之产品的更新换代十分快，已经很难适应百台电脑以上局域网用户同时使用</p>
+<p>安全性能可以很容易保证，C/S一般面向相对固定的用户群，程序更加注重流程，它可以对权限进行多层次校验，提供了更安全的存取模式，对信息安全的控制能力很强。一般高度机密的信息系统采用C/S结构适宜</p>
+<p>重复性和并发型？</p>
+<ul>
+<li>三层客户/服务器结构<br>用户机器、中间层服务器和后端服务器</li>
+</ul>
+<ul>
+<li>点对点方式<br>P2P方式</li>
+</ul>
+<p>BitTorrent、Skype、IPTV 以及网络电话。单纯使用P2P体系结构的程序很少，大都需要一个中心服务器来维护总体状态，初始化客户端之间的连接等</p>
+<ul>
+<li>浏览器/服务器结构<br>B/S结构</li>
+</ul>
+<p>是目前应用系统的发展方向。BS是伴随着Internet技术的兴起，对C/S架构的改进，为了区别于传统的C/S 模式，特意称为B/S模式。在这种结构下，通过W3浏览器来进入工作界面，极少部分事务逻辑在前端（Browser）实现，主要事务逻辑在服务器端（Server）实现，形成三层（3-tier）结构。这样使得客户端电脑负荷大大简化（因此被称为瘦客户端），减轻了系统维护、升级的支出成本，降低了用户的总体成本（TCO）</p>
+<p>B/S的主要特点是分布性强、维护方便、开发简单且共享性强、总体拥有成本低。但数据安全性问题、对服务器要求过高、数据传输速度慢、软件的个性化特点明显降低，难以实现传统模式下的特殊功能要求。它是瘦客户端，对大量的数据输入以及报表的应答等都需要通过浏览器与服务器进行交互，通信开销大，而且对于实现复杂的应用构造有较大的困难</p>
+<ul>
+<li>面向服务的体系结构<br>SOA</li>
+</ul>
+<p>是一种软件体系结构，应用程序的不同组件通过网络上的通信协议向其他组件提供服务。通信可以是简单的数据传递，也可以是两个或多个服务彼此协调连接。这些独特的服务执行一些小功能，例如验证付款、创建用户帐户或提供社交登录等。</p>
+<p>面向服务的架构不太关于如何对应用程序进行模块化构建，更多的是关于如何通过分布式、单独维护和部署的软件组件的集成来组成应用程序。这些通过技术和标准来实现，通过技术和标准使得组件能够更容易地通过网络（尤其是IP网络）进行通信和协作</p>
+<p>五层架构：<br>     1.用户界面层：GUI的最终用户或应用程序访问的应用程序/服务 接口<br>     2.业务流程层：在应用方面的业务用例服务<br>     3.服务层：服务合并在一起，提供统一的实时服务<br>     4.服务组件层：用来建造服务的组件，如功能库、技术库、技术 接口等<br>     5.操作系统：这层包含数据模型，企业数据仓库，技术平台等</p>
+<ul>
+<li>微服务</li>
+</ul>
+<p>微服务架构在某种程度上是面向服务的架构SOA继续发展的下一步。基本上，这种架构类型是开发软件，网络或移动应用程序作为独立服务套件（又称微服务）的一种特殊方式。这些服务的创建仅限于一个特定的业务功能，如用户管理、用户角色、电子商务车、搜索引擎、社交媒体登录等。此外，它们是完全独立的，也就是说它们可以写入不同的编程语言并使用不同的数据库。集中式服务管理几乎不存在，微服务使用轻量级HTTP、REST或Thrift API进行通信</p>
+<p>微服务治理，微服务之间通信，微服务之间如何管理？</p>
+<ul>
+<li>远程过程调用协议RPC</li>
+</ul>
+<p>它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。<br>RPC采用客户机/服务器模式。请求程序就是一个客户机，而服务提供程序就是一个服务器。首先，客户机调用进程发送一个有进程参数的调用信息到服务进程，然后等待应答信息。在服务器端，进程保持睡眠状态直到调用信息到达为止。当一个调用信息到达，服务器获得进程参数，计算结果，发送答复信息，然后等待下一个调用信息，最后，客户端调用进程接收答复信息，获得进程结果，然后调用执行继续进行</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><h4 id="SOA和微服务"><a href="#SOA和微服务" class="headerlink" title="SOA和微服务"></a>SOA和微服务</h4><h4 id="微服务和分布式服务"><a href="#微服务和分布式服务" class="headerlink" title="微服务和分布式服务"></a>微服务和分布式服务</h4><p>分布式：分散压力。<br>微服务：分散能力。</p>
+<p>微服务架构是分布式服务架构的子集。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/28/Web_arch/" data-id="cjtv5ghzh000ym0uzrthwz4wb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/30/OS1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          操作系统基本概念之进程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/27/Golang_GC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">学习Golang之GC</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/04/math/">数学</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -5,19 +5,19 @@
   
 
   
-  <title>操作系统基本概念之进程 | Hexo</title>
+  <title>操作系统基本概念之进程线程协程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  进程：活跃的，正在运行的程序（.out文件跑起来就会产生一个进程），是抽象的，动态的概念。进程占用">
+  <meta name="description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  它是计算机指令的集合，它以文件的形式存储在磁盘上。程序是静态实体（passive Entity），">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统基本概念之进程">
+<meta property="og:title" content="操作系统基本概念之进程线程协程">
 <meta property="og:url" content="http://yoursite.com/2018/08/09/OS_process/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  进程：活跃的，正在运行的程序（.out文件跑起来就会产生一个进程），是抽象的，动态的概念。进程占用">
+<meta property="og:description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  它是计算机指令的集合，它以文件的形式存储在磁盘上。程序是静态实体（passive Entity），">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-17T00:41:25.793Z">
+<meta property="og:updated_time" content="2018-09-30T07:56:16.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统基本概念之进程">
-<meta name="twitter:description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  进程：活跃的，正在运行的程序（.out文件跑起来就会产生一个进程），是抽象的，动态的概念。进程占用">
+<meta name="twitter:title" content="操作系统基本概念之进程线程协程">
+<meta name="twitter:description" content="进程学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系  程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。  它是计算机指令的集合，它以文件的形式存储在磁盘上。程序是静态实体（passive Entity），">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      操作系统基本概念之进程
+      操作系统基本概念之进程线程协程
     </h1>
   
 
@@ -88,24 +88,44 @@
       
         <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>学习操作系统一上来就会去了解进程的概念。要理解进程的概念，我们可以用对比的方式来说明。即程序、进程、线程和协程的相互区别和联系</p>
 <ul>
-<li><p>程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。</p>
-</li>
-<li><p>进程：活跃的，正在运行的程序（.out文件跑起来就会产生一个进程），是抽象的，动态的概念。进程占用系统资源，在内存中执行。</p>
-</li>
+<li>程序：就是我们用gcc编译链接好的可执行文件（.out文件），是实际存在的。这些文件保存在磁盘上，并不占用系统资源（系统资源指的是CPU，内存，打开的文件，锁等）。</li>
+</ul>
+<p>它是计算机指令的集合，它以文件的形式存储在磁盘上。程序是静态实体（passive Entity），在多道程序系统中，它是不能独立运行的，更不能与其他程序并发执行</p>
+<ul>
+<li>进程：活跃的，正在运行的程序（.out文件跑起来就会产生一个进程），是抽象的，动态的概念。进程占用系统资源，在内存中执行。</li>
+</ul>
+<p>进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，是系统进行资源分配和调度的一个独立单位。（包括程序段，相关数据段，和进程控制块PCB）</p>
+<pre><code>* 动态性
+* 并发性
+* 独立性
+* 异步性（不确定性）：进程以各自独立的、不可预知的速度向前推进
+</code></pre><p>程序的执行实例被称为进程</p>
+<pre><code>* 一个进程就是一个正在执行的程序，包括程序计数器、寄存器和变量的当前值
+* 一个具有以下特征的活动单元：一组指令序列的执行，一个当前状态和相关的资源集
+</code></pre><ul>
+<li>线程：线程是进程的一个实体，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。线程自己基本上不拥有系统资源,只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈),但是它可与同属一个进程的其他的线程共享进程所拥有的全部资源</li>
+</ul>
+<h2 id="相互比较"><a href="#相互比较" class="headerlink" title="相互比较"></a>相互比较</h2><ul>
 <li><p>程序和进程：同一个程序可以执行多次，产生多个进程，并且即便由同一个程序产生的进程间，也互不影响，彼此隔离。</p>
 </li>
-<li><p>线程</p>
+<li><p>进程和线程：线程和进程在使用上各有优缺点：线程执行开销小，但不利于资源的管理和保护；而进程正相反。同时，线程适合于在SMP机器上运行，而进程则可以跨机器迁移</p>
 </li>
 <li><p>协程/微线程，纤程Coroutine：非抢占式的轻量级线程</p>
 </li>
-<li><p>多道程序<br>所有现代的计算机都能同时做几件事情，这都是因为多道程序设计技术使得计算机内存中同时存放几道相互独立的程序，它们在管理程序控制下，相互穿插运行。</p>
-</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ul>
+<li>多道程序<br>所有现代的计算机都能同时做几件事情，这都是因为多道程序设计技术使得计算机内存中同时存放几道相互独立的程序，它们在管理程序控制下，相互穿插运行。</li>
 </ul>
 <p>早期的CPU都是单道模式，一段时间内只能有一个进程占用CPU，直到这个进程运行结束，退出或者返回，其他正在排队等待执行的进程才能占用CPU进行运算，效率十分低下。为了解决这样的问题，提出了CPU的多道模型。多道实际就是对于CPU的时分复用，CPU划分出非常小的固定长度的时隙片段，同时每个进程也被划分为多个任务片段。CPU先把自己的第一个时隙片段分给进程A使用，一旦这个时隙片段结束，时钟中断到来，进程A无论是否执行完毕，都要主动交出手头的CPU占用权（时钟中断具有强制性）；随后再把下一个CPU时隙片段分给进程B使用，同样的这个时隙片段结束时钟中断到来，进程B也要交出CPU使用权；下一个时隙片段归哪个进程使用是不确定的，谁抢上就是谁的，CPU这样轮询着，直至完成所有进程的运算。这样一来，在某个时间段内，有多个进程都处于启动-&gt;运行完成的过程之内，在我们看来，就是多个进程在并列着运行在CPU上。实际上宏观上并行，微观上仍然是串行运行。</p>
 <ul>
 <li><p>多进程<br>多道程序是伪并行的，人们很难对多个并行的活动进行跟踪。为此发展出了进程模型，使得并行更容易处理。</p>
 </li>
-<li><p>多线程</p>
+<li><p>多线程<br>典型的Unix进程可以看成单线程：一个进程在某一时刻只能做一件事。有了多线程之后。。</p>
+<ul>
+<li>通过为每种事件类型分配单独的处理线程，可以简化处理异步事件的代码</li>
+<li>多个进程必须使用操作系统提供的复杂机制才能实现内存和文件描述符的共享，而多个线程自动地可以访问</li>
+<li>有些问题可以分解从而提高整个程序的吞吐量<br>交互的程序同样可以通过使用多线程来改善响应时间</li>
+</ul>
 </li>
 </ul>
 <p>网络上也有人说多道程序对应单CPU，多进程对应多CPU，多线程对应多核CPU。这个说法是不准确的。</p>
@@ -140,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/OS_process/" data-id="cjljcxhpk000c1guzx4ll3nh1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/OS_process/" data-id="cjtv5ghza000qm0uzkx5i1eod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -185,7 +205,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -198,23 +218,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -229,7 +249,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-CPPGram_return" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Web" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/09/16/CPPGram_return/" class="article-date">
-  <time datetime="2018-09-16T01:20:10.795Z" itemprop="datePublished">2018-09-16</time>
+    <a href="/2018/09/16/Web/" class="article-date">
+  <time datetime="2018-09-16T11:55:35.168Z" itemprop="datePublished">2018-09-16</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/CPPGram_return/">C++常见问题之return</a>
+      <a class="article-title" href="/2018/09/16/Web/">Web开发之ajax原理</a>
     </h1>
   
 
@@ -84,22 +84,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><h4 id="如何在main-函数之前执行操作"><a href="#如何在main-函数之前执行操作" class="headerlink" title="如何在main()函数之前执行操作"></a>如何在main()函数之前执行操作</h4><p>main函数执行之前，主要就是初始化系统相关资源：<br>设置栈指针<br>初始化static静态和global全局变量，即data段的内容<br>将未初始化部分的全局变量赋初值：数值型short，int，long等为0，bool为FALSE，指针为NULL，等等，即.bss段的内容<br>全局对象初始化，在main之前调用构造函数<br>将main函数的参数，argc，argv等传递给main函数，然后才真正运行main函数</p>
-<h4 id="如何在main-函数之后执行操作"><a href="#如何在main-函数之后执行操作" class="headerlink" title="如何在main()函数之后执行操作"></a>如何在main()函数之后执行操作</h4><p>main函数执行之后：<br>全局对象的析构函数会在main函数之后执行；<br>可以用_onexit 注册一个函数，它会在main 之后执行; </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int atexit(void (*function&quot;)(void));</span><br><span class="line">void fn1( void ), fn2( void ), fn3( void );</span><br><span class="line"></span><br><span class="line">int main( void )&#123;</span><br><span class="line">    onexit( fn1 );</span><br><span class="line">    onexit( fn2 );</span><br><span class="line">    printf( &quot;This is executed first.&quot; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void fn1()&#123;</span><br><span class="line">    printf( &quot; This is&quot; );</span><br><span class="line">&#125;</span><br><span class="line">void fn2()&#123;</span><br><span class="line">    printf( &quot; executed next.&quot; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br>This is executed first.<br>This is executed next. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line"></span><br><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">	A()</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;A()\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	~A()</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;~A()\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A a;</span><br><span class="line"></span><br><span class="line">bool b = false;</span><br><span class="line">int foo()</span><br><span class="line">&#123;</span><br><span class="line">	if (!b)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;init now!\n&quot;);</span><br><span class="line">		b = true;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;uninit now\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">typedef int (__cdecl *_PVFV)();</span><br><span class="line">#pragma section(&quot;.CRT$XIU&quot;, long, read)</span><br><span class="line">#pragma section(&quot;.CRT$XPU&quot;, long, read)</span><br><span class="line">__declspec(allocate(&quot;.CRT$XIU&quot;)) _PVFV mgt_startup[] = &#123; foo &#125;;</span><br><span class="line">__declspec(allocate(&quot;.CRT$XPU&quot;)) _PVFV mgt_exit[] = &#123; foo &#125;;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;main.!\n&quot;);</span><br><span class="line">	//exit(1);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到 init  A() main() ~A() uninit 这样的顺序</p>
-<h3 id="return"><a href="#return" class="headerlink" title="return;"></a>return;</h3><p>return：C语言九大控制流程语句之一<br>格式：return; return value;<br>第一种用法用于空（void）函数中，用于强制结束函数，但什么也不返回。相当return void;<br>第二种用法用于带返回值的函数中，用于强制结束函数，返回value。value的类型必须和函数的返回值类型一致 </p>
-<p>• 若控制流抵达返回 void （可有 cv 限定）的函数结尾、构造函数结尾、析构函数结尾，或对于返回 void （可有 cv 限定）的函数的函数 try 块结尾，则执行 return; 。<br>• 若控制流抵达 main 函数的结尾，则执行 return 0; 。<br>• 流经有返回值的函数（除了 main ）的函数尾而不经过 return 语句是未定义行为。<br>• 若函数返回 void ，则可以用带 表达式 的 return 语句，若表达式类型为 void</p>
-<p>就是回到调用函数处，call的下一跳指令<br>返回到调用该函数的地址继续往下执行，也就是让EIP的值指向调用这个函数的下一条指令 </p>
-<h3 id="return-0-和return-1"><a href="#return-0-和return-1" class="headerlink" title="return 0;和return -1"></a>return 0;和return -1</h3><p>return 0：一般用在主函数结束时，按照程序开发的一般惯例，表示成功完成本函数。<br>return -1：:表示返回一个代数值，一般用在子函数结尾。按照程序开发的一般惯例，表示该函数失败；<br>以上两个是约定俗成，系统提供的函数绝大部分定义为int类型返回值的都是这样的。返回值是返回给系统用的，给系统看得。一般做调试的时候也会用的，当出现错误的时候可以根据返回值来确定问题出在哪一个函数上的</p>
-<h3 id="break和return"><a href="#break和return" class="headerlink" title="break和return"></a>break和return</h3><p>break是用来跳出循环的，例如for，while，do-while都可以跳出，但不跳出函数<br>return是使整个函数返回的，后面的不管是循环里面还是循环外面的都不执行</p>
+        <p>ajax并非一种新的技术，而是几种原有技术的结合体。它由下列技术组合而成。</p>
+<ol>
+<li>使用CSS和XHTML来表示。</li>
+<li>使用DOM模型来交互和动态显示。</li>
+<li>使用XMLHttpRequest来和服务器进行异步通信。</li>
+<li>使用javascript来绑定和调用。</li>
+</ol>
+<h3 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h3><p>XMLHttpRequest 是一个 API，它为客户端提供了在客户端和服务器之间传输数据的功能。它提供了一个通过 URL 来获取数据的简单方式，并且不会使整个页面刷新。这使得网页只更新一部分页面而不会打扰到用户。XMLHttpRequest 在 AJAX 中被大量使用</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/CPPGram_return/" data-id="cjm8rmk320007rguz19zdlfmy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/16/Web/" data-id="cjtv5ghzf000vm0uzzkx02z8r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -109,10 +106,10 @@
 
 
   
-    <article id="post-CPP_memory" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OOP_bind" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/09/15/CPP_memory/" class="article-date">
-  <time datetime="2018-09-15T12:07:37.906Z" itemprop="datePublished">2018-09-15</time>
+    <a href="/2018/09/16/OOP_bind/" class="article-date">
+  <time datetime="2018-09-16T08:16:26.136Z" itemprop="datePublished">2018-09-16</time>
 </a>
     
   </div>
@@ -123,7 +120,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/15/CPP_memory/">C常见问题之内存布局</a>
+      <a class="article-title" href="/2018/09/16/OOP_bind/">C++常见问题之绑定</a>
     </h1>
   
 
@@ -131,22 +128,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="堆区和栈区"><a href="#堆区和栈区" class="headerlink" title="堆区和栈区"></a>堆区和栈区</h3><p>栈使用的是一级缓存， 他们通常都是被调用时处于存储空间中，调用完毕立即释放；</p>
-<p>堆是存放在二级缓存中，生命周期由虚拟机的垃圾回收算法来决定（并不是一旦成为孤儿对象就能被回收）。所以调用这些对象的速度要相对来得低一些</p>
-<p>堆区就是各种慢，申请内存慢，访问慢，修改慢，释放慢，整理慢（或者说GC垃圾回收），但优点也不言而喻，访问随机灵活，空间超大，在不超可用内存的情况下你要多大就给多大。</p>
-<p>栈区就像临时工，干完就跑，所以超快，但是缺点也很多，比如生命周期短，一般只能在一个方法内存活，又比如你需要事先知道需要多大的栈（事实上绝大多数语言栈区要分配的大小编译期就确定了，Java就是这样），而且通常最大栈区可用内存都很小，你不可能往栈区里堆很多数据</p>
-<p>栈区的好处还包括是每次方法调用的入栈和出栈，都意味着栈桢的创建和销亡，省去了资源回收的操作</p>
-<p>栈区是线程独享的。<br>堆区是线程共享的。</p>
-<p>总结：<br>1、管理方式不同；<br>    2、空间大小不同；<br>    3、能否产生碎片不同；<br>    4、生长方向不同；<br>    5、分配方式不同；<br>    6、分配效率不同；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">char s1[] = &quot;aaaaaaaaaaaaaaa&quot;;  </span><br><span class="line">char *s2 = &quot;bbbbbbbbbbbbbbbbb&quot;;  </span><br><span class="line">aaaaaaaaaaa是在运行时刻赋值的；  </span><br><span class="line">而bbbbbbbbbbb是在编译时就确定的；  </span><br><span class="line">但是，在以后的存取中，在栈上的数组比指针所指向的字符串(例如堆)快。  </span><br><span class="line">比如：  </span><br><span class="line">#include  </span><br><span class="line">void main()  </span><br><span class="line">&#123;  </span><br><span class="line">char a = 1;  </span><br><span class="line">char c[] = &quot;1234567890&quot;;  </span><br><span class="line">char *p =&quot;1234567890&quot;;  </span><br><span class="line">a = c[1];  </span><br><span class="line">a = p[1];  </span><br><span class="line">return;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对应的汇编代码<br>10: a = c[1];<br>00401067 8A 4D F1 mov cl,byte ptr [ebp-0Fh]<br>0040106A 88 4D FC mov byte ptr [ebp-4],cl<br>11: a = p[1];<br>0040106D 8B 55 EC mov edx,dword ptr [ebp-14h]<br>00401070 8A 42 01 mov al,byte ptr [edx+1]<br>00401073 88 45 FC mov byte ptr [ebp-4],al  </p>
-<p>第一种在读取时直接就把字符串中的元素读到寄存器cl中，而第二种则要先把指针值读到<br>edx中，再根据edx读取字符，显然慢了</p>
-<h3 id="常量存储区"><a href="#常量存储区" class="headerlink" title="常量存储区"></a>常量存储区</h3><p>这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改</p>
+        <p>绑定：一个方法的调用与方法所在的类关联起来。java中的绑定分为静态绑定和动态绑定，又被称作前期绑定和后期绑定</p>
+<p>静态绑定：（final、static、private）在程序执行前已经被绑定，也就是说在编译过程中就已经知道这个方法是哪个类的方法，此时由编译器获取其他连接程序实现。</p>
+<p>静态绑定：编译时绑定， 通过对象调用 </p>
+<p>动态绑定：在运行根据具体对象的类型进行绑定</p>
+<p>动态绑定：运行时绑定，通过地址实现 </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/15/CPP_memory/" data-id="cjm8rmk340009rguzbczvozvh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/16/OOP_bind/" data-id="cjtv5ghyo000hm0uz3kcxt9ib" class="article-share-link">Share</a>
       
       
     </footer>
@@ -156,10 +147,10 @@
 
 
   
-    <article id="post-CPPGram_memcpy" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-NET_address" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/09/15/CPPGram_memcpy/" class="article-date">
-  <time datetime="2018-09-15T01:31:13.793Z" itemprop="datePublished">2018-09-15</time>
+    <a href="/2018/09/16/NET_address/" class="article-date">
+  <time datetime="2018-09-16T07:52:24.271Z" itemprop="datePublished">2018-09-16</time>
 </a>
     
   </div>
@@ -170,7 +161,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/15/CPPGram_memcpy/">C++常见问题之memcpy</a>
+      <a class="article-title" href="/2018/09/16/NET_address/">计算机网络复习之地址</a>
     </h1>
   
 
@@ -178,32 +169,60 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>memcpy这个函数在C/C++编程领域中使用率是比较高的（可能排在前10左右）</p>
-<h3 id="memcpy的实现"><a href="#memcpy的实现" class="headerlink" title="memcpy的实现"></a>memcpy的实现</h3><p>首先确定函数原型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void *memcpy(void *dest, const void *src, size_t count);</span><br></pre></td></tr></table></figure></p>
-<p>源地址和目标地址的指针都是void *型的，也就是可以传入任何类型的指针，因为这里要执行的操作和指针类型没有任何关系，只需要知道起点和大小。</p>
-<p>开始复制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">void *memcpy(void *dest, const void *src, size_t count)&#123;</span><br><span class="line">if (NULL == dest || NULL == src || count &lt;= 0)</span><br><span class="line">    return NULL;</span><br><span class="line">void* ptr=dest;</span><br><span class="line">while (count--)</span><br><span class="line">    *dest++ = *src++;</span><br><span class="line">return ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面这段代码在Linux中使用gcc编译是没错的,但是会有警告，因为C里要访问内存必须指定一个具体的类型，告诉编译器要访问多大的空间，对指向空的指针void*进行解引用是非法的。</p>
-<p>按照ANSI(American National Standards Institute)标准，也不能对void指针进行算法操作，即不能对void指针进行如p++的操作,所以需要转换为具体的类型指针来操作,例如char *</p>
-<p>所以我们可以采取的是逐字节复制的方法，使用char <em>来访问，另外用char </em>比较简便，使用int *来访问的话，你无法保证要复制的大小是偶数，这样还得加个判断</p>
-<p>同时，size_t是无符号类型的,size_t的定义为：typedef unsigned int size_t;<br>所以count&lt;=0,只会判断==0的情况。如果你传入-1,会产生一个很大的无符号整型，是可以通过判断的</p>
-<p>现在修改代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void* memcpy(void *dest, const void* src, size_t count)&#123;</span><br><span class="line">	int size=count;</span><br><span class="line">    if(dest == NULL || src == NULL || size &lt;= 0)</span><br><span class="line">		return dest;</span><br><span class="line">	char* dest_pos = (char *)dest;</span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line">	while(size--)</span><br><span class="line">		*dest_pos++ = *src_pos++;</span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果嫌弃一个一个字节地复制太慢，可以采用下面的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void * memcpy(void *dest,const void *src,size_t num)&#123;</span><br><span class="line">	int nchunks = num/sizeof(dest);   /*按CPU位宽拷贝*/</span><br><span class="line">	int slice = num%sizeof(dest);   /*剩余的按字节拷贝*/</span><br><span class="line"></span><br><span class="line">	unsigned long * s = (unsigned long *)src;</span><br><span class="line">	unsigned long * d = (unsigned long *)dest;</span><br><span class="line"></span><br><span class="line">	while(nchunks--)</span><br><span class="line">	    *d++ = *s++;</span><br><span class="line">	while (slice--)</span><br><span class="line">	    *((char *)d++) =*((char *)s++);</span><br><span class="line"></span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="memmove的实现"><a href="#memmove的实现" class="headerlink" title="memmove的实现"></a>memmove的实现</h3><p>内存重叠问题是指目的地址的内存空间的首地址，包含在源内存空间中，这两段内存空间有了交集，因而在使用memcpy进行内存复制操作时，这段重叠的内存空间会被破坏。<br>现在要考虑内存重叠的情况，我们要兼容向前拷贝和向后拷贝、不同BUF拷贝的情况，也近似C函数库的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">void* memmove(void *dest, const void* src, size_t count)&#123;</span><br><span class="line">	int size=count;</span><br><span class="line">	if(dest == NULL || src == NULL || size &lt;= 0)</span><br><span class="line">		return dest;</span><br><span class="line">	char* dest_pos = (char *)dest;</span><br><span class="line">	char* src_pos = (char *)src;</span><br><span class="line"></span><br><span class="line">	if(dest_pos &lt; src_pos + size &amp;&amp; dest &gt; src)&#123; // DOWN COPY，从后向前拷贝</span><br><span class="line">		dest_pos = dest_pos + size - 1;</span><br><span class="line">		src_pos = src_pos + size - 1;</span><br><span class="line">		while(size--)</span><br><span class="line">			*(dest_pos--) = *(src_pos--);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	else &#123; // UP COPY，从前向后拷贝</span><br><span class="line">		while(size--)</span><br><span class="line">			*(dest_pos++) = *(src_pos++);</span><br><span class="line">	&#125;</span><br><span class="line">	return dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h3><ol>
-<li>如果复制的字节数n超出了dest的空间容量，或者n超出src的容量，这个函数是不会进行判断的，这样就会很危险。需要程序员自己检查是否有溢出的情况出现。</li>
-<li>这个函数不会检查参数dest与参数src所指向的数组（或其他类型）是否具有同样的空间。</li>
-<li>memcpy, memset等函数都是对内存操作的函数，效率很高，当然也很容易出现问题；如果出现src -&gt; dest的大小出现问题，src地址大于dest地址，就会存在dest无法存取完整数据，造成src数据丢下。memcpy本身是有bug的，并没有解决覆盖问题，可以选用memmove代替。</li>
-</ol>
-<p>注意：memmove这个函数名称中有”move”这个单词,而实际上src处的数据仍然还在,并没有真的被”移动”了!这个函数名称有它的历史原因,是因为有了memcpy函数后,发现这个函数有问题,又发明了另一个没有问题的memcpy函数,但为了兼容性依然保留了memcpy函数,而将新版本的memcpy函数改名为memmove函数.</p>
-<ol start="4">
-<li>在C++中，我们把传统C风格的数据类型叫做POD（Plain Old Data）对象，即一种古老的纯数据。在C的世界里根本没有POD这一概念，因为C的所有对象都是POD。一般来说，POD对象应该满足如下特性：其二进制内容是可以随意复制的，无论在什么地方，只要其二进制内容存在，我们就能准确无误地还原出POD对象。正是由于这个原因，对于任何POD对象，我们都可以放心大胆地使用memset()、memcpy()、memcmp()等函数对对象的内存数据进行操作。然而在C++中，每个人都要十二分的注意了。因为C++的对象可能并不是一个POD，所以我们无法像在C中那样获得该对象直观简洁的内存模型。对于POD对象，我们可以通过对象的基地址和数据成员的偏移量获得数据成员的地址。但是C++标准并未对非POD对象的内存布局做任何定义，对于不同的编译器，其对象布局是不同的。而在C语言中，对象布局仅仅会受到底层硬件系统差异的影响。针对非POD对象，其序列化会遇到一定的障碍：由于对象的不同部分可能存在于不同的地方，因而无法直接复制，只能通过手工加入序列化操作代码来处理对象数据，很麻烦。但是针对POD对象，这一切将变得不再困难：从基地址开始，直接按对象的大小复制数据，或传输，或存储，随意处理。</li>
-</ol>
+        <h3 id="IP地址和MAC地址的区别"><a href="#IP地址和MAC地址的区别" class="headerlink" title="IP地址和MAC地址的区别"></a>IP地址和MAC地址的区别</h3><p>1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。</p>
+<p>　　2. 长度不同。IP地址为32位，MAC地址为48位。</p>
+<p>　　3. 分配依据不同。IP地址的分配是基于网络拓朴，MAC地址的分配是基于制造商。</p>
+<p>　　4. 寻址协议层不同。IP地址应用于OSI第三层，即网络层，而MAC地址应用在OSI第二层，即数据链路层。 数据链路层协议可以使数据从一个节点传递到相同链路的另一个节点上（通过MAC地址），而网络层协议使数据可以从一个网络传递到另一个网络上（ARP根据目的IP地址，找到中间节点的MAC地址，通过中间节点传送，从而最终到达目的网络）。</p>
+<p>IP地址基于逻辑，比较灵活，不受硬件限制，也容易记忆。MAC地址在一定程度上与硬件一致，基于物理，能够标识具体。这两种地址各有好处，使用时也因条件而采取不同的地址</p>
+<h3 id="IP地址与MAC地址在互连网中的作用"><a href="#IP地址与MAC地址在互连网中的作用" class="headerlink" title="IP地址与MAC地址在互连网中的作用"></a>IP地址与MAC地址在互连网中的作用</h3><p>既然每个以太网设备在出厂时都有一个唯一的MAC地址了，那为什么还需要为每台主机再分配一个IP地址呢？或者说为什么每台主机都分配唯一的IP地址了，为什么还要在网络设备（如网卡，集线器，路由器等）生产时内嵌一个唯一的MAC地址呢？主要原因有以下几点：（1）IP地址的分配是根据网络的拓朴结构，而不是根据谁制造了网络设置。若将高效的路由选择方案建立在设备制造商的基础上而不是网络所处的拓朴位置基础上，这种方案是不可行的。（2）当存在一个附加层的地址寻址时，设备更易于移动和维修。例如，如果一个以太网卡坏了，可以被更换，而无须取得一个新的IP地址。如果一个IP主机从一个网络移到另一个网络，可以给它一个新的IP地址，而无须换一个新的网卡。（3）无论是局域网，还是广域网中的计算机之间的通信，最终都表现为将数据包从某种形式的链路上的初始节点出发，从一个节点传递到另一个节点，最终传送到目的节点。数据包在这些节点之间的移动都是由ARP（Address Resolution Protocol：地址解析协议）负责将IP地址映射到MAC地址上来完成的。</p>
+<p>这是由组网方式决定的，如今比较流行的接入Internet的方式（也是未来发展的方向）是把主机通过局域网组织在一起，然后再通过交换机和 Internet相连接。这样一来就出现了如何区分具体用户，防止盗用的问题。由于IP只是逻辑上标识，任何人都随意修改，因此不能用来标识用户；而 MAC地址则不然，它是固化在网卡里面的。从理论上讲，除非盗来硬件（网卡），否则是没有办法冒名顶替的（注意：其实也可以盗用，后面将介绍）。<br>基于MAC地址的这种特点，局域网采用了用MAC地址来标识具体用户的方法。注意：具体实现：在交换机内部通过“表”的方式把MAC地址和IP地址一一对应，也就是所说的IP、MAC绑定。<br>具体的通信方式：接收过程，当有发给本地局域网内一台主机的数据包时，交换机接收下来，然后把数据包中的IP地址按照“表”中的对应关系映射成MAC地址，转发到对应的MAC地址的主机上，这样一来，即使某台主机盗用了这个IP地址，但由于他没有这个MAC地址，因此也不会收到数据包。发送过程和接收过程类似，限于篇幅不叙述。<br>综上可知，只有IP而没有对应的MAC地址在这种局域网内是不能上网的，于是解决了IP盗用问题</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/15/CPPGram_memcpy/" data-id="cjm8rmk310005rguzakw2h7bn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/16/NET_address/" data-id="cjtv5ghye0008m0uzwo7423u7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shell之Linux命令运行的基本过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/16/Shell之Linux命令运行的基本过程/" class="article-date">
+  <time datetime="2018-09-16T05:43:29.232Z" itemprop="datePublished">2018-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/16/Shell之Linux命令运行的基本过程/">Shell之Linux命令运行的基本过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>shell不断询问是否有键盘输入，用户以enter结束键盘输入后，shell程序以空格为分隔符，得到”ls”，”-l”，”*.c”，三个字符串</p>
+<p>shell发现第三个字符串包含”*”通配符，就会在当前路径(或指定路径)下搜索满足这个通配符的文件。有bar.c和foo.c两个文件，然后展开成{“ls”，”-l”，”bar.c”，”foo.c”}四个字符串，并保存在argv这个二维字符数组中，并赋值argc为4</p>
+<p>shell然后搜索PATH这个全局变量保存的路径，寻找一个叫”ls”的命令。如果存在，则fork()一个子进程，调用exec()加载运行ls命令。ls的main(int argc, string ** argv)函数的参数就是从shell那里得来的。若不存在就会提示用户”command not found”</p>
+<p>ls程序执行后，会分析argc和argv，”-l”表示这是一个选项开关，表明用户想得到文件的详细信息，并把这个开关量保存，以便最后输出的时候选择信息的格式</p>
+<p>ls执行完既定的步骤后，退出并返回退出码，若成功则返回0，否则根据错误的不同返回不同的非零数字</p>
+<p>shell在得到成功退出码后，继续等待用户输入</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/16/Shell之Linux命令运行的基本过程/" data-id="cjtv5ghze000um0uz2gepstvk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/learnDB7/" data-id="cjm8rmk3u000trguz3vqa0i6s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/learnDB7/" data-id="cjtv5ghzs0017m0uzhmj8cgit" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,50 +319,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/SQL/" data-id="cjm8rmk3s000qrguzhsa381it" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CPPGram_new" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/13/CPPGram_new/" class="article-date">
-  <time datetime="2018-09-13T12:37:58.919Z" itemprop="datePublished">2018-09-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/CPPGram_new/">C++常见问题之new和delete</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在前面的博客提到过new和malloc的比较。如果继续深入下去还有一些有意思的事情。</p>
-<h3 id="new的实现机制"><a href="#new的实现机制" class="headerlink" title="new的实现机制"></a>new的实现机制</h3><p>new 会先调用operator new函数，申请足够的内存（通常底层使用malloc实现）。然后调用类型的构造函数，初始化成员变量，最后返回自定义类型指针。delete 先调用析构函数，然后调用operator delete 函数释放内存（通常底层使用free实现）<br>因此，new可以认为是malloc+构造函数</p>
-<h3 id="new一个数组"><a href="#new一个数组" class="headerlink" title="new一个数组"></a>new一个数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void *_p =malloc(sizeof(Super))</span><br><span class="line">((Super*)_p)-&gt;Super();</span><br><span class="line">sp1 =(Super*)_p;</span><br></pre></td></tr></table></figure>
-<p>operator new []和operator new是有差别的，operator new []会使用malloc函数一次性申请好此次操作+4个字节大小的内存空间，然后依据本次申请的对象数，循环调用数组内各个对象的构造函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">count =15;</span><br><span class="line">size =sizeof(Super)</span><br><span class="line">void * _p =malloc(Count*Size+4)</span><br><span class="line">void * tp =(void *)(((char*)p)+4)</span><br><span class="line">for I in 0..15:</span><br><span class="line">    tp=(void*)(((char*)tp)+Size*I)</span><br><span class="line">    ((Super*)tp)-&gt;Super();</span><br><span class="line">*(int*)_p=Count</span><br><span class="line">Sp =(Super*)((int*)_p+1);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">count =*(((int*)sp)-1)</span><br><span class="line">for I in 0..count:</span><br><span class="line">    (Sp+i)-&gt;~Super()</span><br><span class="line">free(void*(((int*)sp)-1))</span><br></pre></td></tr></table></figure>
-<p>delete []的工作原理是先把参数向后偏移4个字节，得到后续元素个数，然后在一个循环中依次调用各元素的析构函数，最后再调用free()函数，其中传递给free的是偏移之后的地址。<br>delete 的工作原理很简单，调用参数的析构函数，然后在把这个地址无需偏移传递给free.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(sp1)-&gt;~Super()</span><br><span class="line">free(sp1)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/CPPGram_new/" data-id="cjm8rmk300004rguzy2967ha7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/SQL/" data-id="cjtv5ghzd000tm0uzfpm9ujoi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -381,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/12/组成原理_ROM/" data-id="cjm8rmk3z0010rguz8xtfyueq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/12/组成原理_ROM/" data-id="cjtv5gi08001hm0uzkno992n2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -435,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/12/OOP/" data-id="cjm8rmk3n000lrguzbcocnmvv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/12/OOP/" data-id="cjtv5ghym000fm0uza4v4iqg3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -523,7 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/12/learnDB_index/" data-id="cjm8rmk3v000urguztnf6bfqs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/12/learnDB_index/" data-id="cjtv5ghzu0018m0uzfik74kfh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -533,10 +509,10 @@
 
 
   
-    <article id="post-CPPGram_var" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-NET_HTTP" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/09/12/CPPGram_var/" class="article-date">
-  <time datetime="2018-09-12T01:43:50.123Z" itemprop="datePublished">2018-09-12</time>
+    <a href="/2018/09/10/NET_HTTP/" class="article-date">
+  <time datetime="2018-09-10T01:28:20.888Z" itemprop="datePublished">2018-09-10</time>
 </a>
     
   </div>
@@ -547,7 +523,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/12/CPPGram_var/">C++常见问题之全局/局部/静态变量</a>
+      <a class="article-title" href="/2018/09/10/NET_HTTP/">计算机网络复习之HTTP</a>
     </h1>
   
 
@@ -555,21 +531,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="全局变量和静态全局变量"><a href="#全局变量和静态全局变量" class="headerlink" title="全局变量和静态全局变量"></a>全局变量和静态全局变量</h4><p>全局变量(外部变量)的说明之前再冠以static 就构成了静态的全局变量。全局变量本身就是静态存储方式， 静态全局变量当然也是静态存储方式。 这两者在存储方式上并无不同。这两者的区别在于全局变量的作用域是整个源程序， 当一个源程序由多个源文件组成时，全局变量在各个源文件中都是有效的。而静态全局变量则限制了其作用域， 即只在定义该变量的源文件内有效，在同一源程序的其它源文件中不能使用它。由于静态全局变量的作用域局限于一个源文件内，只能为该源文件内的函数公用，因此可以避免在其它源文件中引起错误</p>
-<p>静态全局变量只初使化一次，防止在其他文件单元中被引用; 　　</p>
-<p>静态局部变量只被初始化一次，下一次依据上一次结果值； 　　</p>
-<p>静态函数与普通函数有什么区别：<br>静态函数在内存中只有一份，普通函数在每个被调用中维持一份拷贝</p>
-<p>静态函数与普通函数作用域不同，仅在本文件。只在当前源文件中使用的函数应该说明为内部函数(static)，内部函数应该在当前源文件中说明和定义。对于可在当前源文件以外使用的函数，应该在一个头文件中说明，要使用这些函数的源文件要包含这个头文件 </p>
-<h4 id="全局变量和静态局部变量"><a href="#全局变量和静态局部变量" class="headerlink" title="全局变量和静态局部变量"></a>全局变量和静态局部变量</h4><p>(1)静态局部变量在函数内定义，但不象自动变量那样，当调用时就存在，退出函数时就消失。静态局部变量始终存在着，也就是说它的生存期为整个源程序。 　　<br>(2)静态局部变量的生存期虽然为整个源程序，但是其作用域仍与自动变量相同，即只能在定义该变量的函数内使用该变量。退出该函数后， 尽管该变量还继续存在，但不能使用它。</p>
-<p>全局变量和静态局部变量除了可见区域不同还有什么不同？<br>好像没什么区别了</p>
-<p>当多次调用一个函数且要求在调用之间保留某些变量的值时，可考虑采用静态局部变量。虽然用全局变量也可以达到上述目的，但全局变量有时会造成意外的副作用（尤其是短名全局变量的变量名污染很严重），因此仍以采用局部静态变量为宜</p>
-<h3 id="相互联系"><a href="#相互联系" class="headerlink" title="相互联系"></a>相互联系</h3><p>若全局变量仅在单个文件中访问，则可以讲这个变量修改为静态全局变量。<br>若全局变量仅在单个函数中使用，则可以将这个变量修改为该函数的静态局部变量。</p>
-<h3 id="自动变量"><a href="#自动变量" class="headerlink" title="自动变量"></a>自动变量</h3><p>对基本类型的全局变量、静态全局变量和静态局部变量若在说明时未赋以初值，则系统自动赋予0值。而对自动变量不赋初值，则其值是不定的</p>
-
+        <h3 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h3><p>真的神烦这类只会在面试中较真的问题了</p>
+<p>数据发送的位置不同：可以用GET提交表单数据，数据作为URL的一部分向服务器发送特定浏览器对URL长度有限制；POST将表单数据放在HTTP包的body部分不限数据量，但实际中服务器会对大小限制</p>
+<p>GET从环境变量取值，POST从标准输入流读取；</p>
+<p>1、GET只用于获取信息，不修改信息不会影响资源状态，不产生副作用，GET在浏览器回退时是无害的，而POST会再次提交请求。<br>2、GET产生的URL地址可以被Bookmark，而POST不可以。<br>3、GET请求会被浏览器主动cache，而POST不会，除非手动设置。<br>4、GET请求的参数会完整的被保存在历史记录里，POST不会。<br>6、GET请求只能进行url编码，POST请求支持多种编码方式。<br>7、对于参数类型，GET只接受ASCII字符，而POST没有限制。<br>8、GET请求在URL中传递的参数是有长度限制的，而POST没有。<br>9、GET比POST更不安全，因为参数直接暴露在URL中，所以不能传递敏感信息。POST安全性好于GET</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /hello/index.html HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Host: localhost:8000</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Cookie: JSESSIONID=BBBA54D519F7A320A54211F0107F5EA6</span><br></pre></td></tr></table></figure>
+<p>GET产生一个TCP数据包；POST产生两个TCP数据包</p>
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。<br>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。<br>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑！跳入需谨慎。为什么？<br>GET与POST都有自己的语义，不能随便混用。<br>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。<br>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次</p>
+<h3 id="cookie和session的区别"><a href="#cookie和session的区别" class="headerlink" title="cookie和session的区别"></a>cookie和session的区别</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/12/CPPGram_var/" data-id="cjm8rmk36000arguz37hde5o2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/10/NET_HTTP/" data-id="cjtv5ghyd0007m0uz0a1khe64" class="article-share-link">Share</a>
       
       
     </footer>
@@ -583,7 +556,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -602,7 +575,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -615,23 +588,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -646,7 +619,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

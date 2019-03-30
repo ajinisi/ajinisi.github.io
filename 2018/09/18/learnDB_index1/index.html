@@ -7,17 +7,17 @@
   
   <title>数据库的学习之索引（二） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大非聚集索引:不影响表中的数据">
+  <meta name="description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大 非聚集索引:不影响表中的数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库的学习之索引（二）">
 <meta property="og:url" content="http://yoursite.com/2018/09/18/learnDB_index1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大非聚集索引:不影响表中的数据">
+<meta property="og:description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大 非聚集索引:不影响表中的数">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-18T14:46:28.326Z">
+<meta property="og:updated_time" content="2018-12-22T13:55:30.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库的学习之索引（二）">
-<meta name="twitter:description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大非聚集索引:不影响表中的数据">
+<meta name="twitter:description" content="按照存储方式分类聚集索引/聚簇索引 clustered index 二级索引/辅助索引/非聚集索引 secondary indexes  除聚集索引之外的索引 聚集索引和非聚集索引的区别 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续  聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大 非聚集索引:不影响表中的数">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -92,20 +92,24 @@
 <h4 id="聚集索引和非聚集索引的区别"><a href="#聚集索引和非聚集索引的区别" class="headerlink" title="聚集索引和非聚集索引的区别"></a>聚集索引和非聚集索引的区别</h4><ul>
 <li>聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续</li>
 </ul>
-<p>聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大<br>非聚集索引:不影响表中的数据存储顺序,检索效率比聚集索引低,对数据新增/修改/删除的影响很少</p>
+<p>聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大</p>
+<p>非聚集索引:不影响表中的数据存储顺序,检索效率比聚集索引低,对数据新增/修改/删除的影响很少</p>
 <ul>
-<li>每个表只能有一个聚集索引，因为目录只能按照一种方法进行排序。聚集索引插入数据时速度要慢（时间花费在“物理存储的排序”上，也就是首先要找到位置然后插入）查询数据比非聚集数据的速度快，而非聚集索引一个表可以存在多个</li>
+<li>每个表只能有一个聚集索引，因为一个表的物理顺序只有一种情况，所以，对应的聚集索引只能有一个。（因为目录只能按照一种方法进行排序）。而非聚集索引一个表可以存在多个</li>
 </ul>
-<h4 id="聚集索引的使用"><a href="#聚集索引的使用" class="headerlink" title="聚集索引的使用"></a>聚集索引的使用</h4><p>如果表上定义有主键，该主键索引就是聚簇索引。<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引</p>
+<ul>
+<li>聚集索引插入数据时速度要慢（时间花费在“物理存储的排序”上，也就是首先要找到位置然后插入）；但查询数据比非聚集数据的速度快，</li>
+</ul>
+<h4 id="聚集索引的使用"><a href="#聚集索引的使用" class="headerlink" title="聚集索引的使用"></a>聚集索引的使用</h4><p>对于MySQL，如果表上定义有主键，该主键索引就是聚簇索引。但对于SQL Server来说，这只是默认情况，在建立主键的时候完全可以声明为CLUETERED(聚集)或NONCLUETERED(非聚集)！也就是说主键也可以声明为非聚集索引<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引</p>
 <p>但是我们不应该把主键作为聚集索引，这是对聚集索引的一种浪费。虽然SQL SERVER默认是在主键上建立聚集索引的。</p>
 <p>　　通常，我们会在每个表中都建立一个ID列，以区分每条数据，并且这个ID列是自动增大的，步长一般为1。我们的这个办公自动化的实例中的列 Gid就是如此。此时，如果我们将这个列设为主键，SQL SERVER会将此列默认为聚集索引。这样做有好处，就是可以让您的数据在数据库中按照ID进行物理排序，但笔者认为这样做意义不大。</p>
 <p>　　显而易见，聚集索引的优势是很明显的，而每个表中只能有一个聚集索引的规则，这使得聚集索引变得更加珍贵。</p>
-<p>　　从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。在实际应用中， 因为ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪 费。其次，让每个ID号都不同的字段作为聚集索引也不符合大数目的不同值情况下不应建立聚合索引规则；当然，这种情况只是针对用户经常修改记录内容，特别 是索引项的时候会负作用，但对于查询速度并没有影响。</p>
+<p>　　从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。在实际应用中， 因为ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪费。其次，让每个ID号都不同的字段作为聚集索引也不符合大数目的不同值情况下不应建立聚合索引规则；当然，这种情况只是针对用户经常修改记录内容，特别是索引项的时候会负作用，但对于查询速度并没有影响。</p>
 <h3 id="按照维护与管理索引的角度分类"><a href="#按照维护与管理索引的角度分类" class="headerlink" title="按照维护与管理索引的角度分类"></a>按照维护与管理索引的角度分类</h3><p>普通索引：（由关键字KEY或INDEX定义得到索引）：加快数据的查询速度</p>
 <p>最常见的索引类型涉及单个列，在数据结构中存储该列的值的副本，允许快速查找具有相应列值的行。B树数据结构可以让索引快速查找特定值，一组值，或值的范围，对应于</p>
 <p>唯一索引：由关键字UNIQUE把它定义为唯一索引）：保证数据记录的唯一性<br>复合索引/联合索引/多列索引：索引可以覆盖多个数据列，如像INDEX(columnA, columnB)索引，这就是联合索引</p>
 <p>复合索引的建立需要进行仔细分析；尽量考虑用单字段索引代替：<br>正确选择复合索引中的主列字段，一般是选择性较好的字段；<br>复合索引的几个字段是否经常同时以AND方式出现在Where子句中？单字段查询是否极少甚至没有？如果是，则可以建立复合索引；否则考虑单字段索引； </p>
-<p>主键索引：一种特殊的唯一索引，在一张表中只能定义一个主键索引，用来标识唯一一条数据，用PRIMARY KEY创建。</p>
+<p>主键索引：一种特殊的 <strong>唯一</strong> 索引，在一张表中只能定义一个主键索引，用来标识唯一一条数据，用PRIMARY KEY创建。</p>
 <p>全文索引 FULLTEXT：是一种特殊类型的索引，它查找的是文本中的关键词，而不是直接比较索引中的值</p>
 <p>空间数据索引 R-Tree</p>
 <h4 id="主键和唯一索引的区别"><a href="#主键和唯一索引的区别" class="headerlink" title="主键和唯一索引的区别"></a>主键和唯一索引的区别</h4><ol>
@@ -123,7 +127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjm8rmk3x000xrguzdbd38037" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjtv5ghzr0016m0uzwoen1yjv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +172,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -181,23 +185,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -212,7 +216,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

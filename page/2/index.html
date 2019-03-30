@@ -62,6 +62,294 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Redis3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/25/Redis3/" class="article-date">
+  <time datetime="2018-09-25T13:20:12.171Z" itemprop="datePublished">2018-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/25/Redis3/">Redis之应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>Redis提供了两种方式来作消息队列。<br>  一个是使用生产者消费模式模式，<br>  另一个就是发布订阅者模式。 </p>
+<p>前者会让一个或者多个客户端监听消息队列，一旦消息到达，消费者马上消费，谁先抢到算谁的，如果队列里没有消息，则消费者继续监听。<br>后者也是一个或多个客户端订阅消息频道，只要发布者发布消息，所有订阅者都能收到消息，订阅者都是平等的。</p>
+<p>redis 消息推送（基于分布式 pub/sub）多用于实时性较高的消息推送，并不保证可靠。<br>其他的mq和kafka保证可靠但有一些延迟（非实时系统没有保证延迟）。redis-pub/sub断电就清空，而使用redis-list作为消息推送虽然有持久化，但是又太弱智，也并非完全可靠不会丢。</p>
+<p>另外一点，redis 发布订阅除了表示不同的 topic 外，并不支持分组，比如kafka中发布一个东西，多个订阅者可以分组，同一个组里只有一个订阅者会收到该消息，这样可以用作负载均衡</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/25/Redis3/" data-id="cjtv5ghz6000nm0uz6bch19b4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Redis_perform" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/25/Redis_perform/" class="article-date">
+  <time datetime="2018-09-25T08:20:00.071Z" itemprop="datePublished">2018-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/25/Redis_perform/">Redis之简单介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
+<ul>
+<li>纯内存操作：完全基于内存，绝大部分请求是纯粹的内存操作，非常快速。数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)；</li>
+</ul>
+<p><img src="images/Redis2.bmp" alt="内存"></p>
+<ul>
+<li>单线程操作，避免了频繁的上下文切换。采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗；</li>
+</ul>
+<p>这里我们一直在强调的单线程，只是在处理我们的网络请求的时候只有一个线程来处理，一个正式的Redis Server运行的时候肯定是不止一个线程的，这里需要大家明确的注意一下！例如Redis进行持久化的时候会以子进程或者子线程的方式执行</p>
+<ul>
+<li>采用了非阻塞I/O多路复用机制。使用多路I/O复用模型，非阻塞IO；内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间</li>
+</ul>
+<p>此外还有</p>
+<ul>
+<li><p>数据结构简单，对数据操作也简单，Redis中的数据结构是专门进行设计的；</p>
+</li>
+<li><p>使用底层模型不同，它们之间底层实现方式以及与客户端之间通信的应用协议不一样，Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求</p>
+</li>
+</ul>
+<p>以下也是你应该知道的几种模型，祝你的面试一臂之力！<br>1、单进程多线程模型：MySQL、Memcached、Oracle（Windows版本）；<br>2、多进程模型：Oracle（Linux版本）；<br>3、Nginx有两类进程，一类称为Master进程(相当于管理进程)，另一类称为Worker进程（实际工作进程）。启动方式有两种：<br>（1）单进程启动：此时系统中仅有一个进程，该进程既充当Master进程的角色，也充当Worker进程的角色。<br>（2）多进程启动：此时系统有且仅有一个Master进程，至少有一个Worker进程工作。<br>（3）Master进程主要进行一些全局性的初始化工作和管理Worker的工作；事件处理是在Worker中进行的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/25/Redis_perform/" data-id="cjtv5ghzc000sm0uzvltkibzk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Redis_persist" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/24/Redis_persist/" class="article-date">
+  <time datetime="2018-09-24T12:36:01.231Z" itemprop="datePublished">2018-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/24/Redis_persist/">Redis之持久化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般来说， 如果想达到足以媲美 PostgreSQL 的数据安全性， 你应该同时使用两种持久化功能。<br>Redis 还可以同时使用 AOF 持久化和 RDB 持久化。 在这种情况下， 当 Redis 重启时， 它会优先使用 AOF 文件来还原数据集， 因为 AOF 文件保存的数据集通常比 RDB 文件所保存的数据集更完整。</p>
+<p>如果你非常关心你的数据， 但仍然可以承受数分钟以内的数据丢失， 那么你可以只使用 RDB 持久化。</p>
+<p>有很多用户都只使用 AOF 持久化， 但我们并不推荐这种方式： 因为定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快， 除此之外， 使用 RDB 还可以避免之前提到的 AOF 程序的 bug </p>
+<p>你甚至可以关闭持久化功能，让数据只在服务器运行时存在。这在用Redis实现缓存时用到</p>
+<h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p>在默认情况下， Redis 将数据库快照保存在名字为 dump.rdb的二进制文件中。你可以对 Redis 进行设置， 让它在“ N 秒内数据集至少有 M 个改动”这一条件被满足时， 自动保存一次数据集。你也可以通过调用 SAVE或者 BGSAVE ， 手动让 Redis 进行数据集保存操作。<br>比如说， 以下设置会让 Redis 在满足“ 60 秒内有至少有 1000 个键被改动”这一条件时， 自动保存一次数据集:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">save 60 1000</span><br></pre></td></tr></table></figure></p>
+<p>快照功能并不是非常耐久（dura ble）： 如果 Redis 因为某些原因而造成故障停机， 那么服务器将丢失最近写入、且仍未保存到快照中的那些数据。 从 1.1 版本开始， Redis 增加了一种完全耐久的持久化方式： AOF 持久化</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/24/Redis_persist/" data-id="cjtv5ghzb000rm0uzo6gtfrlo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-NET_ssh" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/24/NET_ssh/" class="article-date">
+  <time datetime="2018-09-24T07:43:12.944Z" itemprop="datePublished">2018-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/24/NET_ssh/">计算机网络复习之远程登陆</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/24/NET_ssh/" data-id="cjtv5ghyj000cm0uzg3w722tk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Golang_basic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/23/Golang_basic/" class="article-date">
+  <time datetime="2018-09-23T13:43:26.006Z" itemprop="datePublished">2018-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/23/Golang_basic/">学习Golang之基本类型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数组和切片"><a href="#数组和切片" class="headerlink" title="数组和切片"></a>数组和切片</h3><p>数组的大小是其类型的一部分，而切片可以具有动态大小，因为它们是围绕数组的封装</p>
+<p>类似于数组，切片是可索引的且拥有一个长度。切片 s 的长度可通过内建函数 len获取；不同于数组的是，切片可在执行过程中被改变， 其元素可通过整数（§下标） 0 到 len(s)-1 寻址。 给定元素的切片下标可能小于它在其基本数组中的下标</p>
+<p>切片一旦初始化，就总是伴随着一个包含其元素的基本数组。 因此，切片与其数组及其它本数组的切片共享存储； 与此相反，不同的数组总是表示其不同的存储</p>
+<p>切片的基本数组可扩展其切片的结尾。容量 是该扩展的量度： 它是切片的长度和切片往后数组的长度之和；长度达到其容量的切片可通过从原切片 （§Slices）‘切下’一个新的来创建。 切片 a 的容量可使用内建函数 cap(a) 获取</p>
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><p>Go虽然有指针，但是没有指针算数，不能对其进行加减。但可以把指针值赋给另一个指针，因此Go的指针更像是C++的引用，却又没有C++中引用初始化后不能重新赋值的限制</p>
+<p>指针在Go中是“安全”的，指针无法指向任意的内存区域，缓冲区溢出的问题不会发生。但注意，解引用一个空指针同样能导致Go程序崩溃。</p>
+<p>指针的使用是和内存的分配紧密相关的。C&amp;C++需要手动管理内存，然而Go使用垃圾收集器自动管理内存，这样就减少很多使用指针上的操心。首先我们再也不需要显示释放内存，悬挂指针（dangling pointer，指向已释放的内存）以及多次释放同一个指针指向内存的问题就不会发生。我们甚至不用担心内存是在栈上分配的还是堆上分配的。C++中的各种智能指针std::unique_ptr,std::shared_ptr, std::weak_ptr, std::auto_ptr也用不上了。一切都由Go的运行时系统帮助处理</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/23/Golang_basic/" data-id="cjtv5ghy60001m0uzcbdyu9p8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Golang_routine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/22/Golang_routine/" class="article-date">
+  <time datetime="2018-09-22T01:25:17.623Z" itemprop="datePublished">2018-09-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/22/Golang_routine/">学习Golang之协程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h3><p>go语言倡导使用消息传递来共享内存，引入了goroutine概念，这是一个协程，更轻量级的线程。与channel搭配使用</p>
+<ul>
+<li>基于Thread的轻量级协程</li>
+<li>通过channel来进行协程间的消息传递</li>
+<li>只暴露协程，屏蔽线程操作的接口</li>
+</ul>
+<h3 id="Goroutine的设计原理"><a href="#Goroutine的设计原理" class="headerlink" title="Goroutine的设计原理"></a>Goroutine的设计原理</h3><p>在操作系统的系统线程（OS Thread）和编程语言的用户态线程（User Thread）之间，实际上存在3中线程对应模型：</p>
+<ul>
+<li>(M:1)————多个（M）用户态的线程对应一个系统线程，它可以做快速的上下文切换，缺点是不能有效利用多核CPU。</li>
+<li>(1:1)————一个用户态的线程对应一个系统线程，它可以利用多核机制，但上下文切换需要消耗额外的资源<br>Golang的做法</li>
+<li>(M:N)————Golang采取了一种多对多的方案。M个用户线程对应N个系统线程，缺点是增加了调度器的实现难度</li>
+</ul>
+<p>角色：<br>M: 代表了系统线程，由操作系统管理<br>G：协程Goroutine的实体，包括了调用栈，指令指针以及重要的调度Goroutine信息，例如阻塞它的任何channel等，由程序员创建<br>P：处理器Processor，衔接M和G的调度，执行G的上下文环境，它负责将等待执行的G与M对接，每个P会维护一个本地的Goroutine队列。<br>除了每个P拥有一个本地的go routine队列外，还存在一个全局的go routine队列</p>
+<p><img src="images/Golang_routine.bmp" alt="协程"></p>
+<h3 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h3><p>我们可以看到图中有两个M，即两个OS Thread线程，分别对应一个P，每一个P有负责调度多个G。如此一来，就组成的Goroutine运行时的基本结构</p>
+<p>P的数量在初始化，由环境变量中的GOMAXPROCS决定，通常来说它是和核心数对应，例如在4Core的服务器上回启动4个线程。它其实也就代表了真正的并发度，即有多少个Goroutine可以同时运行。</p>
+<p>G会有很多个，每个P会将Goroutine从一个就绪的队列中做pop操作，这个队列称之为runqueue。</p>
+<p>为了减小锁mutex的竞争，通常情况下每个P都会负责一个自己的队列。Go调度器曾经的一个版本，只用一个通过mutex来保护的全局runqueue，线程们经常被阻塞来等待mutex被解除阻塞。当你有许多32核的机器而且想尽可能地压榨它们的性能时，情况就会变得相当坏。</p>
+<p>如果G的数量超出了M的处理能力，且还有空余P的话，runtime就会自动创建新的M；</p>
+<p>M拿到P后才能干活，取G的顺序：本地队列&gt;全局队列&gt;其他P的队列（窃取），如果所有队列都没有可用的G，M会归还P并进入休眠</p>
+<h4 id="切换"><a href="#切换" class="headerlink" title="切换"></a>切换</h4><p>为什么一定要有上下文P？我们能不能丢掉上下文P而仅仅把runqueue放到系统线程上？不尽然。我们用上下文P的原因是如果正在运行的线程因为某种原因需要阻塞的时候，我们可以把这些上下文移交给其它线程。</p>
+<p>这种阻塞，有三种情况，G发生上下文P切换条件：</p>
+<ul>
+<li>系统调用（挂起）；</li>
+</ul>
+<p><img src="Golang_routine.bmp" alt="切换"></p>
+<p>在Goroutine需要执行一个系统调用时，由于M0是一个线程，所以必须等待它执行完才能执行其他的Goroutine。当一个新的Goroutine产生，M0需要保证会有另外的一个M1能够执行这个G，简单来说，当一个M0进行系统调用，需要保证有另外的一个M1能够继续执行Go代码。</p>
+<p>这个处于系统调用中的线程M0将会保持在这个导致系统调用的goroutine上，因为从技术上来说，它仍然在执行，虽然阻塞在OS里了。</p>
+<p>当系统调用返回时，M0需要找到一个对应的P，以便能够运行Goroutine，它首先会尝试从其他线程中窃取一个P，如果不成功，它会将Goroutine放在一个全局的队列中,并将自己放在线程池thread cache中或者转入睡眠状态。</p>
+<ul>
+<li>读写channel；</li>
+<li>gosched主动放弃，会将G扔进全局队列；</li>
+</ul>
+<h4 id="如何窃取"><a href="#如何窃取" class="headerlink" title="如何窃取"></a>如何窃取</h4><p>这里有篇paper来描述这个设计：work-steal。简单来说，当队列不平衡时，会从其他队列中截取一部分Goroutine到P上进行调度。</p>
+<p>除了上下文了P会被窃取之外，Goroutine也是会被窃取的，当一个上下文运行完要被调度的所有goroutines的时候。如果各个上下文的runqueue里的工作的数目不均衡，改变就会发生了，否则会导致一个上下文在执行完它的runqueue后就会结束，尽管系统中仍然有许多工作要执行。所以为了保持运行Go代码，一个上下文能够从全局runqueue中获取goroutines，但是如果全局runqueue中也没有goroutines了，那么上下文就不得不从其它地方获取goroutines了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/22/Golang_routine/" data-id="cjtv5ghyi000bm0uzmxfmqaz7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-learnDB_index1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/18/learnDB_index1/" class="article-date">
@@ -90,20 +378,24 @@
 <h4 id="聚集索引和非聚集索引的区别"><a href="#聚集索引和非聚集索引的区别" class="headerlink" title="聚集索引和非聚集索引的区别"></a>聚集索引和非聚集索引的区别</h4><ul>
 <li>聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续</li>
 </ul>
-<p>聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大<br>非聚集索引:不影响表中的数据存储顺序,检索效率比聚集索引低,对数据新增/修改/删除的影响很少</p>
+<p>聚集索引:表中存储的数据按照索引的顺序存储,检索效率比普通索引高,但对数据新增/修改/删除的影响比较大</p>
+<p>非聚集索引:不影响表中的数据存储顺序,检索效率比聚集索引低,对数据新增/修改/删除的影响很少</p>
 <ul>
-<li>每个表只能有一个聚集索引，因为目录只能按照一种方法进行排序。聚集索引插入数据时速度要慢（时间花费在“物理存储的排序”上，也就是首先要找到位置然后插入）查询数据比非聚集数据的速度快，而非聚集索引一个表可以存在多个</li>
+<li>每个表只能有一个聚集索引，因为一个表的物理顺序只有一种情况，所以，对应的聚集索引只能有一个。（因为目录只能按照一种方法进行排序）。而非聚集索引一个表可以存在多个</li>
 </ul>
-<h4 id="聚集索引的使用"><a href="#聚集索引的使用" class="headerlink" title="聚集索引的使用"></a>聚集索引的使用</h4><p>如果表上定义有主键，该主键索引就是聚簇索引。<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引</p>
+<ul>
+<li>聚集索引插入数据时速度要慢（时间花费在“物理存储的排序”上，也就是首先要找到位置然后插入）；但查询数据比非聚集数据的速度快，</li>
+</ul>
+<h4 id="聚集索引的使用"><a href="#聚集索引的使用" class="headerlink" title="聚集索引的使用"></a>聚集索引的使用</h4><p>对于MySQL，如果表上定义有主键，该主键索引就是聚簇索引。但对于SQL Server来说，这只是默认情况，在建立主键的时候完全可以声明为CLUETERED(聚集)或NONCLUETERED(非聚集)！也就是说主键也可以声明为非聚集索引<br>如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。<br>如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引</p>
 <p>但是我们不应该把主键作为聚集索引，这是对聚集索引的一种浪费。虽然SQL SERVER默认是在主键上建立聚集索引的。</p>
 <p>　　通常，我们会在每个表中都建立一个ID列，以区分每条数据，并且这个ID列是自动增大的，步长一般为1。我们的这个办公自动化的实例中的列 Gid就是如此。此时，如果我们将这个列设为主键，SQL SERVER会将此列默认为聚集索引。这样做有好处，就是可以让您的数据在数据库中按照ID进行物理排序，但笔者认为这样做意义不大。</p>
 <p>　　显而易见，聚集索引的优势是很明显的，而每个表中只能有一个聚集索引的规则，这使得聚集索引变得更加珍贵。</p>
-<p>　　从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。在实际应用中， 因为ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪 费。其次，让每个ID号都不同的字段作为聚集索引也不符合大数目的不同值情况下不应建立聚合索引规则；当然，这种情况只是针对用户经常修改记录内容，特别 是索引项的时候会负作用，但对于查询速度并没有影响。</p>
+<p>　　从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。在实际应用中， 因为ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪费。其次，让每个ID号都不同的字段作为聚集索引也不符合大数目的不同值情况下不应建立聚合索引规则；当然，这种情况只是针对用户经常修改记录内容，特别是索引项的时候会负作用，但对于查询速度并没有影响。</p>
 <h3 id="按照维护与管理索引的角度分类"><a href="#按照维护与管理索引的角度分类" class="headerlink" title="按照维护与管理索引的角度分类"></a>按照维护与管理索引的角度分类</h3><p>普通索引：（由关键字KEY或INDEX定义得到索引）：加快数据的查询速度</p>
 <p>最常见的索引类型涉及单个列，在数据结构中存储该列的值的副本，允许快速查找具有相应列值的行。B树数据结构可以让索引快速查找特定值，一组值，或值的范围，对应于</p>
 <p>唯一索引：由关键字UNIQUE把它定义为唯一索引）：保证数据记录的唯一性<br>复合索引/联合索引/多列索引：索引可以覆盖多个数据列，如像INDEX(columnA, columnB)索引，这就是联合索引</p>
 <p>复合索引的建立需要进行仔细分析；尽量考虑用单字段索引代替：<br>正确选择复合索引中的主列字段，一般是选择性较好的字段；<br>复合索引的几个字段是否经常同时以AND方式出现在Where子句中？单字段查询是否极少甚至没有？如果是，则可以建立复合索引；否则考虑单字段索引； </p>
-<p>主键索引：一种特殊的唯一索引，在一张表中只能定义一个主键索引，用来标识唯一一条数据，用PRIMARY KEY创建。</p>
+<p>主键索引：一种特殊的 <strong>唯一</strong> 索引，在一张表中只能定义一个主键索引，用来标识唯一一条数据，用PRIMARY KEY创建。</p>
 <p>全文索引 FULLTEXT：是一种特殊类型的索引，它查找的是文本中的关键词，而不是直接比较索引中的值</p>
 <p>空间数据索引 R-Tree</p>
 <h4 id="主键和唯一索引的区别"><a href="#主键和唯一索引的区别" class="headerlink" title="主键和唯一索引的区别"></a>主键和唯一索引的区别</h4><ol>
@@ -121,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjm8rmk3x000xrguzdbd38037" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjtv5ghzr0016m0uzwoen1yjv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,105 +473,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/OOP_cons/" data-id="cjm8rmk3q000orguz8jo77f8f" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-datastruct_searchtree" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/18/datastruct_searchtree/" class="article-date">
-  <time datetime="2018-09-18T03:10:56.993Z" itemprop="datePublished">2018-09-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/datastruct_searchtree/">数据结构和算法之查找树</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前言：BST、AVL、RBT、B-tree都是动态结构，查找时间基本都在O(longN)数量级上。下面做出详细对比。</p>
-<h3 id="BST"><a href="#BST" class="headerlink" title="BST"></a>BST</h3><p>(1) 查找代价：<br>任何一个数据的查找过程都需要从根结点出发，沿某一个路径朝叶子结点前进。因此查找中数据比较次数与树的形态密切相关。<br>查找最好时间复杂度O(logN)：当树中每个结点左右子树高度大致相同时，树高为logN。则平均查找长度与logN成正比，查找的平均时间复杂度在O(logN)数量级上。<br>最坏时间复杂度O(N)：当先后插入的关键字有序时，BST退化成单支树结构。此时树高n。平均查找长度为(n+1)/2，查找的平均时间复杂度在O(N)数量级上。<br>(2) 插入代价：<br>新结点插入到树的叶子上，完全不需要改变树中原有结点的组织结构。插入一个结点的代价与查找一个不存在的数据的代价完全相同。<br>(3) 删除代价：<br>当删除一个结点P，首先需要定位到这个结点P，这个过程需要一个查找的代价。然后稍微改变一下树的形态。如果被删除结点的左、右子树只有一个存在，则改变形态的代价仅为O(1)。如果被删除结点的左、右子树均存在，只需要将当P的左孩子的右孩子的右孩子的…的右叶子结点与P互换，在改变一些左右子树即可。因此删除操作的时间复杂度最大不会超过O(logN)。<br>插入删除操作算法简单，时间复杂度与查找差不多。</p>
-<h3 id="AVL"><a href="#AVL" class="headerlink" title="AVL"></a>AVL</h3><p>二叉查找树在最差情况下竟然和顺序查找效率相当，这是无法仍受的。事实也证明，当存储数据足够大的时候，树的结构对某些关键字的查找效率影响很大。当然，造成这种情况的主要原因就是BST不够平衡(左右子树高度差太大)。既然如此，那么我们就需要通过一定的算法，将不平衡树改变成平衡树。因此，AVL树就诞生了。<br>AVL 的操作代价分析：<br>(1) 查找代价：<br>AVL是严格平衡的BST（平衡因子不超过1）。那么查找过程与BST一样，只是AVL不会出现最差情况的BST(单支树)。因此查找效率最好，最坏情况都是O(logN)数量级的。<br>(2) 插入代价：<br>AVL必须要保证严格平衡(|bf|&lt;=1)，那么每一次插入数据使得AVL中某些结点的平衡因子超过1就必须进行旋转操作。事实上，AVL的每一次插入结点操作最多只需要旋转1次(单旋转或双旋转)。因此，总体上插入操作的代价仍然在O(logN)级别上(插入结点需要首先查找插入的位置)。<br>(3) 删除代价：<br>AVL删除结点的算法可以参见BST的删除结点，但是删除之后必须检查从删除结点开始到根结点路径上的所有结点的平衡因子。因此删除的代价稍微要大一些。每一次删除操作最多需要O(logN)次旋转。因此，删除操作的时间复杂度为O(logN)+O(logN)=O(2logN)</p>
-<h3 id="RBT"><a href="#RBT" class="headerlink" title="RBT"></a>RBT</h3><p>二叉平衡树的严格平衡策略以牺牲建立查找结构(插入，删除操作)的代价，换来了稳定的O(logN) 的查找时间复杂度。但是这样做是否值得呢？<br>能不能找一种折中策略，即不牺牲太大的建立查找结构的代价，也能保证稳定高效的查找效率呢？ 答案就是：红黑树。<br>RBT 的操作代价分析：<br>(1) 查找代价：<br>由于红黑树的性质(最长路径长度不超过最短路径长度的2倍)，可以说明红黑树虽然不像AVL一样是严格平衡的，但平衡性能还是要比BST要好。其查找代价基本维持在O(logN)左右，但在最差情况下(最长路径是最短路径的2倍少1)，比AVL要略逊色一点，但也远远好于BST。<br>(2) 插入代价：<br>RBT插入结点时，需要旋转操作和变色操作。但由于只需要保证RBT基本平衡就可以了。因此插入结点最多只需要2次旋转，这一点和AVL的插入操作一样。虽然变色操作需要O(logN)，但是变色操作十分简单，代价很小。<br>(3) 删除代价：<br>RBT的删除操作代价要比AVL要好的多，删除一个结点最多只需要3次旋转操作。</p>
-<p>插入和删除操作改变树的平衡性的概率要远远小于AVL（RBT不是高度平衡的）。因此需要的旋转操作的可能性要小，而且一旦需要旋转，插入一个结点最多只需要旋转2次，删除最多只需要旋转3次(小于AVL的删除操作所需要的旋转次数)。</p>
-<h3 id="B-树-B-树-B-Tree"><a href="#B-树-B-树-B-Tree" class="headerlink" title="B~树/B+树 (B-Tree )"></a>B~树/B+树 (B-Tree )</h3><p>对于在内存中的查找结构而言，红黑树的效率已经非常好了(实际上很多实际应用还对RBT进行了优化)。但是如果是数据量非常大的查找呢？将这些数据全部放入内存组织成RBT结构显然是不实际的。实际上，像OS中的文件目录存储，数据库中的文件索引结构的存储。都不可能在内存中建立查找结构。必须在磁盘中建立好这个结构。那么在这个背景下，RBT还是一种好的选择吗？<br>在磁盘中组织查找结构，从任何一个结点指向其他结点都有可能读取一次磁盘数据，再将数据写入内存进行比较。大家都知道，频繁的磁盘IO操作，效率是很低下的(机械运动比电子运动要慢不知道多少)。显而易见，所有的二叉树的查找结构在磁盘中都是低效的。因此，B树很好的解决了这一个问题。<br>B-Tree的操作代价分析：<br>(1) 查找代价：<br>B-Tree作为一个平衡多路查找树(m-叉)。B树的查找分成两种：一种是从一个结点查找另一结点的地址的时候，需要定位磁盘地址(查找地址)，查找代价极高。另一种是将结点中的有序关键字序列放入内存，进行优化查找(可以用折半)，相比查找代价极低。而B树的高度很小，因此在这一背景下，B树比任何二叉结构查找树的效率都要高很多。而且B+树作为B树的变种，其查找效率更高。<br>(2)插入代价：<br>B-Tree的插入会发生结点的分裂操作。当插入操作引起了s个节点的分裂时，磁盘访问的次数为h(读取搜索路径上的节点)＋2s(回写两个分裂出的新节点)＋1（回写新的根节点或插入后没有导致分裂的节点）。因此，所需要的磁盘访问次数是h+2s+1，最多可达到3h+1。因此插入的代价是很大的。<br>(3)删除代价：<br>B-Tree的删除会发生结点合并操作。最坏情况下磁盘访问次数是3h＝（找到包含被删除元素需要h次读访问）+（获取第2至h层的最相邻兄弟需要h-1次读访问）+（在第3至h层的合并需要h-2次写访问）+（对修改过的根节点和第2层的两个节点进行3次写访问）。<br>(4)定义：<br>一颗m阶（m&gt;=3，即一个结点包含的数据和子节点数），3阶B-树有如下特点： </p>
-<ol>
-<li>根结点之多3颗子树 </li>
-<li>定义：<br>define m 3                 /<em>B 树的阶</em>/<br>typedef struct Node{<br> int keynum;             /<em> 结点中关键码的个数，即结点的大小</em>/<br> int key[m];               /<em>结点数据数组</em>/<br> struct Node <em>parent;  /</em>指向父节点的指针<em>/<br> Node</em>son[m];    /<em>指向子结点的指针数组</em>/<br>};<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>B-Tree效率总结：<br>由于考虑磁盘储存结构，B树的查找、删除、插入的代价都远远要小于任何二叉结构树(读写磁盘次数的降低)。</li>
-</ol>
-<h3 id="AVL-PK-RBT"><a href="#AVL-PK-RBT" class="headerlink" title="AVL PK RBT"></a>AVL PK RBT</h3><p>AVL 和RBT 都是二叉查找树的优化。其性能要远远好于二叉查找树。他们之间都有自己的优势，其应用上也有不同。<br>结构对比： AVL的结构高度平衡，RBT的结构基本平衡。平衡度AVL &gt; RBT.<br>查找对比： AVL 查找时间复杂度最好，最坏情况都是O(logN)。RBT 查找时间复杂度最好为O(logN)，最坏情况下比AVL略差。<br>插入删除对比： </p>
-<ol>
-<li>AVL的插入和删除结点很容易造成树结构的不平衡，而RBT的平衡度要求较低。因此在大量数据插入的情况下，RBT需要通过旋转变色操作来重新达到平衡的频度要小于AVL。 </li>
-<li>如果需要平衡处理时，RBT比AVL多一种变色操作，而且变色的时间复杂度在O(logN)数量级上。但是由于操作简单，所以在实践中这种变色仍然是非常快速的。 </li>
-<li>当插入一个结点都引起了树的不平衡，AVL和RBT都最多需要2次旋转操作。但删除一个结点引起不平衡后，AVL最多需要logN 次旋转操作，而RBT最多只需要3次。因此两者插入一个结点的代价差不多，但删除一个结点的代价RBT要低一些。 </li>
-<li>AVL和RBT的插入删除代价主要还是消耗在查找待操作的结点上。因此时间复杂度基本上都是与O(logN) 成正比的。<br>总体评价：大量数据实践证明，RBT的总体统计性能要好于平衡二叉树。</li>
-</ol>
-<h3 id="B-Tree-PK-B-Tree"><a href="#B-Tree-PK-B-Tree" class="headerlink" title="B-Tree PK B+Tree"></a>B-Tree PK B+Tree</h3><p>B+树是B-树的一种变体，在磁盘查找结构中，B+树更适合文件系统的磁盘存储结构。<br>结构对比：<br>B-树是平衡多路查找树，所有结点中都包含了待查关键字的有效信息(比如文件磁盘指针)。每个结点若有n个关键字，则有n+1个指向其他结点的指针。<br>B+树相比B-树的特点： </p>
-<ol>
-<li>数据只出现在叶子结点，B-树每个结点都包含了数据； </li>
-<li>叶子结点之间用指针连接； </li>
-<li>B+树的高度一般是3；<br>查找对比： </li>
-<li>在相同数量的待查数据下，B+树查找过程中需要调用的磁盘IO操作要少于普通B-树。由于B+树所在的磁盘存储背景下，因此B+树的查找性能要好于B-树。 </li>
-<li>B+树的查找效率更加稳定，因为所有叶子结点都处于同一层中，而且查找所有关键字都必须走完从根结点到叶子结点的全部历程。因此同一颗B+树中，任何关键字的查找比较次数都是一样的。而B树就不一定了，可能查找到某一个非终结点就结束了。<br>插入删除对比： B+树与B-树在插入删除操作中的效率是差不多的。<br>总体评价：在应用背景下，特别是文件结构存储中。B+树的应用要更多，其效率也要比B-树好。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/datastruct_searchtree/" data-id="cjm8rmk3t000rrguzcecm5i89" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-datastruct5" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/18/datastruct5/" class="article-date">
-  <time datetime="2018-09-18T01:50:07.445Z" itemprop="datePublished">2018-09-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/datastruct5/">数据结构和算法之STL(二)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="std-set-lower-bound与std-lower-bound的效率问题"><a href="#std-set-lower-bound与std-lower-bound的效率问题" class="headerlink" title="std::set::lower_bound与std::lower_bound的效率问题"></a>std::set::lower_bound与std::lower_bound的效率问题</h3><p>应该是set&lt;&gt;::iterator不支持随机访问，所以直接当作普通的序列进行二分std::lower_bound的时候就不是O(logn)的复杂度了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/datastruct5/" data-id="cjm8rmk3t000srguz3xvv1u86" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/18/OOP_cons/" data-id="cjtv5ghyp000im0uzovay3nzj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -339,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/17/NET_comp/" data-id="cjm8rmk3l000irguzeeuu7qaa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/17/NET_comp/" data-id="cjtv5ghyk000dm0uzmi744pf8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -382,177 +576,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/组成原理/" data-id="cjm8rmk3w000wrguz0ghp6tpi" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Web" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/16/Web/" class="article-date">
-  <time datetime="2018-09-16T11:55:35.168Z" itemprop="datePublished">2018-09-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/Web/">web开发之ajax原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ajax并非一种新的技术，而是几种原有技术的结合体。它由下列技术组合而成。</p>
-<ol>
-<li>使用CSS和XHTML来表示。</li>
-<li>使用DOM模型来交互和动态显示。</li>
-<li>使用XMLHttpRequest来和服务器进行异步通信。</li>
-<li>使用javascript来绑定和调用。</li>
-</ol>
-<h3 id="XMLHttpRequest"><a href="#XMLHttpRequest" class="headerlink" title="XMLHttpRequest"></a>XMLHttpRequest</h3><p>XMLHttpRequest 是一个 API，它为客户端提供了在客户端和服务器之间传输数据的功能。它提供了一个通过 URL 来获取数据的简单方式，并且不会使整个页面刷新。这使得网页只更新一部分页面而不会打扰到用户。XMLHttpRequest 在 AJAX 中被大量使用</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/Web/" data-id="cjmkoxr6f000dg4uzaq1mlpjb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-OOP_bind" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/16/OOP_bind/" class="article-date">
-  <time datetime="2018-09-16T08:16:26.136Z" itemprop="datePublished">2018-09-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/OOP_bind/">C++常见问题之绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>绑定：一个方法的调用与方法所在的类关联起来。java中的绑定分为静态绑定和动态绑定，又被称作前期绑定和后期绑定</p>
-<p>静态绑定：（final、static、private）在程序执行前已经被绑定，也就是说在编译过程中就已经知道这个方法是哪个类的方法，此时由编译器获取其他连接程序实现。</p>
-<p>静态绑定：编译时绑定， 通过对象调用 </p>
-<p>动态绑定：在运行根据具体对象的类型进行绑定</p>
-<p>动态绑定：运行时绑定，通过地址实现 </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/OOP_bind/" data-id="cjm8rmk3m000jrguzy01no07r" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-NET_address" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/16/NET_address/" class="article-date">
-  <time datetime="2018-09-16T07:52:24.271Z" itemprop="datePublished">2018-09-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/NET_address/">计算机网络复习之地址</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="IP地址和MAC地址的区别"><a href="#IP地址和MAC地址的区别" class="headerlink" title="IP地址和MAC地址的区别"></a>IP地址和MAC地址的区别</h3><p>1.对于网络上的某一设备，如一台计算机或一台路由器，其IP地址可变（但必须唯一），而MAC地址不可变。我们可以根据需要给一台主机指定任意的IP地址，如我们可以给局域网上的某台计算机分配IP地址为192.168.0.112 ，也可以将它改成192.168.0.200。而任一网络设备（如网卡，路由器）一旦生产出来以后，其MAC地址永远唯一且不能由用户改变。</p>
-<p>　　2. 长度不同。IP地址为32位，MAC地址为48位。</p>
-<p>　　3. 分配依据不同。IP地址的分配是基于网络拓朴，MAC地址的分配是基于制造商。</p>
-<p>　　4. 寻址协议层不同。IP地址应用于OSI第三层，即网络层，而MAC地址应用在OSI第二层，即数据链路层。 数据链路层协议可以使数据从一个节点传递到相同链路的另一个节点上（通过MAC地址），而网络层协议使数据可以从一个网络传递到另一个网络上（ARP根据目的IP地址，找到中间节点的MAC地址，通过中间节点传送，从而最终到达目的网络）。</p>
-<p>IP地址基于逻辑，比较灵活，不受硬件限制，也容易记忆。MAC地址在一定程度上与硬件一致，基于物理，能够标识具体。这两种地址各有好处，使用时也因条件而采取不同的地址</p>
-<h3 id="IP地址与MAC地址在互连网中的作用"><a href="#IP地址与MAC地址在互连网中的作用" class="headerlink" title="IP地址与MAC地址在互连网中的作用"></a>IP地址与MAC地址在互连网中的作用</h3><p>既然每个以太网设备在出厂时都有一个唯一的MAC地址了，那为什么还需要为每台主机再分配一个IP地址呢？或者说为什么每台主机都分配唯一的IP地址了，为什么还要在网络设备（如网卡，集线器，路由器等）生产时内嵌一个唯一的MAC地址呢？主要原因有以下几点：（1）IP地址的分配是根据网络的拓朴结构，而不是根据谁制造了网络设置。若将高效的路由选择方案建立在设备制造商的基础上而不是网络所处的拓朴位置基础上，这种方案是不可行的。（2）当存在一个附加层的地址寻址时，设备更易于移动和维修。例如，如果一个以太网卡坏了，可以被更换，而无须取得一个新的IP地址。如果一个IP主机从一个网络移到另一个网络，可以给它一个新的IP地址，而无须换一个新的网卡。（3）无论是局域网，还是广域网中的计算机之间的通信，最终都表现为将数据包从某种形式的链路上的初始节点出发，从一个节点传递到另一个节点，最终传送到目的节点。数据包在这些节点之间的移动都是由ARP（Address Resolution Protocol：地址解析协议）负责将IP地址映射到MAC地址上来完成的。</p>
-<p>这是由组网方式决定的，如今比较流行的接入Internet的方式（也是未来发展的方向）是把主机通过局域网组织在一起，然后再通过交换机和 Internet相连接。这样一来就出现了如何区分具体用户，防止盗用的问题。由于IP只是逻辑上标识，任何人都随意修改，因此不能用来标识用户；而 MAC地址则不然，它是固化在网卡里面的。从理论上讲，除非盗来硬件（网卡），否则是没有办法冒名顶替的（注意：其实也可以盗用，后面将介绍）。<br>基于MAC地址的这种特点，局域网采用了用MAC地址来标识具体用户的方法。注意：具体实现：在交换机内部通过“表”的方式把MAC地址和IP地址一一对应，也就是所说的IP、MAC绑定。<br>具体的通信方式：接收过程，当有发给本地局域网内一台主机的数据包时，交换机接收下来，然后把数据包中的IP地址按照“表”中的对应关系映射成MAC地址，转发到对应的MAC地址的主机上，这样一来，即使某台主机盗用了这个IP地址，但由于他没有这个MAC地址，因此也不会收到数据包。发送过程和接收过程类似，限于篇幅不叙述。<br>综上可知，只有IP而没有对应的MAC地址在这种局域网内是不能上网的，于是解决了IP盗用问题</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/NET_address/" data-id="cjm8rmk3i000frguz0fk2377z" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-OS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/16/OS/" class="article-date">
-  <time datetime="2018-09-16T05:43:29.232Z" itemprop="datePublished">2018-09-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/OS/">Linux命令运行的基本过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>shell不断询问是否有键盘输入，用户以enter结束键盘输入后，shell程序以空格为分隔符，得到”ls”，”-l”，”*.c”，三个字符串</p>
-<p>shell发现第三个字符串包含”*”通配符，就会在当前路径(或指定路径)下搜索满足这个通配符的文件。有bar.c和foo.c两个文件，然后展开成{“ls”，”-l”，”bar.c”，”foo.c”}四个字符串，并保存在argv这个二维字符数组中，并赋值argc为4</p>
-<p>shell然后搜索PATH这个全局变量保存的路径，寻找一个叫”ls”的命令。如果存在，则fork()一个子进程，调用exec()加载运行ls命令。ls的main(int argc, string ** argv)函数的参数就是从shell那里得来的。若不存在就会提示用户”command not found”</p>
-<p>ls程序执行后，会分析argc和argv，”-l”表示这是一个选项开关，表明用户想得到文件的详细信息，并把这个开关量保存，以便最后输出的时候选择信息的格式</p>
-<p>ls执行完既定的步骤后，退出并返回退出码，若成功则返回0，否则根据错误的不同返回不同的非零数字</p>
-<p>shell在得到成功退出码后，继续等待用户输入</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/OS/" data-id="cjm8rmk3p000nrguzz3g6c0mo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/16/组成原理/" data-id="cjtv5gi04001em0uz57s27ol9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -566,7 +590,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -585,7 +609,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -598,23 +622,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -629,7 +653,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

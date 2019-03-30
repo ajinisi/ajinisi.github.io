@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>操作系统基本概念之进程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这里有几个与进程相关的小问题 模式切换和进程切换进程切换和模式切换并没有什么关系，发生模式切换可以不改变正处于运行态的进程状态，这种情况下，保存上下文环境和以后恢复上下文环境只需要很少的开销。但是，如果改变正处于运行态的进程状态到另一个状态（就绪、阻塞等），则操作系统必须使其环境产生实质性的变化 为什么要设置内核栈和用户栈共享原因：内核的代码和数据是为所有的进程共享的，如果不为每一个进程设置对应的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统基本概念之进程">
+<meta property="og:url" content="http://yoursite.com/2018/09/30/OS1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这里有几个与进程相关的小问题 模式切换和进程切换进程切换和模式切换并没有什么关系，发生模式切换可以不改变正处于运行态的进程状态，这种情况下，保存上下文环境和以后恢复上下文环境只需要很少的开销。但是，如果改变正处于运行态的进程状态到另一个状态（就绪、阻塞等），则操作系统必须使其环境产生实质性的变化 为什么要设置内核栈和用户栈共享原因：内核的代码和数据是为所有的进程共享的，如果不为每一个进程设置对应的">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-30T08:13:27.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统基本概念之进程">
+<meta name="twitter:description" content="这里有几个与进程相关的小问题 模式切换和进程切换进程切换和模式切换并没有什么关系，发生模式切换可以不改变正处于运行态的进程状态，这种情况下，保存上下文环境和以后恢复上下文环境只需要很少的开销。但是，如果改变正处于运行态的进程状态到另一个状态（就绪、阻塞等），则操作系统必须使其环境产生实质性的变化 为什么要设置内核栈和用户栈共享原因：内核的代码和数据是为所有的进程共享的，如果不为每一个进程设置对应的">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-OS1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/30/OS1/" class="article-date">
+  <time datetime="2018-09-30T07:55:38.343Z" itemprop="datePublished">2018-09-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      操作系统基本概念之进程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这里有几个与进程相关的小问题</p>
+<h2 id="模式切换和进程切换"><a href="#模式切换和进程切换" class="headerlink" title="模式切换和进程切换"></a>模式切换和进程切换</h2><p>进程切换和模式切换并没有什么关系，发生模式切换可以不改变正处于运行态的进程状态，这种情况下，保存上下文环境和以后恢复上下文环境只需要很少的开销。但是，如果改变正处于运行态的进程状态到另一个状态（就绪、阻塞等），则操作系统必须使其环境产生实质性的变化</p>
+<h2 id="为什么要设置内核栈和用户栈"><a href="#为什么要设置内核栈和用户栈" class="headerlink" title="为什么要设置内核栈和用户栈"></a>为什么要设置内核栈和用户栈</h2><p>共享原因：<br>内核的代码和数据是为所有的进程共享的，如果不为每一个进程设置对应的内核栈，那么就不能实现不同的进程执行不同的代码。<br>安全原因：<br>如果只有一个栈，那么用户就可以修改栈内容来突破内核安全保护</p>
+<h2 id="如何知道内核栈的地址"><a href="#如何知道内核栈的地址" class="headerlink" title="如何知道内核栈的地址"></a>如何知道内核栈的地址</h2><p>从内核态转到用户态时，用户栈的地址是在陷入内核的时候保存在内核栈里面的，但是在陷入内核的时候，如何知道内核栈的地址？关键在进程从用户态转到内核态的时候，进程的内核栈总是空的。这是因为当进程在用户态运行时，使用的用户栈，当进程陷入到内核态时，内核保存进程在内核态运行的相关信息，但是一旦进程返回到用户态后，内核栈中保存的信息无效，会全部恢复，因此每次进程从用户态陷入内核的时候得到的内核栈都是空的。所以在进程陷入内核的时候，直接把内核栈的 <strong>栈顶</strong> 地址给堆栈指针寄存器就可以了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/30/OS1/" data-id="cjtv5ghyq000km0uzofk4lhli" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/11/blockchain3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          自己动手区块链之手写数据库
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/28/Web_arch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Web之微服务</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/04/math/">数学</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

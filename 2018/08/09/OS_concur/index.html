@@ -7,17 +7,17 @@
   
   <title>操作系统基本概念之并发 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="并发concurrency和并行parallellism的区别并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多">
+  <meta name="description" content="并发concurrency和并行parallellism并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多个任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统基本概念之并发">
 <meta property="og:url" content="http://yoursite.com/2018/08/09/OS_concur/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="并发concurrency和并行parallellism的区别并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多">
+<meta property="og:description" content="并发concurrency和并行parallellism并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多个任务">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-22T01:23:55.687Z">
+<meta property="og:updated_time" content="2019-01-01T13:45:51.393Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统基本概念之并发">
-<meta name="twitter:description" content="并发concurrency和并行parallellism的区别并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多">
+<meta name="twitter:description" content="并发concurrency和并行parallellism并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行并发性是指一次处理很多事物；并行性是指同时做很多事情并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核在一台处理器上“同时”处理多个任务">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,16 +86,48 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="并发concurrency和并行parallellism的区别"><a href="#并发concurrency和并行parallellism的区别" class="headerlink" title="并发concurrency和并行parallellism的区别"></a>并发concurrency和并行parallellism的区别</h2><p>并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行<br>并发性是指一次处理很多事物；并行性是指同时做很多事情<br>并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生<br>并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核<br>在一台处理器上“同时”处理多个任务为并发，在多台处理器上同时处理多个任务为并行。如hadoop分布式集群。</p>
-<p>应用程序可以是并发的，但不是并行的，这意味着它可以同时处理多个任务，但是没有两个任务在同一时刻执行。应用程序可以是并行的，但不是并发的，这意味着它同时处理多核CPU中的任务的多个子任务。一个应用程序可以即不是并行的，也不是并发的，这意味着它一次一个地处理所有任务。应用程序可以即是并行的也是并发的，这意味着它同时在多核CPU中同时处理多个任务</p>
-<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>并发是一个多义词，意为“同时发生的”。<br>在后台、服务器领域，并发是指同一时刻能处理的连接数/请求数，<strong>高并发</strong> 指同时有很多用户对服务器进行访问；<br>而在操作系统领域，所谓并发，有三个方面的含义</p>
+        <h2 id="并发concurrency和并行parallellism"><a href="#并发concurrency和并行parallellism" class="headerlink" title="并发concurrency和并行parallellism"></a>并发concurrency和并行parallellism</h2><p>并发性是独立执行进程的组合；并行性是（可能相关的）计算的同时执行<br>并发性是指一次处理很多事物；并行性是指同时做很多事情<br>并行是指两个或者多个事件在同一时刻发生；而并发是指两个或多个事件在同一时间间隔发生<br>并行是在不同实体上的多个事件，并发是在同一实体上的多个事件。这个实体可以是处理器CPU，或者是多核处理器的一个核<br>在一台处理器上“同时”处理多个任务为并发，在多台处理器上同时处理多个任务为并行。如hadoop分布式集群。</p>
+<p>并发是指程序的 <strong>逻辑</strong> 结构。非并发的程序就是一根竹竿捅到底，只有一个逻辑控制流，也就是顺序执行的(Sequential)程序，在任何时刻，程序只会处在这个逻辑控制流的某个位置。而如果某个程序有多个独立的逻辑控制流，也就是可以同时处理(deal)多件事情，我们就说这个程序是并发的。这里的“同时”，并不一定要是真正在时钟的某一时刻(那是运行状态而不是逻辑结构)，而是指：如果把这些逻辑控制流画成时序流程图，它们在时间线上是可以重叠的。并行是指程序的 <strong>运行状态</strong> 。如果一个程序在某一时刻被多个CPU流水线同时进行处理，那么我们就说这个程序是以并行的形式在运行。（严格意义上讲，我们不能说某程序是“并行”的，因为“并行”不是描述程序本身，而是描述程序的运行状态，但这篇小文里就不那么咬文嚼字，以下说到“并行”的时候，就是指代“以并行的形式运行”）显然，并行一定是需要硬件支持的</p>
+<h3 id="并发concurrency和并行parallellism的相互联系"><a href="#并发concurrency和并行parallellism的相互联系" class="headerlink" title="并发concurrency和并行parallellism的相互联系"></a>并发concurrency和并行parallellism的相互联系</h3><p>应用程序可以是并发的，但不是并行的，这意味着它可以同时处理多个任务，但是没有两个任务在同一时刻执行。应用程序可以是并行的，但不是并发的，这意味着它同时处理多核CPU中的任务的多个子任务。一个应用程序可以即不是并行的，也不是并发的，这意味着它一次一个地处理所有任务。应用程序可以即是并行的也是并发的，这意味着它同时在多核CPU中同时处理多个任务</p>
+<ol>
+<li>并发是并行的必要条件，如果一个程序本身就不是并发的，也就是只有一个逻辑控制流，那么我们不可能让其被并行处理。</li>
+<li>并发不是并行的充分条件，一个并发的程序，如果只被一个CPU流水线进行处理(通过分时)，那么它就不是并行的。</li>
+<li>并发只是更符合现实问题本质的表达方式，并发的最初目的是简化代码逻辑，而不是使程序运行的更快；</li>
+</ol>
+<h3 id="并发的实现方式"><a href="#并发的实现方式" class="headerlink" title="并发的实现方式"></a>并发的实现方式</h3><ol>
+<li><p>显式地定义并触发多个代码片段，也就是逻辑控制流，由应用程序或操作系统对它们进行调度。它们可以是独立无关的，也可以是相互依赖需要交互的，譬如上面提到的素数计算，其实它也是个经典的生产者和消费者的问题：两个逻辑控制流A和B，A产生输出，当有了输出后，B取得A的输出进行处理。线程只是实现并发的其中一个手段，除此之外，运行库或是应用程序本身也有多种手段来实现并发，这是下节的主要内容。、</p>
+</li>
+<li><p>隐式地放置多个代码片段，在系统事件发生时触发执行相应的代码片段，也就是事件驱动的方式，譬如某个端口或管道接收到了数据(多路IO的情况下)，再譬如进程接收到了某个信号(signal)。</p>
+</li>
+</ol>
+<h3 id="并行的实现方式"><a href="#并行的实现方式" class="headerlink" title="并行的实现方式"></a>并行的实现方式</h3><p>并行可以在四个层面上做到：</p>
+<ol>
+<li>多台机器。自然我们就有了多个CPU流水线，譬如Hadoop集群里的MapReduce任务。</li>
+<li>多CPU。不管是真的多颗CPU还是多核还是超线程，总之我们有了多个CPU流水线。</li>
+<li>单CPU核里的ILP(Instruction-level parallelism)，指令级并行。通过复杂的制造工艺和对指令的解析以及分支预测和乱序执行，现在的CPU可以在单个时钟周期内执行多条指令，从而，即使是非并发的程序，也可能是以并行的形式执行。</li>
+<li>单指令多数据(Single instruction, multiple data. SIMD)，为了多媒体数据的处理，现在的CPU的指令集支持单条指令对多条数据进行操作。其中，1牵涉到分布式处理，包括数据的分布和任务的同步等等，而且是基于网络的。3和4通常是编译器和CPU的开发人员需要考虑的。这里我们说的并行主要针对第2种：单台机器内的多核CPU并行。</li>
+</ol>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>并发是一个多义词，意为“同时发生的”。</p>
+<p>在后台、服务器领域，并发数是指同一时刻能处理的连接数/请求数，<strong>高并发</strong> 指同时有很多用户对服务器进行访问；广义上的并发数是指同时使用系统的用户个数，这些用户可能调用不同的 API。严格意义上的并发数是指同时请求同一个 API 的用户个数。本小节所讨论的并发数是严格意义上的并发数。</p>
+<p>而在操作系统领域，所谓并发，有三个方面的含义</p>
 <ol>
 <li>多道程序设计，进程被交替执行，表现出一种并发执行的外部特征；</li>
 <li>模块化设计</li>
-<li>操作系统本身<br>在编程，并发编程</li>
+<li>操作系统本身</li>
 </ol>
-<h2 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h2><h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><p>吞吐率，单位时间里服务器处理的最大请求数，单位req/s<br>从服务器角度，实际并发用户数的可以理解为服务器当前维护的代表不同用户的文件描述符总数，也就是并发连接数。服务器一般会限制同时服务的最多用户数，比如apache的MaxClents参数。</p>
+<p>在编程，并发编程</p>
+<h2 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h2><h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><p>除了并发数，还有两个重要指标来衡量API性能。其中最主要的是吞吐率，即每秒查询数（QPS）。单位时间里服务器处理的最大请求数，单位req/s</p>
+<p>每秒查询数 QPS 是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。<br>QPS = 并发数 / 平均请求响应时间</p>
+<p>从服务器角度，实际并发用户数的可以理解为服务器当前维护的代表不同用户的文件描述符总数，也就是并发连接数。服务器一般会限制同时服务的最多用户数，比如apache的MaxClents参数。</p>
+<p>请求响应时间（TTLB）</p>
+<p>请求响应时间指的是从客户端发出请求到得到响应的整个时间。这个过程从客户端发起的一个请求开始，到客户端收到服务器端的响应结束。在一些工具中，请求响应时间通常会被称为 TTLB（Time to last byte，意思是从发送一个请求开始，到客户端收到最后一个字节的响应为止所消费的时间）。请求响应时间的单位一般为”秒”或“毫秒”。…</p>
 <h3 id="提高并发能力的方法"><a href="#提高并发能力的方法" class="headerlink" title="提高并发能力的方法"></a>提高并发能力的方法</h3><p>提高CPU并发计算能力<br>考虑减少内存分配和释放<br>考虑使用持久连接<br>改进I/O 模型</p>
+<p>为了高并发，要学习所有的，完整的前后端技术，才能做好高并发</p>
+<p>前端概括：<br>首先，前端的所有脚本，资源包括图片，通信时HTTP协议传输的内容，以及你对POST GET的把握，和网页间的跳转频率要有个清楚的认识。比如为什么切图要切在一张上面？为什么图片要清晰和小巧的？怎么压缩内容？ 如何知道哪些JS的通信通知了后台?JS通信异步和同步的选择？对前端的总总情况把握的越好，对网站并发侧重的重灾区就越了解。因为前端最能看出病灶，但是病灶并不直接发生在前端，因为前段程序员忙的那些JS和CSS的技术和并发的关系实在不那么的大，可能前端技术中90%都和浏览器和客户端本身的素质有关。除了我上面提到的资源压缩，假如在前端所有的一切都已经做到很好的时候，有效的缓存那些服务端的累赘资源，减轻服务端压力，于后端服务器的消息通信就成了TOP 1的问题。</p>
+<p>中间语言概括（比如.NET和JAVA写的那些东西）：你不得不承认，再牛X的技术，到目前还只是个缓存和负载均衡，只是放在的位置不同而已。负载均衡就是一个分成多个，缓存就是复杂高并发逻辑下数据存放的频率和有效性以及可靠性之间的权衡。这里的方案最多，能说的也最多，负载均衡可以根据好的算法进行服务器之间的最优选择，这里一部分是钱的问题，而另一部分是远见的问题。因为负载均衡和缓存的搭配也比较头疼，所以此时缓存就要考虑范围问题，因为跨服务器缓存的方案开销过于庞大，所以单服务器缓存方案就对数据的范围可控性上做了严苛的要求。 我们在这里抛开业务层代码不管的情况下，单是缓存方案就有很多种。</p>
+<p>多线程技术和数据锁的概括。一个好的高并发网站对于多线程技术的运用，几乎是决定方案成败的关键。每次看到微软开了一个类，上面总要写，这是线程安全的，和另一种无法提供有效的线程安全。这些在多线程编程的时候尤为重要，多线程编程的思路很多，建议如果是初学的话，多看看显卡和CPU方面的设计方法找灵感，因为在这两种硬件编程里，把多线程技术用的如火纯青，别老盯着现在的代码看了，有时候其他产品的设计方案可以借鉴和运用，纵然你在这个项目中的设计的再牛，框架再好也逃不过性能这把大刀。多开阔眼界是必要的，这里我的经验还在不停的补充中。举个例子吧，多线程有很多思路，比如线程等待后可以直接转接到结果上从而跳出中间处理的环节来节约时间，因为某些线程只为等一个结果，而结果刚刚算好在内存中，参数相同的情况下，变量一直，结果也一致，你要考虑时间性，有些随着时间是不一致的，这里就有点缓存的意思了，但是这里使用的是多线程编程的基本概念，JIT也是有这个原理在里面，你也可以用到你的业务中去！ 思考非常重要，这种对代码的要求很高，这时候对数据锁，查看数据有效性，编排数据集合，等等一系列，总之因人而异吧。 每个人在这里的思路都是不一样的。</p>
+<p>数据库。你不得不说，一个网站不得不等待数据库返回结果，而这里是最头疼的。拿我最熟悉的SQL SERVER来说，如何设计表？ 用来简化中间层的逻辑？聚集索引怎么设计，怎么做索引覆盖从而达到只扫描索引就能拿到数据的目的，以及每次查询的逻辑读，物理读，表分区，文件组。RAID的选择。数据库事务的设计。这些的这些不是一两年就能有经验的。</p>
+<p>最后谈谈测试。在设计系统的时候，必要的LOG设计是非常重要的。它能为还在测试阶段的产品打下良好的基础，微软有LOAD TEST但是要配置Controller和agent，而且并发KEY价格不菲。做LOAD TEST是有必要的，拿目前比较流行的MVC来说，微软可以提供兼容上下文的Page load test来完成一整个生命周期的CALL，所有的CALL C层都会有详细的记录，并且可以逐渐累加，对性能测试是尤为有好处的，当然其他语言也有类似的工具。</p>
 <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="进程间的三种关系"><a href="#进程间的三种关系" class="headerlink" title="进程间的三种关系"></a>进程间的三种关系</h3><p>为了简单起见，我们说的并发指的是“进程”的并发执行，在某些系统中，并发的实体是线程而不是进程。</p>
 <p>进程之间的感知程度</p>
 <ol>
@@ -113,11 +145,17 @@
 <h3 id="并发编程模型"><a href="#并发编程模型" class="headerlink" title="并发编程模型"></a>并发编程模型</h3><p>基于消息（事件）的活动对象：Akka的actor<br>基于CSP模型的协程的实现：goroutine</p>
 <p>Actor：注重处理单元<br>CSP：注重消息传送方式</p>
 <h3 id="并发编程的三个概念"><a href="#并发编程的三个概念" class="headerlink" title="并发编程的三个概念"></a>并发编程的三个概念</h3><p>原子性：原子性指的是一个或者多个操作，要么全部执行并且在执行的过程中不被其他操作打断，要么就全部都不执行<br>可见性 ：可见性指多个线程操作一个共享变量时，其中一个线程对变量进行修改后，其他线程可以立即看到修改的结果<br>有序性，即程序的执行顺序按照代码的先后顺序来执行</p>
+<p>目前，WebServer几种主流的并发模型：</p>
+<ul>
+<li>多线程，每个线程一次处理一个请求，在当前请求处理完成之前不会接收其它请求；但在高并发环境下，多线程的开销比较大；</li>
+<li>基于回调的异步IO，如Nginx服务器使用的epoll模型，这种模式通过事件驱动的方式使用异步IO，使服务器持续运转，但人的思维模式是串行的，大量回调函数会把流程分割，对于问题本身的反应不够自然；</li>
+<li>协程，不需要抢占式调度，可以有效提高线程的任务并发性，而避免多线程的缺点；但原生支持协程的语言还很少。</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/OS_concur/" data-id="cjmkoxr6c0007g4uzeoy0t7dq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/OS_concur/" data-id="cjtv5ghys000mm0uzam8mq582" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +176,7 @@
   
     <a href="/2018/08/09/OS_process/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">操作系统基本概念之进程</div>
+      <div class="article-nav-title">操作系统基本概念之进程线程协程</div>
     </a>
   
 </nav>
@@ -162,7 +200,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -175,23 +213,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -206,7 +244,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

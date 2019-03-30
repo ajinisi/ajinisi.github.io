@@ -7,17 +7,17 @@
   
   <title>Web之RESTful风格的实现 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI  表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以">
+  <meta name="description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。REST只是API风格的一种，Go语言中还有一种常用的API风格是RPC。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。而资源表现为某个具体的URI，所有的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web之RESTful风格的实现">
 <meta property="og:url" content="http://yoursite.com/2018/08/05/Web3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI  表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以">
+<meta property="og:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。REST只是API风格的一种，Go语言中还有一种常用的API风格是RPC。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。而资源表现为某个具体的URI，所有的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-26T14:16:33.023Z">
+<meta property="og:updated_time" content="2018-11-04T13:14:03.456Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web之RESTful风格的实现">
-<meta name="twitter:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI  表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以">
+<meta name="twitter:description" content="现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。REST只是API风格的一种，Go语言中还有一种常用的API风格是RPC。 （资源）表现层状态转移  资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。而资源表现为某个具体的URI，所有的">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,10 +86,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。</p>
+        <p>现在RESTful风格大火。。。结合我自己的项目谈谈我对RESTful风格的使用。<br>REST只是API风格的一种，Go语言中还有一种常用的API风格是RPC。</p>
 <p>（资源）表现层状态转移</p>
 <ul>
-<li><p>资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。资源表现为某个具体的URI</p>
+<li><p>资源：RESTful架构是基于资源的架构（ROA, Resource-Oriented Architecture），在ROA中，处理的对象都是资源。任何需要被引用的对象，都是资源。而资源表现为某个具体的URI，所有的行为都应该是在资源上的 CRUD 操作。</p>
 </li>
 <li><p>表现/表述：所谓表述，指的是资源的某种形式的表示，这个表示不一定是所有信息，可以只是关注的部分信息。并且，同一个资源，可以有多个表述。例如，对于一个景点，可以用jpeg照片来表示，也可以用包含位置、介绍等信息的json或xml格式来分别表示</p>
 </li>
@@ -117,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/05/Web3/" data-id="cjmkoxr6h000fg4uzupk9pmx6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/05/Web3/" data-id="cjtv5ghzj000zm0uzc9c6k6h3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -162,7 +162,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -175,23 +175,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/27/Golang_GC/">学习Golang之GC</a>
+            <a href="/2018/11/04/math/">数学</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_practice/">学习Golang之实战</a>
+            <a href="/2018/10/28/计算机网络复习之gfw/">计算机网络复习之gfw</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Redis4/">Redis之事务</a>
+            <a href="/2018/10/23/shortcuts/">快捷键</a>
           </li>
         
           <li>
-            <a href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Redis3/">Redis之应用</a>
+            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
@@ -206,7 +206,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
