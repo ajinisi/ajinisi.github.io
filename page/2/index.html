@@ -62,6 +62,109 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Redis4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/26/Redis4/" class="article-date">
+  <time datetime="2018-09-26T14:06:38.457Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/26/Redis4/">Redis之事务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>事务可以一次执行多个命令， 并且带有以下两个重要的保证：</p>
+<ul>
+<li>事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+<li>事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。</li>
+</ul>
+<p>京东一面问及Redis的原子性，没答上来。。。</p>
+<p>redis原子性操作的实现原理在于redis底层使用单线程操作</p>
+<p>Redis事务的实现原理：</p>
+<ol>
+<li>批量操作在发送 EXEC 命令前被放入队列缓存</li>
+<li>收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令都不会被执行</li>
+<li>在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/26/Redis4/" data-id="cjw3cridr000p20uzmndeneji" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Golang_defer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/26/Golang_defer/" class="article-date">
+  <time datetime="2018-09-26T11:27:59.582Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Defer-Panic-and-Recover"><a href="#Defer-Panic-and-Recover" class="headerlink" title="Defer, Panic, and Recover"></a>Defer, Panic, and Recover</h3><p>go有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover</p>
+<p>3个重要关键字defer、panic、recover<br>    defer是函数结束后执行，呈先进后出；<br>    panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>    recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</p>
+<p>“defer”语句调用的函数将被推迟到其外围函数返回时执行，不论是因为该外围函数执行了 return 语句，到达了其函数体的末尾， 还是因为其对应的Go程进入了恐慌过程</p>
+<p> 任何被 F 推迟的函数会在 F 返回给其调用者前执行</p>
+<h3 id="Defer、Return之间执行顺序"><a href="#Defer、Return之间执行顺序" class="headerlink" title="Defer、Return之间执行顺序"></a>Defer、Return之间执行顺序</h3><p>京东一面（0926）真题，一脸懵逼</p>
+<p>接下来是三个例题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (result int) &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">        result++</span><br><span class="line">    &#125;()</span><br><span class="line">    return 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里，若被推迟的函数为函数字面，即defer后面的函数，而其外围函数在其作用域中的函数字面内拥有 已命名结果形参，即result，则被推迟的函数可在该结果形参被返回前访问并更改。 若被推迟函数拥有任何返回值，则它们会在该函数完成时丢弃</p>
+</blockquote>
+<p>要理解上面这段话，就要了解defer的实现方式，大致就是在defer出现的地方，插入指令CALL runtime.deferproc，然后在函数返回之前的地方，插入指令CALL runtime.deferreturn。再就是明确go返回值的方式跟C是不一样的，为了支持多值返回，go是用栈返回值的，而C是用寄存器。<br>最最重要的一点就是： <em>return xxx这一条语句并不是一条原子指令!</em><br>整个return过程，没有defer之前，先在栈中写一个值，这个值会被当作返回值，然后再调用RET指令返回。return xxx语句汇编后是先给返回值赋值，再做一个空的return，( 赋值指令 ＋ RET指令)。defer的执行是被插入到return指令之前的，有了defer之后，就变成了(赋值指令 + CALL defer指令 + RET指令)。而在CALL defer函数中，有可能将最终的返回值改写了…也有可能没改写。总之，如果改写了，那么看上去就像defer是在return xxx之后执行的~</p>
+<p>于是我们有如下改写规则<br>改写规则是将return语句分开成两句写，return xxx会被改写成:<br>返回值 = xxx<br>调用defer函数<br>空的return</p>
+<p>当然，这是在已命令结果形参下，如果不是，则不会发生修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (result int) &#123;</span><br><span class="line">     result = 0  //return语句不是一条原子调用，return xxx其实是赋值＋RET指令</span><br><span class="line">     func() &#123; //defer被插入到return之前执行，也就是赋返回值和RET指令之间</span><br><span class="line">         result++</span><br><span class="line">     &#125;()</span><br><span class="line">     return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看两个例题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     defer func() &#123;</span><br><span class="line">       t = t + 5</span><br><span class="line">     &#125;()</span><br><span class="line">     return t</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     r = t //赋值指令</span><br><span class="line">     func() &#123;        //defer被插入到赋值与返回之间执行，这个例子中返回值r没被修改过</span><br><span class="line">         t = t + 5</span><br><span class="line">     &#125;</span><br><span class="line">     return        //空的return指令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">    defer func(r int) &#123;</span><br><span class="line">          r = r + 5</span><br><span class="line">    &#125;(r)</span><br><span class="line">    return 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     r = 1  //给返回值赋值</span><br><span class="line">     func(r int) &#123;        //这里改的r是传值传进去的r，不会改变要返回的那个r值</span><br><span class="line">          r = r + 5</span><br><span class="line">     &#125;(r)</span><br><span class="line">     return        //空的return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/26/Golang_defer/" data-id="cjw3cric5000620uzh3allni8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Redis3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/25/Redis3/" class="article-date">
@@ -92,63 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Redis3/" data-id="cjtv5ghz6000nm0uz6bch19b4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Redis_perform" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/25/Redis_perform/" class="article-date">
-  <time datetime="2018-09-25T08:20:00.071Z" itemprop="datePublished">2018-09-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/Redis_perform/">Redis之简单介绍</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
-<ul>
-<li>纯内存操作：完全基于内存，绝大部分请求是纯粹的内存操作，非常快速。数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)；</li>
-</ul>
-<p><img src="images/Redis2.bmp" alt="内存"></p>
-<ul>
-<li>单线程操作，避免了频繁的上下文切换。采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗；</li>
-</ul>
-<p>这里我们一直在强调的单线程，只是在处理我们的网络请求的时候只有一个线程来处理，一个正式的Redis Server运行的时候肯定是不止一个线程的，这里需要大家明确的注意一下！例如Redis进行持久化的时候会以子进程或者子线程的方式执行</p>
-<ul>
-<li>采用了非阻塞I/O多路复用机制。使用多路I/O复用模型，非阻塞IO；内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间</li>
-</ul>
-<p>此外还有</p>
-<ul>
-<li><p>数据结构简单，对数据操作也简单，Redis中的数据结构是专门进行设计的；</p>
-</li>
-<li><p>使用底层模型不同，它们之间底层实现方式以及与客户端之间通信的应用协议不一样，Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求</p>
-</li>
-</ul>
-<p>以下也是你应该知道的几种模型，祝你的面试一臂之力！<br>1、单进程多线程模型：MySQL、Memcached、Oracle（Windows版本）；<br>2、多进程模型：Oracle（Linux版本）；<br>3、Nginx有两类进程，一类称为Master进程(相当于管理进程)，另一类称为Worker进程（实际工作进程）。启动方式有两种：<br>（1）单进程启动：此时系统中仅有一个进程，该进程既充当Master进程的角色，也充当Worker进程的角色。<br>（2）多进程启动：此时系统有且仅有一个Master进程，至少有一个Worker进程工作。<br>（3）Master进程主要进行一些全局性的初始化工作和管理Worker的工作；事件处理是在Worker中进行的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Redis_perform/" data-id="cjtv5ghzc000sm0uzvltkibzk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Redis3/" data-id="cjw3crie8000u20uzg9ass4sk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/24/Redis_persist/" data-id="cjtv5ghzb000rm0uzo6gtfrlo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/24/Redis_persist/" data-id="cjw3cridv000q20uzsw1vs7mc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -226,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/24/NET_ssh/" data-id="cjtv5ghyj000cm0uzg3w722tk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/24/NET_ssh/" data-id="cjw3crics000e20uzrfjfkla8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -269,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/23/Golang_basic/" data-id="cjtv5ghy60001m0uzcbdyu9p8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/23/Golang_basic/" data-id="cjw3cric3000520uzcsdrd6b0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/22/Golang_routine/" data-id="cjtv5ghyi000bm0uzmxfmqaz7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/22/Golang_routine/" data-id="cjw3cricc000920uzcx7ke2j4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjtv5ghzr0016m0uzwoen1yjv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/18/learnDB_index1/" data-id="cjw3crifj001a20uzdo6l03qd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -473,7 +520,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/18/OOP_cons/" data-id="cjtv5ghyp000im0uzovay3nzj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/18/OOP_cons/" data-id="cjw3cride000l20uzwimz8kgo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -533,50 +580,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/17/NET_comp/" data-id="cjtv5ghyk000dm0uzmi744pf8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-组成原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/16/组成原理/" class="article-date">
-  <time datetime="2018-09-16T12:04:13.553Z" itemprop="datePublished">2018-09-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/组成原理/">计算机组成原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="组成原理和体系结构"><a href="#组成原理和体系结构" class="headerlink" title="组成原理和体系结构"></a>组成原理和体系结构</h3><p>1.计算机体系结构Computer Architecture 主要研究硬件和软件功能的划分，确定硬件和软件的界面，即哪些功能应划分给硬件子系统完成，哪些功能应划分到软件子系统中完成．主通常是指涉及机器语言或者汇编语言的程序设计人员所见到的计算机系统的属性，更多说的是计算机的外特性，是硬件子系统的结构概念及其功能特性。</p>
-<p>2.计算机组成原理<br>包括计算机系统概论；运算方法和运算器；存储系统；指令系统；中央处理器；总线；外围设备等 。是依据计算机体系结构确定并且分配了硬件子系统的概念结构和功能特性的基础上，设计计算机各部件的具体组成，它们之间的连接关系，实现机器指令级的各种功能和特性。从这一点又可以说，计算机组成是计算机体系结构的逻辑实现。 </p>
-<p>微机原理：只是对非计算机专业的学生开的，大部分将8086的结构以及如何工作，还有汇编语言怎麼写。</p>
-<p>计算机组成原理：探讨计算机的各个部分怎麼实现（电路）。</p>
-<p>计算机体系结构讲的是在计算机组成原理的基础上，如何根据不同的场景和使用情况的设计计算机，以及各种设计的优缺点。</p>
-<p>就拿缓存来说，计算机组成原理讲的是缓存怎麼做的（DRAM四个晶体管构成一个单元），而计算机体系结构讲的是缓存在cpu里怎么用（多级缓存，不同级别的缓存采用不同的寻址方式），才可以达到最大性能，不同使用方法的优缺点以及在实际中根据不同情况怎么折衷。</p>
-<p>硬盘：在计算机组成原理里讲的硬盘怎么做的，磁头读写的物理机制，而计算机体系结构讲如何设计磁盘排列才能以最低的成本使发生意外数据损失的概率达到要求 </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/16/组成原理/" data-id="cjtv5gi04001em0uz57s27ol9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/17/NET_comp/" data-id="cjw3crico000d20uznuio70de" class="article-share-link">Share</a>
       
       
     </footer>
@@ -609,7 +613,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -622,6 +626,14 @@
       <ul>
         
           <li>
+            <a href="/2019/05/25/Redis之简单介绍/">Redis之简单介绍（The Simple Introduction for Redis）</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/03/字符串的使用问题/">字符串的使用问题</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/04/math/">数学</a>
           </li>
         
@@ -631,14 +643,6 @@
         
           <li>
             <a href="/2018/10/23/shortcuts/">快捷键</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>

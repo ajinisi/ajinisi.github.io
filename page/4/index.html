@@ -62,6 +62,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-NET_HTTP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/10/NET_HTTP/" class="article-date">
+  <time datetime="2018-09-10T01:28:20.888Z" itemprop="datePublished">2018-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/10/NET_HTTP/">计算机网络复习之HTTP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h3><p>真的神烦这类只会在面试中较真的问题了</p>
+<p>数据发送的位置不同：可以用GET提交表单数据，数据作为URL的一部分向服务器发送特定浏览器对URL长度有限制；POST将表单数据放在HTTP包的body部分不限数据量，但实际中服务器会对大小限制</p>
+<p>GET从环境变量取值，POST从标准输入流读取；</p>
+<p>1、GET只用于获取信息，不修改信息不会影响资源状态，不产生副作用，GET在浏览器回退时是无害的，而POST会再次提交请求。<br>2、GET产生的URL地址可以被Bookmark，而POST不可以。<br>3、GET请求会被浏览器主动cache，而POST不会，除非手动设置。<br>4、GET请求的参数会完整的被保存在历史记录里，POST不会。<br>6、GET请求只能进行url编码，POST请求支持多种编码方式。<br>7、对于参数类型，GET只接受ASCII字符，而POST没有限制。<br>8、GET请求在URL中传递的参数是有长度限制的，而POST没有。<br>9、GET比POST更不安全，因为参数直接暴露在URL中，所以不能传递敏感信息。POST安全性好于GET</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /hello/index.html HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Host: localhost:8000</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Cookie: JSESSIONID=BBBA54D519F7A320A54211F0107F5EA6</span><br></pre></td></tr></table></figure>
+<p>GET产生一个TCP数据包；POST产生两个TCP数据包</p>
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。<br>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。<br>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑！跳入需谨慎。为什么？<br>GET与POST都有自己的语义，不能随便混用。<br>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。<br>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次</p>
+<h3 id="cookie和session的区别"><a href="#cookie和session的区别" class="headerlink" title="cookie和session的区别"></a>cookie和session的区别</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/10/NET_HTTP/" data-id="cjw3cricf000a20uzn3968ufm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-网络编程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/06/网络编程/" class="article-date">
@@ -91,7 +134,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/网络编程/" data-id="cjtv5gi0d001nm0uzzk2hhtfw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/网络编程/" data-id="cjw3crih4001n20uz9wj2xb9r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -151,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/组成原理_32or64/" data-id="cjtv5gi0a001jm0uzq9otftv2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/组成原理_32or64/" data-id="cjw3crih2001m20uzmp038ebr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -177,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/01/设计模式2/" data-id="cjtv5ghy00000m0uzprgx1w9s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/01/设计模式2/" data-id="cjw3crib4000020uzmx566at8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -235,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/OOP_model1/" data-id="cjtv5ghyn000gm0uzq5jmvp79" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/OOP_model1/" data-id="cjw3crid5000i20uzff61mspt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/OOP_model2/" data-id="cjtv5ghyq000jm0uzwm8do1oe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/OOP_model2/" data-id="cjw3crid9000j20uz23cm5w6x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/29/OOP_model3/" data-id="cjtv5ghyr000lm0uz7ma55lnr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/29/OOP_model3/" data-id="cjw3crid2000h20uzqyrwxgr3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -419,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/NET_TCPUDP/" data-id="cjtv5ghyf0009m0uzwhmgrctg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/NET_TCPUDP/" data-id="cjw3crica000820uzj5858ph5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -472,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/开发者战争之Shell/" data-id="cjtv5gi09001im0uz2m8ag6jq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/开发者战争之Shell/" data-id="cjw3crifw001g20uzws8xgdkq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,44 +561,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/24/Developer4/" data-id="cjtv5ghy90003m0uz9v9a3ve9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-组成原理_cache" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/23/组成原理_cache/" class="article-date">
-  <time datetime="2018-08-23T03:16:03.369Z" itemprop="datePublished">2018-08-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/23/组成原理_cache/">计算机组成原理之缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>什么是Cache？狭义的Cache指的是位于CPU和主存间的快速RAM， 通常它不像系统主存那样使用DRAM技术，而使用昂贵但较快速的SRAM技术。 广义上的Cache指的是位于速度相差较大的两种硬件之间， 用于协调两者数据传输速度差异的结构。除了CPU与主存之间有Cache， 内存与硬盘之间也有Cache，乃至在硬盘与网络之间也有某种意义上的Cache── 称为Internet临时文件夹或网络内容缓存等</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/组成原理_cache/" data-id="cjtv5gi0b001km0uznburdxz8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/24/Developer4/" data-id="cjw3cribu000220uziggorotb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -588,7 +594,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -601,6 +607,14 @@
       <ul>
         
           <li>
+            <a href="/2019/05/25/Redis之简单介绍/">Redis之简单介绍（The Simple Introduction for Redis）</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/03/字符串的使用问题/">字符串的使用问题</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/04/math/">数学</a>
           </li>
         
@@ -610,14 +624,6 @@
         
           <li>
             <a href="/2018/10/23/shortcuts/">快捷键</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>

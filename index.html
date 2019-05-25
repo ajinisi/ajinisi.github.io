@@ -62,6 +62,137 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Redis之简单介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/25/Redis之简单介绍/" class="article-date">
+  <time datetime="2019-05-25T10:07:13.840Z" itemprop="datePublished">2019-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/25/Redis之简单介绍/">Redis之简单介绍（The Simple Introduction for Redis）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在不会Redis简直不敢和人打招呼。Redis以其性能和并发著称。所以用它做缓存实在是再好不过。为什么Redis那么快？</p>
+<ul>
+<li>纯内存操作：完全基于内存，绝大部分请求是纯粹的内存操作，非常快速。数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)；</li>
+</ul>
+<p><img src="../images/Redis之简单介绍.bmp" alt="内存"></p>
+<ul>
+<li>单线程操作，避免了频繁的上下文切换。采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗；</li>
+</ul>
+<p>这里我们一直在强调的单线程，只是在处理我们的网络请求的时候只有一个线程来处理，一个正式的Redis Server运行的时候肯定是不止一个线程的，这里需要大家明确的注意一下！例如Redis进行持久化的时候会以子进程或者子线程的方式执行</p>
+<ul>
+<li>采用了非阻塞I/O多路复用机制。使用多路I/O复用模型，非阻塞IO；内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间</li>
+</ul>
+<p>此外还有</p>
+<ul>
+<li><p>数据结构简单，对数据操作也简单，Redis中的数据结构是专门进行设计的；</p>
+</li>
+<li><p>使用底层模型不同，它们之间底层实现方式以及与客户端之间通信的应用协议不一样，Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求</p>
+</li>
+</ul>
+<p>以下也是你应该知道的几种模型，祝你的面试一臂之力！<br>1、单进程多线程模型：MySQL、Memcached、Oracle（Windows版本）；<br>2、多进程模型：Oracle（Linux版本）；<br>3、Nginx有两类进程，一类称为Master进程(相当于管理进程)，另一类称为Worker进程（实际工作进程）。启动方式有两种：<br>（1）单进程启动：此时系统中仅有一个进程，该进程既充当Master进程的角色，也充当Worker进程的角色。<br>（2）多进程启动：此时系统有且仅有一个Master进程，至少有一个Worker进程工作。<br>（3）Master进程主要进行一些全局性的初始化工作和管理Worker的工作；事件处理是在Worker中进行的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/25/Redis之简单介绍/" data-id="cjw3cridy000r20uzp3tazk43" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-字符串的使用问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/03/字符串的使用问题/" class="article-date">
+  <time datetime="2019-04-03T11:09:36.806Z" itemprop="datePublished">2019-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/03/字符串的使用问题/">字符串的使用问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="字符数组、空终止字符串和字符串string"><a href="#字符数组、空终止字符串和字符串string" class="headerlink" title="字符数组、空终止字符串和字符串string"></a>字符数组、空终止字符串和字符串string</h3><ul>
+<li><p>字符数组不用多说了，就是存储字符的数组；</p>
+</li>
+<li><p>空终止字符串对初学者来说可能容易踩坑。首先，它本质上还是数组，只不过是以特殊的空字符null终止的字符数组。是C风格的字符串，既不能确切地归结为 C语言的类型，也不能归结为 C++语言的类型。我们常见的字符串字面值”abc”的类型就是const char类型的数组。 </p>
+</li>
+<li><p>字符串string是C++标准库类型。标准库负责处理所有的内存管理问题，我们不必再担心每一次修改字符串时涉及到的大小问题。对大部分的应用而言，使用标准库类型 string，除了增强安全性外，效率也提高了，因此应该尽量避免使用 C风格字符串。</p>
+</li>
+</ul>
+<h4 id="字符数组和空终止字符串的比较"><a href="#字符数组和空终止字符串的比较" class="headerlink" title="字符数组和空终止字符串的比较"></a>字符数组和空终止字符串的比较</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">char ca1[] = &#123;&apos;C&apos;, &apos;+&apos;, &apos;+&apos;&#125;; // no null</span><br><span class="line">char ca2[] = &#123;&apos;C&apos;, &apos;+&apos;, &apos;+&apos;, &apos;\0&apos;&#125;; // explicit null</span><br><span class="line">char ca3[] = &quot;C++&quot;; // null terminator added automatically</span><br><span class="line">const char *cp = &quot;C++&quot;; // null terminator added automatically</span><br><span class="line">char *cp1 = ca1; // points to first element of a array, but not C-style string</span><br><span class="line">char *cp2 = ca2; // points to first element of a null-terminated char array</span><br></pre></td></tr></table></figure>
+<p>ca1 和 cp1 都不是 C 风格字符串：ca1 是一个不带结束符 null 的字符数组，而指针 cp1 指向 ca1，因此，它指向的并不是以 null 结束的数组。其他的声明则都是C风格字符串，数组的名字即是指向该数组第一个元素的指针。于是，ca2和ca3分别是指向各自数组第一个元素的指针</p>
+<p>但是！C风格字符串之间也是有 <strong>区别</strong> 的。如果你认为C风格字符串ca2（ca3）和cp是一回事那就又陷入一个坑。我们举一个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char *src = &quot;Danny&quot;;</span><br><span class="line">const char *addition = &quot;Andy&quot;;</span><br><span class="line">strcat(src, addition);</span><br></pre></td></tr></table></figure></p>
+<p>程序报错，而如果将程序改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char src[] = &quot;Danny&quot;;</span><br><span class="line">const char *addition = &quot;Andy&quot;;</span><br><span class="line">strcat(src, addition);</span><br></pre></td></tr></table></figure></p>
+<p>那么，你认为原因是什么呢？如果说因为前面一个src是字符指针，而后面一个src是字符数组，那可不是问题的本质，因为用strcat的时候已经把src转换为指针了。所以问题不在类型而是C++的内存方式。</p>
+<p>C++程序在内存中主要分为五个数据段，分别是代码段、数据段、BBS段、堆和栈。其中，数据段中保存的是全局变量和静态变量，字符串字面值也保存在数据段中；而栈中保存的是程序临时创建的局部变量</p>
+<p>对于当strcat()函数的两个参数都是字符指针时的情况，此时两个字符指针均指向保存在数据段中的字符串字面值<br>通过strcat()函数将”Andy”附加到”Danny”之后，实际上是对程序的数据段进行操作，而程序的数据端是不允许写入的，因此报错信息是“写入位置时发生访问冲突”</p>
+<p>如果将src定义为字符数组，则此时src保存在栈中，程序允许对栈中的数据进行修改<br>此时，虽然strcat()函数不再报错，但是当main()函数返回时，还会弹出栈被破坏的信息，数组src的维数是6，使用strcat()函数，将长度为5的字符串字面值“Andy”附加到长度为6的src的后面，那么肯定覆盖了程序堆中的其他数据，因此会弹出堆被破坏的信息</p>
+<p>因此，最正确的做法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char src[11] = &quot;Danny&quot;;</span><br><span class="line">const char *addition = &quot;Andy&quot;;</span><br><span class="line">strcat(src, addition);</span><br></pre></td></tr></table></figure></p>
+<p>因此，C风格字符串如：“Hello World!”，实际上是长度为n的const char 数组。当你赋值给一个非const 的 char* 时，编译器并不做限制。因此这潜在的会导致一些风险：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char* pStr = “Hello World!”;</span><br><span class="line">pStr [0] = &quot;h&quot;;</span><br></pre></td></tr></table></figure>
+<p>第二句会导致程序崩溃，因为你试图给一个const char 数组的0下标元素赋值</p>
+<p>如何避免这个问题呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char arr[] = &quot; Hello World! &quot;;</span><br><span class="line">arr[0] = &apos;h&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>使用char arr[] 来初始化一个字符串数组，编译器会帮助你申请一个合适的内存并拷贝。这个数组正如声明一样，是非const的</p>
+<p>最后再看看一下区别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char* pStr = “Hello World!”;</span><br><span class="line">int n1= sizeof(pStr ); // n1 值： 4</span><br><span class="line">int n2 = strlen(pStr ); // n2 值：12</span><br><span class="line"></span><br><span class="line">char arr[] = &quot; Hello World! &quot;;</span><br><span class="line">int n3= sizeof(arr);  //n3值：13</span><br><span class="line">int n4= strlen(arr);   //n4值：12</span><br></pre></td></tr></table></figure></p>
+<h4 id="C风格字符串与-C-的标准库类型-string-的比较"><a href="#C风格字符串与-C-的标准库类型-string-的比较" class="headerlink" title="C风格字符串与 C++ 的标准库类型 string 的比较"></a>C风格字符串与 C++ 的标准库类型 string 的比较</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// C-style character string implementation              </span><br><span class="line">const char *pc = &quot;a very long literal string&quot;;              </span><br><span class="line">const size_t len = strlen(pc);      // space to allocate              </span><br><span class="line"></span><br><span class="line">// performance test on string allocation and copy              </span><br><span class="line">for (size_t ix = 0; ix != 1000000; ++ix) &#123;                  </span><br><span class="line">    char *pc2 = new char[len + 1]; // allocate the space                  </span><br><span class="line">    strcpy(pc2, pc);               // do the copy                  </span><br><span class="line">    if (strcmp(pc2, pc))           // use the new string                      </span><br><span class="line">        ;   // do nothing                  </span><br><span class="line">    delete [] pc2;                 // free the memory           </span><br><span class="line">&#125;     </span><br><span class="line">    </span><br><span class="line">// string implementation              </span><br><span class="line">string str(&quot;a very long literal string&quot;);              </span><br><span class="line">// performance test on string allocation and copy              </span><br><span class="line">for (int ix = 0; ix != 1000000; ++ix) &#123;                  </span><br><span class="line">    string str2 = str; // do the copy, automatically  allocated                  </span><br><span class="line">    if (str != str2)           // use the new string                        </span><br><span class="line">        ;  // do nothing           </span><br><span class="line">&#125;                                             </span><br><span class="line">// str2 is  automatically freed</span><br></pre></td></tr></table></figure>
+<p>(a) 这两段程序的功能是：执行一个循环次数为 1000000 的循环，在该循环的循环体中：创建一个新字符串，将一个已存在的字符串复制给新字符串，然后比较两个字符串，最后释放新字符串。<br>(b) 使用 C 风格字符串的程序需要自己管理内存的分配和释放，而使用string 类型的程序由系统自动进行内存的分配和释放，因此比使用 C风格字符串的程序要简短，执行速度也要快一些</p>
+<h4 id="混合使用标准库类-string-和-C风格字符串"><a href="#混合使用标准库类-string-和-C风格字符串" class="headerlink" title="混合使用标准库类 string 和 C风格字符串"></a>混合使用标准库类 string 和 C风格字符串</h4><ul>
+<li>可以使用 C 风格字符串对 string 对象进行初始化或赋值<br><code>string st3(&quot;Hello World&quot;);  // st3 holds Hello World</code></li>
+<li><p>string 类型的加法操作需要两个操作数，可以使用 C风格字符串作为其中的一个操作数，也允许将 C风格字符串用作复合赋值操作的右操作数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">string s1 = &quot;hello&quot;;   // no punctuation      </span><br><span class="line">string s2 = &quot;world&quot;;      </span><br><span class="line">string s3 = s1 + &quot;, &quot;;           // ok: adding a string and a literal      </span><br><span class="line">string s4 = &quot;hello&quot; + &quot;, &quot;;      // error: no string operand      </span><br><span class="line">string s5 = s1 + &quot;, &quot; + &quot;world&quot;; // ok: each + has string operand      </span><br><span class="line">string s6 = &quot;hello&quot; + &quot;, &quot; + s2; // error: can&apos;t add string literals</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反之则不成立：在要求 C风格字符串的地方不可直接使用标准库 string 类型对象<br><code>char *str = st2; // compile-time type error</code></p>
+</li>
+</ul>
+<h4 id="字符串和数字的相互转换"><a href="#字符串和数字的相互转换" class="headerlink" title="字符串和数字的相互转换"></a>字符串和数字的相互转换</h4><h5 id="使用输入输出的方式"><a href="#使用输入输出的方式" class="headerlink" title="使用输入输出的方式"></a>使用输入输出的方式</h5><p>字符串转整数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string str=&quot;42&quot;</span><br><span class="line">stringstream sstr(str);// 或者str&gt;&gt;sstr</span><br><span class="line">int x;</span><br><span class="line">sstr &gt;&gt; x;（即从sstr中提取数据)</span><br></pre></td></tr></table></figure></p>
+<p>整数转字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">stringstream sstr; </span><br><span class="line">int x=42;</span><br><span class="line">sstr &lt;&lt; x;</span><br><span class="line">string str = sstr.str(); //或者sstr &gt;&gt; str</span><br></pre></td></tr></table></figure></p>
+<p>缺点：处理大量数据转换速度较慢。stringstream不会主动释放内存，如果要在程序中用同一个流，需要适时地清除一下缓存（用stream.str(“”)和stream.clear()).</p>
+<h5 id="使用函数的方式"><a href="#使用函数的方式" class="headerlink" title="使用函数的方式"></a>使用函数的方式</h5><p>字符串转整数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::string str = &quot;45&quot;;</span><br><span class="line">int myint = std::stoi(str);</span><br></pre></td></tr></table></figure></p>
+<p>整数转字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int x=42;</span><br><span class="line">string str=to_string(x);</span><br></pre></td></tr></table></figure></p>
+<p>C风格字符串转整数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const char *str = &quot;42&quot;;</span><br><span class="line">int num = std::atoi(str);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Java的string"><a href="#Java的string" class="headerlink" title="Java的string"></a>Java的string</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/03/字符串的使用问题/" data-id="cjw3crifq001d20uzwq7ynapv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-math" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/04/math/" class="article-date">
@@ -89,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/04/math/" data-id="cjtv5gi00001bm0uza1btt9og" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/04/math/" data-id="cjw3crifs001e20uzoq5fnbof" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/28/计算机网络复习之gfw/" data-id="cjtv5gi0f001pm0uzubsay8ij" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/28/计算机网络复习之gfw/" data-id="cjw3criha001p20uzibk8pnl5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -200,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/shortcuts/" data-id="cjtv5gi03001dm0uzwowbcacg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/shortcuts/" data-id="cjw3crify001h20uzvguz7un2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -257,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/11/blockchain3/" data-id="cjtv5ghzk0010m0uz6wpgi9y7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/11/blockchain3/" data-id="cjw3crifc001720uzttjrolxh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/30/OS1/" data-id="cjtv5ghyq000km0uzofk4lhli" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/30/OS1/" data-id="cjw3cridi000m20uz5dnxpak0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -368,7 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/28/Web_arch/" data-id="cjtv5ghzh000ym0uzrthwz4wb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/28/Web_arch/" data-id="cjw3criej000y20uzvjff8jfv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +540,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/27/Golang_GC/" data-id="cjtv5ghyc0006m0uzlbu8w2vv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/27/Golang_GC/" data-id="cjw3cribg000120uz12f59ldx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,110 +585,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Golang_practice/" data-id="cjtv5ghyh000am0uz3ckb0n62" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Redis4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/26/Redis4/" class="article-date">
-  <time datetime="2018-09-26T14:06:38.457Z" itemprop="datePublished">2018-09-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/Redis4/">Redis之事务</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>事务可以一次执行多个命令， 并且带有以下两个重要的保证：</p>
-<ul>
-<li>事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
-<li>事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。</li>
-</ul>
-<p>京东一面问及Redis的原子性，没答上来。。。</p>
-<p>redis原子性操作的实现原理在于redis底层使用单线程操作</p>
-<p>Redis事务的实现原理：</p>
-<ol>
-<li>批量操作在发送 EXEC 命令前被放入队列缓存</li>
-<li>收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令都不会被执行</li>
-<li>在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Redis4/" data-id="cjtv5ghz9000pm0uz0shbpl7t" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Golang_defer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/26/Golang_defer/" class="article-date">
-  <time datetime="2018-09-26T11:27:59.582Z" itemprop="datePublished">2018-09-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/Golang_defer/">学习Golang之defer</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Defer-Panic-and-Recover"><a href="#Defer-Panic-and-Recover" class="headerlink" title="Defer, Panic, and Recover"></a>Defer, Panic, and Recover</h3><p>go有通常的控制流机制: if, for, switch, goto。它还有go语句以在单独的 goroutine 中运行代码。这里我想讨论一些比较不常见的问题：Defer, Panic, and Recover</p>
-<p>3个重要关键字defer、panic、recover<br>    defer是函数结束后执行，呈先进后出；<br>    panic是程序出现无法修复的错误时使用，但会让defer执行完；<br>    recover会修复错误，不至于程序终止。当不确定函数不会出错时使用defer+recover</p>
-<p>“defer”语句调用的函数将被推迟到其外围函数返回时执行，不论是因为该外围函数执行了 return 语句，到达了其函数体的末尾， 还是因为其对应的Go程进入了恐慌过程</p>
-<p> 任何被 F 推迟的函数会在 F 返回给其调用者前执行</p>
-<h3 id="Defer、Return之间执行顺序"><a href="#Defer、Return之间执行顺序" class="headerlink" title="Defer、Return之间执行顺序"></a>Defer、Return之间执行顺序</h3><p>京东一面（0926）真题，一脸懵逼</p>
-<p>接下来是三个例题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (result int) &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">        result++</span><br><span class="line">    &#125;()</span><br><span class="line">    return 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里，若被推迟的函数为函数字面，即defer后面的函数，而其外围函数在其作用域中的函数字面内拥有 已命名结果形参，即result，则被推迟的函数可在该结果形参被返回前访问并更改。 若被推迟函数拥有任何返回值，则它们会在该函数完成时丢弃</p>
-</blockquote>
-<p>要理解上面这段话，就要了解defer的实现方式，大致就是在defer出现的地方，插入指令CALL runtime.deferproc，然后在函数返回之前的地方，插入指令CALL runtime.deferreturn。再就是明确go返回值的方式跟C是不一样的，为了支持多值返回，go是用栈返回值的，而C是用寄存器。<br>最最重要的一点就是： <em>return xxx这一条语句并不是一条原子指令!</em><br>整个return过程，没有defer之前，先在栈中写一个值，这个值会被当作返回值，然后再调用RET指令返回。return xxx语句汇编后是先给返回值赋值，再做一个空的return，( 赋值指令 ＋ RET指令)。defer的执行是被插入到return指令之前的，有了defer之后，就变成了(赋值指令 + CALL defer指令 + RET指令)。而在CALL defer函数中，有可能将最终的返回值改写了…也有可能没改写。总之，如果改写了，那么看上去就像defer是在return xxx之后执行的~</p>
-<p>于是我们有如下改写规则<br>改写规则是将return语句分开成两句写，return xxx会被改写成:<br>返回值 = xxx<br>调用defer函数<br>空的return</p>
-<p>当然，这是在已命令结果形参下，如果不是，则不会发生修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (result int) &#123;</span><br><span class="line">     result = 0  //return语句不是一条原子调用，return xxx其实是赋值＋RET指令</span><br><span class="line">     func() &#123; //defer被插入到return之前执行，也就是赋返回值和RET指令之间</span><br><span class="line">         result++</span><br><span class="line">     &#125;()</span><br><span class="line">     return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>再看两个例题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     defer func() &#123;</span><br><span class="line">       t = t + 5</span><br><span class="line">     &#125;()</span><br><span class="line">     return t</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     t := 1</span><br><span class="line">     r = t //赋值指令</span><br><span class="line">     func() &#123;        //defer被插入到赋值与返回之间执行，这个例子中返回值r没被修改过</span><br><span class="line">         t = t + 5</span><br><span class="line">     &#125;</span><br><span class="line">     return        //空的return指令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// f 返回 1</span><br><span class="line">func f() (r int) &#123;</span><br><span class="line">    defer func(r int) &#123;</span><br><span class="line">          r = r + 5</span><br><span class="line">    &#125;(r)</span><br><span class="line">    return 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>⬇<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func f() (r int) &#123;</span><br><span class="line">     r = 1  //给返回值赋值</span><br><span class="line">     func(r int) &#123;        //这里改的r是传值传进去的r，不会改变要返回的那个r值</span><br><span class="line">          r = r + 5</span><br><span class="line">     &#125;(r)</span><br><span class="line">     return        //空的return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Golang_defer/" data-id="cjtv5ghyc0005m0uz70vai6jy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Golang_practice/" data-id="cjw3cric7000720uzlt98ylu6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -590,7 +618,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
     </div>
   </div>
 
@@ -603,6 +631,14 @@
       <ul>
         
           <li>
+            <a href="/2019/05/25/Redis之简单介绍/">Redis之简单介绍（The Simple Introduction for Redis）</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/03/字符串的使用问题/">字符串的使用问题</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/04/math/">数学</a>
           </li>
         
@@ -612,14 +648,6 @@
         
           <li>
             <a href="/2018/10/23/shortcuts/">快捷键</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/11/blockchain3/">自己动手区块链之手写数据库</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/OS1/">操作系统基本概念之进程</a>
           </li>
         
       </ul>
